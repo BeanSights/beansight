@@ -23,11 +23,10 @@ public class MemberService {
         return memberRepository.findByUsername(username);
     }
 
-    @Transactional // SELECT 이외의 쿼리에 대한 가능성이 아주 조금이라도 있으면 붙인다.
-    // 일반 회원가입(소셜 로그인을 통한 회원가입이 아님)
+    @Transactional
     public RsData<Member> join(String username, String password) {
-        // "GRAMGRAM" 해당 회원이 일반회원가입으로 인해 생성되었다는걸 나타내기 위해서
-        return join("GRAMGRAM", username, password);
+
+        return join("BEANSIGHT", username, password);
     }
 
     // 내부 처리함수, 일반회원가입, 소셜로그인을 통한 회원가입(최초 로그인 시 한번만 발생)에서 이 함수를 사용함
