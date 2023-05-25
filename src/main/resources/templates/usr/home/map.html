@@ -1,20 +1,36 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>메인 지도 화면</title>
-</head>
-<body>
-  <div id="map" style="width: 500px; height: 400px;"></div>
-  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6f301dbb23ca856e3a4481fbbae7adcb"></script>
-  <script type="text/javascript">
-    var container = document.getElementById('map');
-    var options = {
-      center: new kakao.maps.LatLng(37.571150829509854, 126.97890911337976),
-      level: 3
-    };
+  <head>
+    <meta charset="utf-8">
+    <title>메인 지도 화면</title>
+    <style>
+      html, body {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map" style="height: 100%; width: 100%;"></div>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6f301dbb23ca856e3a4481fbbae7adcb"></script>
+    <script type="text/javascript">
+      var container = document.getElementById('map');
+      var options = {
+        center: new kakao.maps.LatLng(37.571150829509854, 126.97890911337976),
+        level: 3
+      };
 
-    var map = new kakao.maps.Map(container, options);
-  </script>
-</body>
+      var map = new kakao.maps.Map(container, options);
+
+      var marker = new kakao.maps.Marker({
+        map: map,
+        position: map.getCenter()
+      });
+
+      marker.setUp(map);
+      var markerPosition = marker.getPosition();
+      map.setCenter(markerPosition);
+      map.relayout();
+    </script>
+  </body>
 </html>
