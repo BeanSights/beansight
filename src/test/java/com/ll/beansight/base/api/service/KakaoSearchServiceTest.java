@@ -25,28 +25,56 @@ public class KakaoSearchServiceTest {
     private KakaoSearchService kakaoSearchService;
 
     @Test
-    @DisplayName("모든값이 있다면 document 정상적으로 반환")
+    @DisplayName("카테고리 검색 모든값이 있다면 document 정상적으로 반환")
     void t1() throws Exception {
         // Given
         double longitude = 126.95803386590158;
         double latitude = 37.51766013568054;
 
         // When
-        KakaoApiResponseDTO kakaoApiResponseDTO = kakaoSearchService.requestSearch(longitude, latitude);
+        KakaoApiResponseDTO kakaoApiResponseDTO = kakaoSearchService.requestCategorySearch(longitude, latitude);
 
         // Then
         assertThat(kakaoApiResponseDTO.getDocumentDTOList().size()).isNotNull();
     }
 
     @Test
-    @DisplayName("하나라도 값을 안넣으면 null 반환")
+    @DisplayName("카테고리 검색 하나라도 값을 안넣으면 null 반환")
     void t2() throws Exception {
         // Given
         double longitude = Double.parseDouble(null);
         double latitude = 37.5960650456809;
 
         // When
-        KakaoApiResponseDTO kakaoApiResponseDTO = kakaoSearchService.requestSearch(longitude, latitude);
+        KakaoApiResponseDTO kakaoApiResponseDTO = kakaoSearchService.requestCategorySearch(longitude, latitude);
+
+        // Then
+        assertThat(kakaoApiResponseDTO).isNull();
+    }
+
+    @Test
+    @DisplayName("키워드 검색 모든값이 있다면 document 정상적으로 반환")
+    void t3() throws Exception {
+        // Given
+        double longitude = 126.95803386590158;
+        double latitude = 37.51766013568054;
+
+        // When
+        KakaoApiResponseDTO kakaoApiResponseDTO = kakaoSearchService.requestKeywordSearch(longitude, latitude);
+
+        // Then
+        assertThat(kakaoApiResponseDTO.getDocumentDTOList().size()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("키워드 검색 하나라도 값을 안넣으면 null 반환")
+    void t4() throws Exception {
+        // Given
+        double longitude = Double.parseDouble(null);
+        double latitude = 37.5960650456809;
+
+        // When
+        KakaoApiResponseDTO kakaoApiResponseDTO = kakaoSearchService.requestKeywordSearch(longitude, latitude);
 
         // Then
         assertThat(kakaoApiResponseDTO).isNull();
