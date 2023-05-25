@@ -37,3 +37,7 @@ logging:
     com.ll.beansight: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
     org.hibernate.orm.jdbc.extract: TRACE
+kakao:
+  rest:
+    api:
+      key: '카카오 REST API KEY'
