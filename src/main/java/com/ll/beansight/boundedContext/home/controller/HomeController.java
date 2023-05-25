@@ -16,6 +16,9 @@ public class HomeController {
         return "usr/home/main";
     }
 
+    @GetMapping("/map")
+    public String showMap() { return "usr/home/map";}
+
     @GetMapping("/debugSession")
     @ResponseBody
     public String showDebugSession(HttpSession session) {
