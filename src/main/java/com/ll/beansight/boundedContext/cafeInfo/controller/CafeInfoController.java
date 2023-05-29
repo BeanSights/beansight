@@ -24,6 +24,6 @@ public class CafeInfoController {
         //TODO: cafeId에 해당하는 정보 가져오기
 
 
-        return "cafeInfo/showInfo";
+        return "usr/cafeInfo/showInfo";
     }
 }

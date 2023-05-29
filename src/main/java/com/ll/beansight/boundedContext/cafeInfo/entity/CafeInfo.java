@@ -21,5 +21,4 @@ public class CafeInfo extends BaseEntity {
     private String cafePhoneNumber;
     private String cafeTag;
 
-
 }
