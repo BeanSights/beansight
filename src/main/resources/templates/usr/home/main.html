@@ -18,6 +18,10 @@
                     <span class="normal-case" th:text="|카카오 로그인|"></span>
                 </a>
             </div>
+            <div>
+                <a href="javascript:;" th:if="${@rq.login}" onclick="$(this).next().submit();" >로그아웃</a>
+                <form th:if="${@rq.login}" hidden th:action="|/member/logout|" method="POST"></form>
+            </div>
         </div>
     </div>
 </main>
