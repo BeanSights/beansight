@@ -60,5 +60,10 @@ public class MemberController {
         return "usr/member/login";
     }
 
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("/review") // 리뷰 작성 페이지
+    public String review() {
+        return "usr/member/review";
+    }
 
 }
