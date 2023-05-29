@@ -60,5 +60,33 @@ public class MemberController {
         return "usr/member/login";
     }
 
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("/review") // 리뷰 작성 페이지
+    public String review() {
+        return "usr/member/review";
+    }
+
+    @AllArgsConstructor // @Setter 도 가능, 데이터를 저장할 방편을 마련하기 위해서
+    @Getter // joinForm.getUsername() 이런 코드 가능하게
+    public static class ReviewForm {
+        @NotBlank // 비어있지 않아야 하고, 공백으로만 이루어 지지도 않아야 한다.
+        @Size(min = 9, max = 100)
+        private final String content;
+    }
+
+//    @PreAuthorize("isAnonymous()")
+//    @PostMapping("/review")
+//    public String review(@Valid ReviewForm reviewForm) { // @Valid 가 없으면 @NotBlank 등이 작동하지 않음, 만약에 유효성 문제가 있다면 즉시 정지
+//        RsData<Member> reviewRs = memberService.review(reviewForm.getContent());
+//
+//        if (reviewRs.isFail()) {
+//            // 뒤로가기 하고 거기서 메세지 보여줘
+//            return rq.historyBack(reviewRs);
+//        }
+//
+//        // 아래 링크로 리다이렉트(302, 이동) 하고 그 페이지에서 메세지 보여줘
+//        return rq.redirectWithMsg("/member/me", reviewRs);
+//    }
+
 
 }
