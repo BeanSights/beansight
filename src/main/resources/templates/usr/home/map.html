@@ -51,12 +51,12 @@
         // 중앙 좌표
         var latlng = map.getCenter();
 
-        var message = '<p>' + latlng.getLat() + ', ' + latlng.getLng() + '</p>';
+        var message = '<p>' + latlng.getLng() + ', ' + latlng.getLat() + '</p>';
         var resultDiv = document.getElementById('result');
         resultDiv.innerHTML = message;
 
         // url 변경
-        var parameter = '?x=' + latlng.getLat() + '&y=' + latlng.getLng();
+        var parameter = '?x=' + latlng.getLng() + '&y=' + latlng.getLat();
         history.pushState(null, null, parameter);
 
         ps.categorySearch('CE7', cafeSearchCB, {useMapBounds:true});
@@ -66,6 +66,7 @@
         if (status === kakao.maps.services.Status.OK) {
           for (var i = 0; i < data.length; i++) {
             displayMarker(data[i]);
+            console.log(data[i]);
           }
         }
         else if (status === kakao.maps.service.Status.ERROR) {
