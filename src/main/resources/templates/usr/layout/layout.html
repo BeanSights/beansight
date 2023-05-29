@@ -14,6 +14,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
     <link rel="stylesheet" href="https://jhs512.github.io/toastr/toastr.css">
 
+    <!-- 폰트어썸 아이콘 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <!-- 공통 JS 불러오기 -->
     <script src="/resource/common/common.js"></script>
     <!-- 공통 CSS 불러오기 -->
@@ -30,22 +33,7 @@
 
 <!-- 공통 상단 -->
 <header>
-    <div class="navbar bg-primary text-primary-content">
-        <div class="flex-1">
-            <a href="/" class="btn btn-ghost normal-case text-xl">메인</a>
-        </div>
-        <div class="flex-none">
-            <ul class="menu menu-horizontal px-1">
-                <li><a href="/member/login" th:if="${@rq.logout}" >로그인</a></li>
-                <li><a href="/member/join" th:if="${@rq.logout}" >회원가입</a></li>
-                <li>
-                    <a href="javascript:;" th:if="${@rq.login}" onclick="$(this).next().submit();" >로그아웃</a>
-                    <form th:if="${@rq.login}" hidden th:action="|/member/logout|" method="POST"></form>
-                </li>
 
-            </ul>
-        </div>
-    </div>
 </header>
 
 <main layout:fragment="main" ></main>
