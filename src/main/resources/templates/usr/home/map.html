@@ -11,8 +11,9 @@
     </style>
   </head>
   <body>
+    <p id="result"></p>
     <div id="map" style="height: 100%; width: 100%;"></div>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6f301dbb23ca856e3a4481fbbae7adcb"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6f301dbb23ca856e3a4481fbbae7adcb&libraries=services"></script>
     <script type="text/javascript">
       var container = document.getElementById('map');
       var options = {
@@ -20,17 +21,77 @@
         level: 3
       };
 
+      // 지도 생성
       var map = new kakao.maps.Map(container, options);
 
+      // 장소 검색 객체 생성
+      var ps = new kakao.maps.services.Places(map);
+
+      // 토글 클릭 시 정보
+      var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+
+      /*
       var marker = new kakao.maps.Marker({
         map: map,
         position: map.getCenter()
       });
 
-      marker.setUp(map);
+      marker.setMap(map);
       var markerPosition = marker.getPosition();
-      map.setCenter(markerPosition);
+      */
+
+      // 중앙 지점 세팅
+      // map.setCenter(markerPosition);
       map.relayout();
+      ps.categorySearch('CE7', cafeSearchCB, {useMapBounds:true});
+
+      // 지도 이동 시 중앙 지점 좌표 리로드
+      kakao.maps.event.addListener(map, 'center_changed', function() {
+
+        // 중앙 좌표
+        var latlng = map.getCenter();
+
+        var message = '<p>' + latlng.getLng() + ', ' + latlng.getLat() + '</p>';
+        var resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = message;
+
+        // url 변경
+        var parameter = '?x=' + latlng.getLng() + '&y=' + latlng.getLat();
+        history.pushState(null, null, parameter);
+
+        ps.categorySearch('CE7', cafeSearchCB, {useMapBounds:true});
+      });
+
+      function cafeSearchCB(data, status, pagination) {
+        if (status === kakao.maps.services.Status.OK) {
+          for (var i = 0; i < data.length; i++) {
+            displayMarker(data[i]);
+            console.log(data[i]);
+          }
+        }
+        else if (status === kakao.maps.service.Status.ERROR) {
+          alert('주변에 카페가 존재하지 않습니다.');
+          return;
+        }
+        else {
+          alert('검색 결과 중 오류가 발생하였습니다.');
+          return;
+        }
+      }
+
+      function displayMarker(place) {
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: new kakao.maps.LatLng(place.y, place.x)
+        });
+
+        // 마커에 클릭 이벤트 등록
+        kakao.maps.event.addListener(marker, 'click', function() {
+          infowindow.setContent('<div style="padding:5px; font-size:12px;">' + place.place_name + '</div>');
+          infowindow.open(map, marker);
+        });
+      }
+
     </script>
   </body>
 </html>
