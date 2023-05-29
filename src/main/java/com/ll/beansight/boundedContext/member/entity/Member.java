@@ -1,5 +1,7 @@
 package com.ll.beansight.boundedContext.member.entity;
 
+import com.ll.beansight.base.baseEntity.BaseEntity;
+import com.ll.beansight.boundedContext.tag.entity.Tag;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -21,19 +23,13 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @ToString // 디버그를 위한
 @Entity // 아래 클래스는 member 테이블과 대응되고, 아래 클래스의 객체는 테이블의 row와 대응된다.
 @Getter // 아래 필드에 대해서 전부다 게터를 만든다. private Long id; => public Long getId() { ... }
-public class Member {
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long id;
-    @CreatedDate // 아래 칼럼에는 값이 자동으로 들어간다.(INSERT 할 때)
-    private LocalDateTime createDate;
-    @LastModifiedDate // 아래 칼럼에는 값이 자동으로 들어간다.(UPDATE 할 때 마다)
-    private LocalDateTime modifyDate;
+public class Member extends BaseEntity {
     private String providerTypeCode; // 일반회원인지, 카카오로 가입한 회원인지, 구글로 가입한 회원인지
     @Column(unique = true)
     private String username;
     private String password;
-
+    @OneToMany
+    private List<Tag> tagList;
 
     // 이 함수 자체는 만들어야 한다. 스프링 시큐리티 규격
     public List<? extends GrantedAuthority> getGrantedAuthorities() {
