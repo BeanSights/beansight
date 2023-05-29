@@ -18,16 +18,24 @@
       .info .close:hover {cursor: pointer;}
       .info .body {position: relative;overflow: hidden;}
       .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
-      .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
-      .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
       .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
       .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
       .info .link {color: #5085BB;}
+
+      .radius_border{border:1px solid #919191;border-radius:5px;}
+      .custom_typecontrol {position:absolute; bottom:10px; right:10px; overflow:hidden; width:65px; height:30px; margin:0; padding:0; z-index:1; font-size:12px; font-family:'Malgun Gothic', '맑은 고딕', sans-serif;}
+      .custom_typecontrol span {display:block;width:65px;height:30px;float:left;text-align:center;line-height:30px;cursor:pointer;}
+      .custom_typecontrol .btn {background:#fff;background:linear-gradient(#fff,  #e6e6e6);}
+      .custom_typecontrol .btn:hover {background:#f5f5f5;background:linear-gradient(#f5f5f5,#e3e3e3);}
+      .custom_typecontrol .btn:active {background:#e6e6e6;background:linear-gradient(#e6e6e6, #fff);}
     </style>
   </head>
   <body>
     <p id="result"></p>
     <div id="map" style="height: 100%; width: 100%;"></div>
+    <div class="custom_typecontrol radius_border">
+      <span id ="btnSearch" class="btn">검색</span>
+    </div>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6f301dbb23ca856e3a4481fbbae7adcb&libraries=services"></script>
     <script type="text/javascript">
       var container = document.getElementById('map');
@@ -55,10 +63,15 @@
       var markerPosition = marker.getPosition();
       */
 
-      // 중앙 지점 세팅
-      // map.setCenter(markerPosition);
+      var btnSearch = document.getElementById('btnSearch');
+
       map.relayout();
       ps.categorySearch('CE7', cafeSearchCB, {useMapBounds:true});
+
+      // 검색 버튼 눌렀을 시 검색
+      btnSearch.addEventListener('click', function() {
+        ps.categorySearch('CE7', cafeSearchCB, {useMapBounds:true});
+      })
 
       // 지도 이동 시 중앙 지점 좌표 리로드
       kakao.maps.event.addListener(map, 'center_changed', function() {
@@ -74,7 +87,7 @@
         var parameter = '?x=' + latlng.getLng() + '&y=' + latlng.getLat();
         history.pushState(null, null, parameter);
 
-        ps.categorySearch('CE7', cafeSearchCB, {useMapBounds:true});
+        // ps.categorySearch('CE7', cafeSearchCB, {useMapBounds:true});
       });
 
       function cafeSearchCB(data, status, pagination) {
@@ -111,32 +124,92 @@
 
         infowindow.open(map, marker);
 
-        var content = '<div class="wrap">' +
-                '    <div class="info">' +
-                '        <div class="title">' +
-                place.place_name +
-                '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
-                '        </div>' +
-                '        <div class="body">' +
-                '            <div class="img">' +
-                '                <img src="" width="73" height="70">' +
-                '           </div>' +
-                '            <div class="desc">' +
-                place.road_address_name +
-                '                <div><a href=# target="_blank" class="link">인스타페이지</a></div>' +
-                '                <div><a href="http://localhost:8080/cafeInfo/1" target="_blank" class="link">상세 페이지</a></div>'+
-                '            </div>' +
-                '        </div>' +
-                '    </div>' +
-                '</div>';
+        // overlay의 content에 삽입할 HTMLElement 생성 시작
+        var content = document.createElement("div");
+        content.setAttribute("class", "wrap");
+
+        var info = document.createElement("div");
+        info.setAttribute("class", "info");
+
+        var title = document.createElement("div");
+        title.setAttribute("class", "title");
+        title.innerText = place.place_name;
+
+        var close = document.createElement("div");
+        close.setAttribute("class", "close");
+        // close.setAttribute("onclick", "closeOverlay()");
+        close.setAttribute("title", "닫기");
+
+        // title에 닫기 삽입
+        title.appendChild(close);
+
+        var body = document.createElement("div");
+        body.setAttribute("class","body");
+
+        var img = document.createElement("div");
+        img.setAttribute("class","img");
+        var imgSrc = document.createElement("img");
+        imgSrc.setAttribute("src", "");
+        imgSrc.setAttribute("width", "73");
+        imgSrc.setAttribute("height", "70");
+
+        // img에 삽입
+        img.appendChild(imgSrc);
+
+        var desc = document.createElement("div");
+        desc.setAttribute("class","desc");
+        desc.innerText = place.road_address_name;
+
+        var instaDiv = document.createElement("div");
+        var instaAnchor = document.createElement("a");
+        instaAnchor.setAttribute("href","#");
+        instaAnchor.setAttribute("target", "_blank");
+        instaAnchor.setAttribute("class", "link");
+        instaAnchor.innerText = "인스타페이지";
+
+        // instaDiv에 삽입
+        instaDiv.appendChild(instaAnchor);
+
+        var detailDiv = document.createElement("div");
+        var detailAnchor = document.createElement("a");
+        detailAnchor.setAttribute("href","http://localhost:8080/cafeInfo/" + place.id);
+        detailAnchor.setAttribute("target", "_blank");
+        detailAnchor.setAttribute("class", "link");
+        detailAnchor.innerText = "상세페이지";
+
+        // detailDiv에 삽입
+        detailDiv.appendChild(detailAnchor);
+
+        // desc에 삽입
+        desc.appendChild(instaDiv);
+        desc.appendChild(detailDiv);
+
+        // body에 img와 desc 삽입
+        body.appendChild(img);
+        body.appendChild(desc);
+
+        // info에 title과 body 삽입
+        info.appendChild(title);
+        info.appendChild(body);
+
+        // content info 삽입
+        content.appendChild(info);
+
+        // console.log(content);
+
+        // 마커 위의 커스텀 오버레이
+        var overlay = new kakao.maps.CustomOverlay({
+          content: content,
+          position: marker.getPosition()
+        });
+
+        // 닫기 기능
+        close.onclick = function () {
+          overlay.setMap(null);
+        }
 
         // 마커에 클릭 이벤트 등록
         kakao.maps.event.addListener(marker, 'click', function() {
-          var overlay = new kakao.maps.CustomOverlay({
-            content: content,
-            map: map,
-            position: marker.getPosition()
-          });
           overlay.setMap(map);
         });
       }
