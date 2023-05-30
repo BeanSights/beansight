@@ -18,6 +18,7 @@ import java.util.Optional;
 public class CafeInfoController {
     private final CafeInfoService cafeInfoService;
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("")
     public String showInfo(Model model, @RequestParam(defaultValue = "126.97890911337976") double x,
                            @RequestParam(defaultValue = "37.571150829509854") double y){

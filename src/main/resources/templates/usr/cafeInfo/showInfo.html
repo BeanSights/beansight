@@ -1,1 +1,87 @@
-카페 정보
+<html layout:decorate="~{usr/layout/layout.html}">
+
+<head>
+    <title>카페 정보</title>
+</head>
+
+<body>
+
+<main layout:fragment="main" class="flex-grow flex items-center justify-center">
+    <div class="mockup-window  bg-base-300 max-w-2xl w-full">
+        <div class="flex justify-center px-4 py-16 bg-base-200">
+            <div class=" max-w-2xl w-full px-4">
+                <div class="flex flex-col items-center justify-center">
+                    <div class="text-4xl mb-4" th:text="${cafeInfo.cafeName}"></div>
+                    <div class="mb-4 mt-4">
+                        <a href="http://localhost:8080/map" class="flex-col mb-2 btn btn-link"><i
+                                class="text-xl fa-solid fa-map-location-dot"></i>지도</a>
+                        <a href=# class="btn btn-link flex-col mb-2 "><i
+                                class="text-xl fa-solid fa-arrow-up-right-from-square"></i>공유하기</a>
+                        <a href=# class="btn btn-link flex-col mb-2 "><i
+                                class="text-xl fa-solid fa-arrows-split-up-and-left"></i>길찾기</a>
+                    </div>
+                </div>
+
+                <div class="flex-col gap-4">
+                    <div class="card bg-base-100 shadow-xl">
+                        <div class="card-body">
+                            <h2 class="card-title">카페 정보</h2>
+
+                            <div class="mt-4">
+                                <div class="mb-4">
+                                    <div class="badge badge-warning"><i class="fa-solid fa-location-dot"></i> 주소</div>
+                                    <div th:text="${cafeInfo.cafeAddress}"></div>
+                                </div>
+                                <div>
+                                    <div class="badge badge-warning"><i class="fa-solid fa-phone"></i> 전화번호</div>
+                                    <div th:text="${cafeInfo.cafePhoneNumber}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 flex-col gap-4">
+                        <div class="card bg-base-100 shadow-xl">
+                            <div class="card-body">
+                                <span class="card-title flex justify-between">이 카페에 대한 태그와 리뷰를 달아주세요. <button
+                                        class="btn btn-warning">리뷰 남기기</button></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 flex-col gap-4">
+                        <div class="card bg-base-100 shadow-xl">
+                            <div class="card-body">
+                                <div>전체 (여기에 리뷰 갯수)</div>
+                                <div class="mt-4">
+                                    <span class="badge badge-warning badge-lg"><i class="fa-solid fa-thumbs-up"></i> 깨끗해요</span>
+                                    <span class="badge badge-warning badge-lg"><i class="fa-solid fa-thumbs-up"></i>스터디</span>
+                                </div>
+                                <div class="divider"></div>
+                                <!--여기 반복문으로   -->
+                                <div>닉네임 createDate</div>
+                                <div>
+                                    <i class="p-2 fa-solid fa-thumbs-up"></i>
+                                    <span class="badge badge-accent badge-outline">깨끗해요</span>
+                                    <span class="badge badge-accent badge-outline">스터디</span>
+                                </div>
+                                <div>리뷰 내용</div>
+                                <div class="divider"></div>
+                                <div>닉네임 createDate</div>
+                                <div>
+                                    <i class="p-2 fa-solid fa-thumbs-up"></i>
+                                    <span class="badge badge-accent badge-outline">깨끗해요</span>
+                                    <span class="badge badge-accent badge-outline">스터디</span>
+                                </div>
+                                <div>리뷰 내용</div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
+</body>
+
+</html>
