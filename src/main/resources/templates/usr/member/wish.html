@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+<html layout:decorate="~{usr/layout/layout.html}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>유저 카페 성향 설정</title>
 </head>
 <body>
-
+<main layout:fragment="main">
+    <!-- 성향 체크 fragment -->
+    <div th:replace="fragment/tagSelect::tagSelectFragment"></div>
+</main>
 </body>
 </html>
