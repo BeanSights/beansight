@@ -1,0 +1,29 @@
+<html layout:decorate="~{usr/layout/layout.html}">
+<head>
+    <title>유저 카페 성향 설정</title>
+</head>
+<body>
+<main layout:fragment="main">
+    <div class="w-screen h-screen flex flex-col items-center">
+        <div class="w-3/4 text-center mt-24">
+            <div class="text-3xl">당신의 카페 취향을 알려주세요!</div>
+            <!-- 성향 체크 fragment -->
+            <div th:replace="fragment/tagSelect::tagSelectFragment"></div>
+        </div>
+        <div class="w-2/5 flex justify-center">
+            <form th:action method="POST" class="pt-4 flex flex-col gap-4 w-full items-center" onsubmit="wishForm__submit(this); return false;">
+                <div>
+                    <input type="submit" value="설정완료" class="btn btn-primary btn-active">
+                    <input id="cancel" type="button" value="뒤로가기" class="btn btn-primary btn-active">
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        function wishForm__submit(form) {
+            // TODO: wishForm submit 이행
+        }
+    </script>
+</main>
+</body>
+</html>
