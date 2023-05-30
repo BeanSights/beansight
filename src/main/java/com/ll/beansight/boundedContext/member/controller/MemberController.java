@@ -73,4 +73,10 @@ public class MemberController {
     @PreAuthorize("isAnonymous()")
     @PostMapping("/wish") // 카페 성향 선택 후 설정
     public String wish() { return rq.redirectWithMsg("/", "null");}
+
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("/me") // 리뷰 작성 페이지
+    public String me() {
+        return "usr/member/me";
+    }
 }

@@ -1,5 +1,4 @@
-<!doctype html>
-<html lang="en">
+<html layout:decorate="~{usr/layout/layout.html}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -15,31 +14,11 @@
     <title>리뷰작성</title>
 </head>
 <body>
+<main layout:fragment="main">
 <div class="w-screen h-screen flex flex-col items-center">
     <div class="w-3/4 text-center mt-24">
         <div class="text-3xl">이 카페의 추천 포인트는?</div>
-        <div id="tagContainer" class="flex justify-center flex-col items-center mt-4">
-            <div class="tags flex w-2/5 my-4 justify-center">
-                <button class="tag btn btn-outline btn-warning btn-sm">대화하기 좋은</button>
-                <button class="tag btn btn-outline btn-warning btn-sm mx-3">깔끔한</button>
-                <button class="tag btn btn-outline btn-warning btn-sm">인스타 감성</button>
-            </div>
-            <div class="tags flex w-2/5 my-4 justify-center">
-                <button class="tag btn btn-outline btn-warning btn-sm">주차공간</button>
-                <button class="tag btn btn-outline btn-warning btn-sm mx-3">깨끗한 화장실</button>
-                <button class="tag btn btn-outline btn-warning btn-sm">넓은 매장</button>
-            </div>
-            <div class="tags flex w-2/5 my-4 justify-center">
-                <button class="tag btn btn-outline btn-warning btn-sm">착한 가격</button>
-                <button class="tag btn btn-outline btn-warning btn-sm mx-3">콘센트</button>
-                <button class="tag btn btn-outline btn-warning btn-sm">디저트</button>
-            </div>
-            <div class="tags flex w-2/5 my-4 justify-center">
-                <button class="tag btn btn-outline btn-warning btn-sm mr-3">쿠폰적립</button>
-                <button class="tag btn btn-outline btn-warning btn-sm">친절한 매장</button>
-            </div>
-
-        </div>
+        <div th:replace="fragment/tagSelect::tagSelectFragment"></div>
     </div>
 
     <div id="thumbContainer" class="mt-20">
@@ -48,24 +27,18 @@
     </div>
 
     <div class="w-2/5 flex justify-center">
-        <form th:action method="POST" class="pt-4 flex flex-col gap-4 w-full items-center" onsubmit="ReviewForm__submit(this); return false;">
+        <form th:action method="POST" style="width: 520px" class="pt-4 flex flex-col gap-4 items-center" onsubmit="ReviewForm__submit(this); return false;">
             <div class="w-full h-20">
                 <textarea class="textarea textarea-warning w-full h-20" name="content" placeholder="리뷰를 작성해 주세요..!"></textarea>
             </div>
             <div>
-                <input type="submit" value="작성완료" class="btn btn-primary btn-active">
-                <input id="cancel" type="button" value="뒤로가기" class="btn btn-primary btn-active">
+                <input type="submit" value="작성완료" class="btn btn-warning btn-active">
+                <input id="cancel" type="button" value="뒤로가기" class="btn btn-warning btn-active">
             </div>
         </form>
     </div>
 </div>
 <script>
-    const tagContainer = document.getElementById('tagContainer');
-    tagContainer.addEventListener('click', function (e){
-        if (e.target.classList.contains('tag')){
-            e.target.classList.toggle('btn-active');
-        }
-    });
     const thumbContainer = document.getElementById('thumbContainer');
     thumbContainer.addEventListener('click', function (e){
         if (e.target.classList.contains('tag')){
@@ -97,5 +70,6 @@
         form.submit(); // 폼 발송
     }
 </script>
+</main>
 </body>
 </html>
