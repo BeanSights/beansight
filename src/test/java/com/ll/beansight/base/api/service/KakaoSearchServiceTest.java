@@ -33,7 +33,7 @@ public class KakaoSearchServiceTest {
         double latitude = 37.51766013568054;
 
         // When
-        KakaoApiResponseDTO kakaoApiResponseDTO = kakaoSearchService.requestCategorySearch(longitude, latitude);
+        KakaoApiResponseDTO kakaoApiResponseDTO = kakaoSearchService.requestCategorySearch(longitude, latitude, 10000);
 
         // Then
         assertThat(kakaoApiResponseDTO.getDocumentDTOList().size()).isNotNull();
@@ -47,7 +47,7 @@ public class KakaoSearchServiceTest {
         double latitude = 0;
 
         // When
-        KakaoApiResponseDTO kakaoApiResponseDTO = kakaoSearchService.requestCategorySearch(longitude, latitude);
+        KakaoApiResponseDTO kakaoApiResponseDTO = kakaoSearchService.requestCategorySearch(longitude, latitude, 10000);
 
         // Then
         assertThat(kakaoApiResponseDTO).isNull();

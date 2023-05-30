@@ -23,12 +23,12 @@ public class KakaoSearchService {
     private String kakaoRestApiKey;
 
     // 카테고리 검색
-    public KakaoApiResponseDTO requestCategorySearch(double longitude, double latitude) {
+    public KakaoApiResponseDTO requestCategorySearch(double longitude, double latitude, int radius) {
         if (isOutsideKoreanPeninsula(longitude, latitude)) {
             return null;
         }
 
-        URI uri = kakaoUriBuilderService.buildUriCategorySearch(longitude, latitude);
+        URI uri = kakaoUriBuilderService.buildUriCategorySearch(longitude, latitude, radius);
         return callKakaoApi(uri);
     }
 
