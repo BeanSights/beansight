@@ -3,6 +3,9 @@ package com.ll.beansight.boundedContext.search.service;
 import com.ll.beansight.base.api.dto.DocumentDTO;
 import com.ll.beansight.base.api.dto.KakaoApiResponseDTO;
 import com.ll.beansight.base.api.service.KakaoSearchService;
+import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
+import com.ll.beansight.boundedContext.cafeInfo.repository.CafeInfoRepository;
+import com.ll.beansight.boundedContext.search.controller.SearchController;
 import com.ll.beansight.boundedContext.search.entity.Cafe;
 import com.ll.beansight.boundedContext.search.repository.CafeRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +22,7 @@ public class SearchService {
 
     private final KakaoSearchService kakaoSearchService;
     private final CafeRepository cafeRepository;
+    private final CafeInfoRepository cafeInfoRepository;
 
     // 키워드로 카페정보를 불러오는 서비스
     public List<DocumentDTO> keywordSearch(String keyword, double x, double y) {
@@ -47,5 +52,13 @@ public class SearchService {
         }
     }
 
+    // 필터링
+    public List<CafeInfo> filterByTags(SearchController.FilterRequest filterRequest) {
+        Stream<CafeInfo> cafeInfos = cafeInfoRepository.findAll().stream();
 
+        for(int tag : filterRequest.getTags()){
+            cafeInfos = cafeInfos.filter(cafeInfo -> cafeInfo.getCafeTag().equals(tag)); // 임시로
+        }
+        return cafeInfos.toList();
+    }
 }
