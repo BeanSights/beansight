@@ -13,7 +13,7 @@
       .wrap * {padding: 0;margin: 0;}
       .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
       .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
-      .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+      .info .title {padding: 5px 0 0 10px;height: 30px;background: yellow;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
       .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
       .info .close:hover {cursor: pointer;}
       .info .body {position: relative;overflow: hidden;}
@@ -198,7 +198,7 @@
         var img = document.createElement("div");
         img.setAttribute("class","img");
         var imgSrc = document.createElement("img");
-        imgSrc.setAttribute("src", "");
+        imgSrc.setAttribute("src", "img/beansight.png");
         imgSrc.setAttribute("width", "73");
         imgSrc.setAttribute("height", "70");
 
@@ -221,7 +221,7 @@
 
         var detailDiv = document.createElement("div");
         var detailAnchor = document.createElement("a");
-        detailAnchor.setAttribute("href","http://localhost:8080/cafeInfo/" + place.id);
+        detailAnchor.setAttribute("href","http://localhost:8080/cafeInfo?x=" + place.x + "&y=" + place.y);
         detailAnchor.setAttribute("target", "_blank");
         detailAnchor.setAttribute("class", "link");
         detailAnchor.innerText = "상세페이지";

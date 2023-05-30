@@ -33,7 +33,7 @@ public class SearchService {
 
     // 거리순으로만 카페정보를 불러오느 서비스
     public List<DocumentDTO> nearSearch(double x, double y) {
-        List<DocumentDTO> responses = kakaoSearchService.requestCategorySearch(x, y).getDocumentDTOList();
+        List<DocumentDTO> responses = kakaoSearchService.requestCategorySearch(x, y, 0).getDocumentDTOList();
         saveCafe(responses);
         return responses;
     }

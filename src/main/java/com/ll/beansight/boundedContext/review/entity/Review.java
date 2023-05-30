@@ -1,6 +1,7 @@
 package com.ll.beansight.boundedContext.review.entity;
 
 import com.ll.beansight.base.baseEntity.BaseEntity;
+import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
 import com.ll.beansight.boundedContext.search.entity.Cafe;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
 import jakarta.persistence.*;
@@ -22,4 +23,6 @@ public class Review extends BaseEntity {
     private Cafe cafe;
     @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
     private List<Tag> tagList;
+    @ManyToOne
+    private CafeInfo cafeInfo;
 }
