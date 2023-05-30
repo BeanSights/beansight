@@ -41,7 +41,7 @@ public class SearchController {
     @GetMapping("keyword/{keyword}")
     public ResponseEntity<RsData> keywordCafe(@PathVariable String keyword, Model model,
                                               @RequestParam(defaultValue = "126.97890911337976") double x, @RequestParam(defaultValue = "37.571150829509854") double y){
-        if(keyword.isEmpty()){
+        if(keyword.length()==0){
             return Ut.spring.responseEntityOf(RsData.of("F-1", "키워드를 입력해주세요."));
         }
         List<DocumentDTO> keywordResponse = searchService.keywordSearch(keyword, x, y);

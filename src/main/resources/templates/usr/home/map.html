@@ -80,7 +80,9 @@
         keywordClicked = false;
         // 사용자가 입력한 검색어를 가져옴.
         var keyword = document.querySelector('#search-input').value;
-
+        if(!keyword){
+          alert("키워드를 입력해주세요.");
+        }
         // 모든 infowindows 배열 비우는 작업.
         for (var i = 0; i < infowindows.length; i++) {
           infowindows[i].close();
@@ -96,15 +98,24 @@
         // 중앙 좌표
         var latlng = map.getCenter();
         fetch('/search/keyword/' + keyword + '?x=' + latlng.getLng() + '&y=' + latlng.getLat())
-                .then(response => response.json())
+                .then(response => {
+                  if (!response.ok) {
+                    return response.json().then(err => {
+                      console.log(err.msg);
+                      throw new Error(err.msg);
+                    });
+                  }
+                  return response.json();
+                })
                 .then(json => {
-                  console.log('날림.');
                   const data = json.data;
                   for (var i = 0; i < data.length; i++) {
                     displayMarker(data[i]);
                     console.log(data[i]);
                   }
-
+                })
+                .catch(error => {
+                  alert(error.message);
                 });
 
       });
