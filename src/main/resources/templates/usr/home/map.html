@@ -69,18 +69,7 @@
         if(!keyword){
           alert("키워드를 입력해주세요.");
         }
-        // 모든 infowindows 배열 비우는 작업.
-        for (var i = 0; i < infowindows.length; i++) {
-          infowindows[i].close();
-        }
-        // 모든 마커 배열 비우는 작업.
-        for (var i = 0; i < markers.length; i++) {
-          markers[i].setMap(null);
-        }
-        // 마커 배열을 비웁니다.
-        markers = [];
-        // infowindows 배열을 비웁니다.
-        infowindows = [];
+        clearMarkersAndInfoWindows()
         // 중앙 좌표
         var latlng = map.getCenter();
         fetch('/search/keyword/' + keyword + '?x=' + latlng.getLng() + '&y=' + latlng.getLat())
@@ -106,10 +95,12 @@
       });
       // 키워드 검색을 하지 않는 경우.
       if(keywordClicked){
+        clearMarkersAndInfoWindows()
         ps.categorySearch('CE7', cafeSearchCB, {useMapBounds:true});
 
         // 검색 버튼 눌렀을 시 검색
         btnSearch.addEventListener('click', function() {
+          clearMarkersAndInfoWindows()
           ps.categorySearch('CE7', cafeSearchCB, {useMapBounds:true});
         })
       }
@@ -245,6 +236,20 @@
         });
       }
 
+      function clearMarkersAndInfoWindows() {
+        // 모든 infowindows 배열 비우는 작업.
+        for (var i = 0; i < infowindows.length; i++) {
+          infowindows[i].close();
+        }
+        // 모든 마커 배열 비우는 작업.
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(null);
+        }
+        // 마커 배열을 비웁니다.
+        markers = [];
+        // infowindows 배열을 비웁니다.
+        infowindows = [];
+      }
     </script>
   </body>
 </html>
