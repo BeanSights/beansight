@@ -61,12 +61,6 @@ public class MemberController {
     }
 
     @PreAuthorize("isAnonymous()")
-    @GetMapping("/review") // 리뷰 작성 페이지
-    public String review() {
-        return "usr/member/review";
-    }
-
-    @PreAuthorize("isAnonymous()")
     @GetMapping("/wish") // 카페 성향 선택 페이지
     public String showWish() { return "usr/member/wish";}
 
@@ -75,7 +69,7 @@ public class MemberController {
     public String wish() { return rq.redirectWithMsg("/", "null");}
 
     @PreAuthorize("isAnonymous()")
-    @GetMapping("/me") // 리뷰 작성 페이지
+    @GetMapping("/me") // 내 정보 페이지
     public String me() {
         return "usr/member/me";
     }
