@@ -1,5 +1,10 @@
 package com.ll.beansight.standard.util;
 
+import com.ll.beansight.base.rsData.RsData;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -47,6 +52,17 @@ public class Ut {
             String urlAfter = url.substring(startPoint + endPoint + 1);
 
             return url.substring(0, startPoint) + urlAfter;
+        }
+    }
+
+    public static class spring {
+
+        public static <T> ResponseEntity<RsData> responseEntityOf(RsData<T> rsData) {
+            return responseEntityOf(rsData, null);
+        }
+
+        public static <T> ResponseEntity<RsData> responseEntityOf(RsData<T> rsData, HttpHeaders headers) {
+            return new ResponseEntity<>(rsData, headers, rsData.isSuccess() ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
         }
     }
 }
