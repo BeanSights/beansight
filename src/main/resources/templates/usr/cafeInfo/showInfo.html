@@ -1,1 +1,122 @@
-카페 정보
+<html layout:decorate="~{usr/layout/layout.html}">
+
+<head>
+    <title>카페 정보</title>
+</head>
+
+<body>
+
+<main layout:fragment="main" class="flex-grow flex items-center justify-center">
+    <div class="mockup-window  bg-base-300 max-w-2xl w-full">
+        <div class="flex justify-center px-4 py-16 bg-base-200">
+            <div class=" max-w-2xl w-full px-4">
+                <div class="flex flex-col items-center justify-center">
+                    <div class="flex">
+                        <div class="text-4xl mb-4" th:text="${cafeInfo.cafeName}"></div>
+                    </div>
+                    <div class="mb-4 mt-4">
+                        <a href="/map" class="flex-col mb-2 btn btn-link"><i
+                                class="text-xl fa-solid fa-map-location-dot"></i>지도</a>
+                        <a href=# class="btn btn-link flex-col mb-2 "><i
+                                class="text-xl fa-solid fa-arrow-up-right-from-square"></i>공유하기</a>
+                        <a href=# class="btn btn-link flex-col mb-2 "><i
+                                class="text-xl fa-solid fa-arrows-split-up-and-left"></i>길찾기</a>
+                    </div>
+                </div>
+
+                <div class="flex-col gap-4">
+                    <div class="card bg-base-100 shadow-xl">
+                        <div class="card-body">
+                            <h2 class="card-title">카페 정보</h2>
+
+                            <div class="mt-4">
+                                <div class="mb-4">
+                                    <div class="badge badge-warning"><i class="fa-solid fa-location-dot"></i> 주소</div>
+                                    <div th:text="${cafeInfo.cafeAddress}"></div>
+                                </div>
+                                <div>
+                                    <div class="badge badge-warning"><i class="fa-solid fa-phone"></i> 전화번호</div>
+                                    <div th:text="${cafeInfo.cafePhoneNumber}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 flex-col gap-4">
+                        <div class="card bg-base-100 shadow-xl">
+                            <div class="card-body">
+                                <span class="card-title flex"><img class="w-10 h-10"
+                                                                   src="https://cdn-icons-png.flaticon.com/128/2065/2065224.png"
+                                                                   alt="text">이 카페에 대한 태그와 리뷰를 달아주세요.
+                                    <button class="ml-auto btn btn-warning">리뷰 남기기</button>
+                                    <label for="modal" class="p-1 btn btn-warning">찜하기 <i
+                                            class="text-pink-500 fa-regular fa-heart"></i></label>
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 flex-col gap-4">
+                        <div class="card bg-base-100 shadow-xl">
+                            <div class="card-body">
+                                <div>전체 (여기에 리뷰 갯수)</div>
+                                <div class="mt-4">
+                                    <span class="badge badge-accent badge-lg"><i class="fa-solid fa-thumbs-up"></i> 깨끗해요</span>
+                                    <span class="badge badge-accent badge-lg"><i
+                                            class="fa-solid fa-thumbs-up"></i>스터디</span>
+                                </div>
+                                <div class="divider"></div>
+                                <!--여기 반복문으로   -->
+                                <div>닉네임 createDate</div>
+                                <div>
+                                    <i class="p-2 fa-solid fa-thumbs-up"></i>
+                                    <span class="badge badge-accent badge-outline">깨끗해요</span>
+                                    <span class="badge badge-accent badge-outline">스터디</span>
+                                </div>
+                                <div>리뷰 내용</div>
+                                <div class="divider"></div>
+                                <div>닉네임 createDate</div>
+                                <div>
+                                    <i class="p-2 fa-solid fa-thumbs-up"></i>
+                                    <span class="badge badge-accent badge-outline">깨끗해요</span>
+                                    <span class="badge badge-accent badge-outline">스터디</span>
+                                </div>
+                                <div>리뷰 내용</div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <input type="checkbox" id="modal" class="modal-toggle"/>
+    <div class="modal">
+        <div class="modal-box">
+            <label for="modal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+            <form class="flex flex-col items-center justify-center">
+                <h3 class="mb-2 text-lg font-bold">나의 찜 리스트</h3>
+                <div class="form-control">
+                    <label class="cursor-pointer label">
+                        <span class="label-text">스터디하기 좋은 곳</span>
+                        <input type="checkbox"  class="checkbox checkbox-warning" />
+                    </label>
+                    <label class="cursor-pointer label">
+                        <span class="label-text">디저트가 맛있는 곳</span>
+                        <input type="checkbox"  class="checkbox checkbox-warning" />
+                    </label>
+                    <label class="cursor-pointer label">
+                        <span class="label-text">우리집에서 가까운 곳</span>
+                        <input type="checkbox"  class="checkbox checkbox-warning" />
+                    </label>
+                </div>
+                <button class="btn btn-wide btn-warning">추가하기</button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+
+</html>
