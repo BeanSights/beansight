@@ -1,5 +1,6 @@
 package com.ll.beansight.boundedContext.home.controller;
 
+import com.ll.beansight.base.rq.Rq;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,9 +12,13 @@ import java.util.Enumeration;
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
+
+    private final Rq rq;
     @GetMapping("/")
     public String showMain() {
-        return "usr/home/main";
+        if(rq.isLogout()) return "redirect:/member/login";
+
+        return "redirect:/map";
     }
 
     @GetMapping("/map")
