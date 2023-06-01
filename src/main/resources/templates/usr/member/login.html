@@ -1,70 +1,31 @@
 <html layout:decorate="~{usr/layout/layout.html}">
 
 <head>
-    <title>로그인</title>
+    <title>메인</title>
 </head>
 
 <body>
 
 <main layout:fragment="main">
-    <script>
-        function LoginForm__submit(form) {
-            // username 이(가) 올바른지 체크
-
-            form.username.value = form.username.value.trim(); // 입력란의 입력값에 있을지 모르는 좌우공백제거
-
-            if (form.username.value.length == 0) {
-                toastWarning('아이디를 입력해주세요.');
-                form.username.focus();
-                return;
-            }
-
-            if (form.username.value.length < 4) {
-                toastWarning('아이디를 4자 이상 입력해주세요.');
-                form.username.focus();
-                return;
-            }
-
-            // password 이(가) 올바른지 체크
-
-            form.password.value = form.password.value.trim(); // 입력란의 입력값에 있을지 모르는 좌우공백제거
-
-            if (form.password.value.length == 0) {
-                form.password.focus();
-                toastWarning('비밀번호를 입력해주세요.');
-                return;
-            }
-
-            if (form.password.value.length < 4) {
-                toastWarning('비밀번호를 4자 이상 입력해주세요.');
-                form.password.focus();
-                return;
-            }
-
-            form.submit(); // 폼 발송
-        }
-    </script>
-
-    <div class=" flex justify-center">
-    <form th:action method="POST" class="p-10 flex flex-col gap-4" onsubmit="LoginForm__submit(this); return false;">
-        <div>
-            <input type="text" name="username" maxlength="30" placeholder="아이디" class="input input-bordered">
+    <div class="card w-96 bg-base-100 shadow-xl image-full h-screen w-screen">
+        <figure><img class="h-screen w-screen" src="/img/mainpage.png" alt="BeanSight" /></figure>
+        <div class="card-body">
+            <h2 class="card-title">BeanSight에 오신 여러분 환영합니다 </h2>
+            <p>우리는 이런 사이트 입니다.</p>
+            <div class="card-actions justify-end">
+                <a href="/oauth2/authorization/kakao" class="btn btn-warning gap-1">
+                    <i class="fa-solid fa-comment text-[color:#ffe812]"></i>
+                    <span class="normal-case" th:text="|카카오 로그인|"></span>
+                </a>
+            </div>
+            <div>
+                <a href="javascript:;" th:if="${@rq.login}" onclick="$(this).next().submit();" >로그아웃</a>
+                <form th:if="${@rq.login}" hidden th:action="|/member/logout|" method="POST"></form>
+            </div>
         </div>
-        <div>
-            <input type="password" name="password" maxlength="30" placeholder="비밀번호" class="input input-bordered">
-        </div>
-        <div>
-            <input type="submit" value="로그인" class="btn btn-primary">
-        </div>
-    </form>
-    </div>
-
-    <div class="flex justify-center">
-        <a class="btn btn-link" href="/oauth2/authorization/kakao">
-            카카오로 로그인하기
-        </a>
     </div>
 </main>
+
 </body>
 
 </html>
