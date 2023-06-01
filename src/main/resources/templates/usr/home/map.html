@@ -135,9 +135,6 @@
                 .then(json => {
                   const data = json.data;
                   displayPlaces(data);
-                  for (var i = 0; i < data.length; i++) {
-                    displayMarker(data[i], i);
-                  }
                 })
                 .catch(error => {
                   alert(error.message);
@@ -163,9 +160,6 @@
       function cafeSearchCB(data, status, pagination) {
         if (status === kakao.maps.services.Status.OK) {
           displayPlaces(data);
-          for (var i = 0; i < data.length; i++) {
-            displayMarker(data[i], i);
-          }
         }
         else if (status === kakao.maps.service.Status.ERROR) {
           alert('주변에 카페가 존재하지 않습니다.');
@@ -189,32 +183,49 @@
         removeAllChildNods(listEl);
 
         for ( var i=0; i<places.length; i++ ) {
+          let imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+                  imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
+                  imgOptions =  {
+                    spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+                    spriteOrigin : new kakao.maps.Point(0, (i*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+                    offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+                  },
+                  markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+                  marker = new kakao.maps.Marker({
+                    map: map,
+                    position: new kakao.maps.LatLng(places[i].y, places[i].x), // 마커의 위치
+                    image: markerImage
+                  });
 
+          // 마커를 배열에 추가합니다.
+          markers.push(marker);
+
+          let iwContent = places[i].place_name,
+                  iwPosition = new kakao.maps.LatLng(places[i].y, places[i].x);
+
+          let infowindow = new kakao.maps.InfoWindow({
+            position : iwPosition,
+            content : iwContent
+          });
+          infowindows.push(infowindow);
+          infowindow.open(map, marker);
+
+          createOverlay(marker, places[i])
 
           var itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-
-
 
           // 마커와 검색결과 항목에 mouseover 했을때
           // 해당 장소에 인포윈도우에 장소명을 표시합니다
           // mouseout 했을 때는 인포윈도우를 닫습니다
-          // (function(marker, title) {
-          //   kakao.maps.event.addListener(marker, 'mouseover', function() {
-          //     displayInfowindow(marker, title);
-          //   });
-          //
-          //   kakao.maps.event.addListener(marker, 'mouseout', function() {
-          //     infowindow.close();
-          //   });
-          //
-          //   itemEl.onmouseover =  function () {
-          //     displayInfowindow(marker, title);
-          //   };
-          //
-          //   itemEl.onmouseout =  function () {
-          //     infowindow.close();
-          //   };
-          // })(marker, places[i].place_name);
+          (function(a) {
+            itemEl.onmouseover =  function () {
+              a.setMap(map);
+            };
+
+            itemEl.onmouseout =  function () {
+              a.setMap(null);
+            };
+          })(createOverlay(marker, places[i]));
 
           fragment.appendChild(itemEl);
         }
@@ -225,129 +236,93 @@
 
       }
 
-      function displayMarker(place, idx) {
-        var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-                imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
-                imgOptions =  {
-                  spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-                  spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-                  offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-                },
-                markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
-                marker = new kakao.maps.Marker({
-                  map: map,
-                  position: new kakao.maps.LatLng(place.y, place.x), // 마커의 위치
-                  image: markerImage
-                });
+      // 오버레이 적용하는 함수
+      function createOverlay(marker, places) {
+        let content = createOverlayContent(places);
 
-        // var marker = new kakao.maps.Marker({
-        //   map: map,
-        //   position: new kakao.maps.LatLng(place.y, place.x)
-        // });
-
-        // 마커를 배열에 추가합니다.
-        markers.push(marker);
-
-        var iwContent = place.place_name,
-                iwPosition = new kakao.maps.LatLng(place.y, place.x);
-
-        var infowindow = new kakao.maps.InfoWindow({
-          position : iwPosition,
-          content : iwContent
-        });
-        infowindows.push(infowindow);
-        infowindow.open(map, marker);
-
-
-
-        // overlay의 content에 삽입할 HTMLElement 생성 시작
-        var content = document.createElement("div");
-        content.setAttribute("class", "wrap");
-
-        var info = document.createElement("div");
-        info.setAttribute("class", "info");
-
-        var title = document.createElement("div");
-        title.setAttribute("class", "title");
-        title.innerText = place.place_name;
-
-        var close = document.createElement("div");
-        close.setAttribute("class", "close");
-        // close.setAttribute("onclick", "closeOverlay()");
-        close.setAttribute("title", "닫기");
-
-        // title에 닫기 삽입
-        title.appendChild(close);
-
-        var body = document.createElement("div");
-        body.setAttribute("class","body");
-
-        var img = document.createElement("div");
-        img.setAttribute("class","img");
-        var imgSrc = document.createElement("img");
-        imgSrc.setAttribute("src", "img/beansight.png");
-        imgSrc.setAttribute("width", "73");
-        imgSrc.setAttribute("height", "70");
-
-        // img에 삽입
-        img.appendChild(imgSrc);
-
-        var desc = document.createElement("div");
-        desc.setAttribute("class","desc");
-        desc.innerText = place.road_address_name;
-
-        var instaDiv = document.createElement("div");
-        var instaAnchor = document.createElement("a");
-        instaAnchor.setAttribute("href","#");
-        instaAnchor.setAttribute("target", "_blank");
-        instaAnchor.setAttribute("class", "link");
-        instaAnchor.innerText = "인스타페이지";
-
-        // instaDiv에 삽입
-        instaDiv.appendChild(instaAnchor);
-
-        var detailDiv = document.createElement("div");
-        var detailAnchor = document.createElement("a");
-        detailAnchor.setAttribute("href","cafeInfo?x=" + place.x + "&y=" + place.y);
-        detailAnchor.setAttribute("target", "_blank");
-        detailAnchor.setAttribute("class", "link");
-        detailAnchor.innerText = "상세페이지";
-
-        // detailDiv에 삽입
-        detailDiv.appendChild(detailAnchor);
-
-        // desc에 삽입
-        desc.appendChild(instaDiv);
-        desc.appendChild(detailDiv);
-
-        // body에 img와 desc 삽입
-        body.appendChild(img);
-        body.appendChild(desc);
-
-        // info에 title과 body 삽입
-        info.appendChild(title);
-        info.appendChild(body);
-
-        // content info 삽입
-        content.appendChild(info);
-
-        // console.log(content);
-
-        // 마커 위의 커스텀 오버레이
-        var overlay = new kakao.maps.CustomOverlay({
+        let overlay = new kakao.maps.CustomOverlay({
           content: content,
           position: marker.getPosition()
         });
 
         // 닫기 기능
-        close.onclick = function () {
+        let close = content.querySelector('.close');
+        close.addEventListener('click', function() {
           overlay.setMap(null);
-        }
+        });
 
         // 마커에 클릭 이벤트 등록
         kakao.maps.event.addListener(marker, 'click', function() {
           overlay.setMap(map);
         });
+
+        return overlay;
+      }
+
+      // 오버레이에 사용할 카페의 정보들
+      function createOverlayContent(places) {
+        let content = document.createElement("div");
+        content.setAttribute("class", "wrap");
+
+        let info = document.createElement("div");
+        info.setAttribute("class", "info");
+
+        let title = document.createElement("div");
+        title.setAttribute("class", "title");
+        title.innerText = places.place_name;
+
+        let close = document.createElement("div");
+        close.setAttribute("class", "close");
+        close.setAttribute("title", "닫기");
+
+        title.appendChild(close);
+
+        let body = document.createElement("div");
+        body.setAttribute("class", "body");
+
+        let img = document.createElement("div");
+        img.setAttribute("class", "img");
+        let imgSrc = document.createElement("img");
+        imgSrc.setAttribute("src", "img/beansight.png");
+        imgSrc.setAttribute("width", "73");
+        imgSrc.setAttribute("height", "70");
+
+        img.appendChild(imgSrc);
+
+        let desc = document.createElement("div");
+        desc.setAttribute("class", "desc");
+        desc.innerText = places.road_address_name;
+
+        let instaDiv = document.createElement("div");
+        let instaAnchor = document.createElement("a");
+        instaAnchor.setAttribute("href", "#");
+        instaAnchor.setAttribute("target", "_blank");
+        instaAnchor.setAttribute("class", "link");
+        instaAnchor.innerText = "인스타페이지";
+
+        instaDiv.appendChild(instaAnchor);
+
+        let detailDiv = document.createElement("div");
+        let detailAnchor = document.createElement("a");
+        detailAnchor.setAttribute("href", "cafeInfo?x=" + places.x + "&y=" + places.y);
+        detailAnchor.setAttribute("target", "_blank");
+        detailAnchor.setAttribute("class", "link");
+        detailAnchor.innerText = "상세페이지";
+
+        detailDiv.appendChild(detailAnchor);
+
+        desc.appendChild(instaDiv);
+        desc.appendChild(detailDiv);
+
+        body.appendChild(img);
+        body.appendChild(desc);
+
+        info.appendChild(title);
+        info.appendChild(body);
+
+        content.appendChild(info);
+
+        return content;
       }
 
       // 검색결과 목록의 자식 Element를 제거하는 함수입니다
