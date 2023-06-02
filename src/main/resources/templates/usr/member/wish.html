@@ -9,19 +9,38 @@
             <div class="text-3xl">당신의 카페 취향을 알려주세요!</div>
             <!-- 성향 체크 fragment -->
             <div th:replace="fragment/tagSelect::tagSelectFragment"></div>
-        </div>
-        <div class="w-2/5 flex justify-center">
             <form th:action method="POST" class="pt-4 flex flex-col gap-4 w-full items-center" onsubmit="wishForm__submit(this); return false;">
                 <div>
-                    <input type="submit" value="설정완료" class="btn btn-primary btn-active">
+                    <input type="submit" id="submit" value="설정완료" class="btn btn-primary btn-active">
                     <input id="cancel" type="button" value="뒤로가기" class="btn btn-primary btn-active">
                 </div>
             </form>
         </div>
+        <!-- <div class="w-2/5 flex justify-center"> -->
     </div>
     <script>
         function wishForm__submit(form) {
-            // TODO: wishForm submit 이행
+
+            var tagField = document.createElement("input");
+            tagField.setAttribute("type", "hidden");
+            tagField.setAttribute("name", "selectedTags");
+            tagField.setAttribute("value", JSON.stringify(selectedBtn));
+            form.appendChild(tagField);
+
+            // 아무런 태그를 입력하지 않은 경우
+            if (selectedBtn.length == 0) {
+                if (confirm("취향 태그를 선택하지 않으시겠습니까?") == false) {
+                    form.submit();
+                }
+                return;
+            }
+            else {
+                // 태그를 입력한 경우
+                if (confirm("이대로 설정하시겠습니까?") == true) {
+                    form.submit();
+                }
+                return;
+            }
         }
     </script>
 </main>

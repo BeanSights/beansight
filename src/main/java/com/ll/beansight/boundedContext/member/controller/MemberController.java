@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/member") // 액션 URL의 공통 접두어
 @RequiredArgsConstructor
@@ -70,9 +72,20 @@ public class MemberController {
     @GetMapping("/wish") // 카페 성향 선택 페이지
     public String showWish() { return "usr/member/wish";}
 
+    @AllArgsConstructor
+    @Getter
+    public static class WishForm {
+        private List<String> selectedTags;
+    }
+
     @PreAuthorize("isAnonymous()")
     @PostMapping("/wish") // 카페 성향 선택 후 설정
-    public String wish() { return rq.redirectWithMsg("/", "null");}
+    public String wish(@Valid WishForm wishForm) {
+        List<String> selectedTags = wishForm.getSelectedTags();
+        System.out.println(selectedTags.size());
+        return rq.redirectWithMsg("/", "hi");
+    }
+
 
     @PreAuthorize("isAnonymous()")
     @GetMapping("/me") // 리뷰 작성 페이지
