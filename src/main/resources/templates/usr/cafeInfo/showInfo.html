@@ -48,7 +48,7 @@
                                 <span class="card-title flex"><img class="w-10 h-10"
                                                                    src="https://cdn-icons-png.flaticon.com/128/2065/2065224.png"
                                                                    alt="text">이 카페에 대한 태그와 리뷰를 달아주세요.
-                                    <button class="ml-auto btn btn-warning">리뷰 남기기</button>
+                                    <a class="ml-auto btn btn-warning" th:href="@{/cafeInfo/review(cafeId=${cafeInfo.cafeId})}">리뷰 남기기</a>
                                     <label for="modal" class="p-1 btn btn-warning">찜하기 <i
                                             class="text-pink-500 fa-regular fa-heart"></i></label>
                                 </span>

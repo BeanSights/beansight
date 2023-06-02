@@ -6,24 +6,39 @@
 <main layout:fragment="main">
 <div class="w-screen h-screen flex flex-col items-center">
     <div class="w-3/4 text-center mt-24">
-        <div class="text-3xl">이 카페의 추천 포인트는?</div>
+        <div class="text-3xl">[[${cafeInfo.cafeName}]]의 추천 포인트는?</div>
         <div th:replace="fragment/tagSelect::tagSelectFragment"></div>
     </div>
 
     <div id="thumbContainer" class="mt-20">
-        <button class="tag btn btn-outline btn-warning btn-md btn-wide"><i class="fa-solid fa-thumbs-up fa-2xl"></i></button>
-        <button class="tag btn btn-outline btn-warning btn-md btn-wide"><i class="fa-solid fa-thumbs-down fa-2xl"></i></button>
+        <button id="tagUp" class="tag btn btn-outline btn-warning btn-md btn-wide"><i class="fa-solid fa-thumbs-up fa-2xl"></i></button>
+        <button id="tagDown" class="tag btn btn-outline btn-warning btn-md btn-wide"><i class="fa-solid fa-thumbs-down fa-2xl"></i></button>
     </div>
 
     <div class="w-2/5 flex justify-center">
         <form th:action method="POST" style="width: 520px" class="pt-4 flex flex-col gap-4 items-center" onsubmit="ReviewForm__submit(this); return false;">
             <div class="w-full h-20">
-                <textarea class="textarea textarea-warning w-full h-20" name="content" placeholder="리뷰를 작성해 주세요..!"></textarea>
+                <textarea class="textarea textarea-warning w-full h-20" name="content" maxlength="30" placeholder="리뷰를 작성해 주세요..!"></textarea>
             </div>
             <div>
                 <input type="submit" value="작성완료" class="btn btn-warning btn-active">
                 <input id="cancel" type="button" value="뒤로가기" class="btn btn-warning btn-active">
             </div>
+            <!-- hidden input 요소를 사용하여 각 태그의 카운트 값을 전달 -->
+            <input type="hidden" name="tagCount" data-tag-id="tag100">
+            <input type="hidden" name="tagCount" data-tag-id="tag101">
+            <input type="hidden" name="tagCount" data-tag-id="tag102">
+            <input type="hidden" name="tagCount" data-tag-id="tag103">
+            <input type="hidden" name="tagCount" data-tag-id="tag200">
+            <input type="hidden" name="tagCount" data-tag-id="tag201">
+            <input type="hidden" name="tagCount" data-tag-id="tag202">
+            <input type="hidden" name="tagCount" data-tag-id="tag203">
+            <input type="hidden" name="tagCount" data-tag-id="tag300">
+            <input type="hidden" name="tagCount" data-tag-id="tag301">
+            <input type="hidden" name="tagCount" data-tag-id="tag400">
+            <input type="hidden" name="tagCount" data-tag-id="tag401">
+            <input type="hidden" name="tagCount" data-tag-id="tagUp">
+            <input type="hidden" name="tagCount" data-tag-id="tagDown">
         </form>
     </div>
 </div>
@@ -42,9 +57,9 @@
     function ReviewForm__submit(form) {
         // content 이(가) 올바른지 체크
 
-        form.username.value = form.username.value.trim(); // 입력란의 입력값에 있을지 모르는 좌우공백제거
+        form.content.value = form.content.value.trim(); // 입력란의 입력값에 있을지 모르는 좌우공백제거
 
-        if (form.content.value.length == 0) {
+        if (form.content.value.length === 0) {
             toastWarning('리뷰를 작성해주세요.');
             form.content.focus();
             return;
@@ -55,6 +70,16 @@
             form.content.focus();
             return;
         }
+
+        // 각 태그의 카운트 값을 hidden input 요소에 설정
+        const hiddenInputs = document.querySelectorAll('input[name="tagCount"]');
+        hiddenInputs.forEach((input) => {
+            const tagId = input.dataset.tagId;
+            const count = tagCountMap.get(tagId);
+            input.value = count || 0;
+        });
+
+        console.log(hiddenInputs);
 
         form.submit(); // 폼 발송
     }
