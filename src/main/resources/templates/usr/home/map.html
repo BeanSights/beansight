@@ -219,6 +219,11 @@
           // mouseout 했을 때는 인포윈도우를 닫습니다
           (function(a) {
             itemEl.onmouseover =  function () {
+              // 이동할 위도 경도 위치를 생성합니다
+              var moveLatLon = marker.getPosition();
+
+              // 지도 중심을 이동 시킵니다
+              map.setCenter(moveLatLon);
               a.setMap(map);
             };
 
