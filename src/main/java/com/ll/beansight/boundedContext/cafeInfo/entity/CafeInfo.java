@@ -20,9 +20,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-public class CafeInfo extends BaseEntity {
+public class CafeInfo extends CafeInfoBase {
 
-
+    @Column(unique = true)
     private Long cafeId;
     private double x;
     private double y;
@@ -34,11 +34,41 @@ public class CafeInfo extends BaseEntity {
     @OneToMany(mappedBy = "cafeInfo", cascade = {CascadeType.ALL})
     @OrderBy("id desc")
     @Builder.Default
-    private List<Tag> cafeTag = new ArrayList<>();
+    private List<Review> cafeTag = new ArrayList<>(); //태그 종류
 
     @OneToMany(mappedBy = "cafeInfo", cascade = {CascadeType.ALL})
     @OrderBy("id desc")
     @Builder.Default
-    private List<Review> cafeReview = new ArrayList<>();
+    private List<Review> cafeReview = new ArrayList<>(); //리뷰 내용
+
+    public void increaseTagCount(int tagTypeCode) {
+        if (tagTypeCode == 1) tagsCountByTagTypeCode1++;
+        if (tagTypeCode == 2) tagsCountByTagTypeCode2++;
+        if (tagTypeCode == 3) tagsCountByTagTypeCode3++;
+        if (tagTypeCode == 4) tagsCountByTagTypeCode4++;
+        if (tagTypeCode == 5) tagsCountByTagTypeCode5++;
+        if (tagTypeCode == 6) tagsCountByTagTypeCode6++;
+        if (tagTypeCode == 7) tagsCountByTagTypeCode7++;
+        if (tagTypeCode == 8) tagsCountByTagTypeCode8++;
+        if (tagTypeCode == 9) tagsCountByTagTypeCode9++;
+        if (tagTypeCode == 10) tagsCountByTagTypeCode10++;
+        if (tagTypeCode == 11) tagsCountByTagTypeCode11++;
+        if (tagTypeCode == 12) tagsCountByTagTypeCode12++;
+    }
+
+    public void decreaseTagCount(int tagTypeCode) {
+        if (tagTypeCode == 1) tagsCountByTagTypeCode1--;
+        if (tagTypeCode == 2) tagsCountByTagTypeCode2--;
+        if (tagTypeCode == 3) tagsCountByTagTypeCode3--;
+        if (tagTypeCode == 4) tagsCountByTagTypeCode4--;
+        if (tagTypeCode == 5) tagsCountByTagTypeCode5--;
+        if (tagTypeCode == 6) tagsCountByTagTypeCode6--;
+        if (tagTypeCode == 7) tagsCountByTagTypeCode7--;
+        if (tagTypeCode == 8) tagsCountByTagTypeCode8--;
+        if (tagTypeCode == 9) tagsCountByTagTypeCode9--;
+        if (tagTypeCode == 10) tagsCountByTagTypeCode10--;
+        if (tagTypeCode == 11) tagsCountByTagTypeCode11--;
+        if (tagTypeCode == 12) tagsCountByTagTypeCode12--;
+    }
 
 }
