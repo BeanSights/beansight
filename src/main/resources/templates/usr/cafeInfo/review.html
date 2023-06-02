@@ -44,9 +44,32 @@
 </div>
 <script>
     const thumbContainer = document.getElementById('thumbContainer');
+    const tagUpButton = document.getElementById('tagUp');
+    const tagDownButton = document.getElementById('tagDown');
+
     thumbContainer.addEventListener('click', function (e){
-        if (e.target.classList.contains('tag')){
-            e.target.classList.toggle('btn-active');
+        if (e.target.classList.contains('tag')) {
+            const tagId = e.target.id;
+            if(!tagCountMap.has(tagId)){
+                tagCountMap.set(tagId, 0);
+            }
+            const count = tagCountMap.get(tagId);
+            if (e.target.id === 'tagUp') {
+                // tagUp 버튼 클릭 시
+                tagUpButton.classList.add('btn-active');
+                tagDownButton.classList.remove('btn-active');
+                const tagDownCount = tagCountMap.get('tagDown');
+                tagCountMap.set('tagDown', tagDownCount - 1);
+            } else if (e.target.id === 'tagDown') {
+                // tagDown 버튼 클릭 시
+                tagUpButton.classList.remove('btn-active');
+                tagDownButton.classList.add('btn-active');
+                const tagUpCount = tagCountMap.get('tagUp');
+                tagCountMap.set('tagUp', tagUpCount - 1);
+            } else {
+                e.target.classList.toggle('btn-active');
+            }
+            tagCountMap.set(tagId, count + 1);
         }
     });
 
@@ -78,8 +101,6 @@
             const count = tagCountMap.get(tagId);
             input.value = count || 0;
         });
-
-        console.log(hiddenInputs);
 
         form.submit(); // 폼 발송
     }

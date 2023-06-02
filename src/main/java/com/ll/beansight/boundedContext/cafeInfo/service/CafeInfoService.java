@@ -26,7 +26,7 @@ public class CafeInfoService {
 
     @Transactional
     public CafeInfo search(double x, double y) {
-        List<DocumentDTO> responses = kakaoSearchService.requestCategorySearch(x,y,0).getDocumentDTOList();
+        List<DocumentDTO> responses = kakaoSearchService.requestCategorySearch(x,y,1).getDocumentDTOList();
         DocumentDTO response = responses.get(0);
         Optional<CafeInfo> cafeInfo = cafeInfoRepository.findByCafeId(response.getId());
 

@@ -31,7 +31,7 @@ public class CafeInfo extends BaseEntity {
     @OneToMany(mappedBy = "cafeInfo", cascade = {CascadeType.ALL})
     @OrderBy("id desc")
     @Builder.Default
-    private List<Tag> cafeTag = new ArrayList<>();
+    private List<Tag> cafeTagList = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafeInfo", cascade = {CascadeType.ALL})
     @OrderBy("id desc")
