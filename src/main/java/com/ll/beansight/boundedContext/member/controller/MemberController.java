@@ -69,27 +69,27 @@ public class MemberController {
     }
 
     @PreAuthorize("isAnonymous()")
+    @GetMapping("/me") // 리뷰 작성 페이지
+    public String me() {
+        return "usr/member/me";
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/wish") // 카페 성향 선택 페이지
     public String showWish() { return "usr/member/wish";}
 
     @AllArgsConstructor
     @Getter
     public static class WishForm {
-        private List<String> selectedTags;
+        private String selectedTags;
     }
 
-    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/wish") // 카페 성향 선택 후 설정
     public String wish(@Valid WishForm wishForm) {
-        List<String> selectedTags = wishForm.getSelectedTags();
-        System.out.println(selectedTags.size());
+        List<String> selectedTags = List.of(wishForm.getSelectedTags().split(","));
+        System.out.println(selectedTags);
+        memberService.updateMemberTagList(rq.getMember(), selectedTags);
         return rq.redirectWithMsg("/", "hi");
-    }
-
-
-    @PreAuthorize("isAnonymous()")
-    @GetMapping("/me") // 리뷰 작성 페이지
-    public String me() {
-        return "usr/member/me";
     }
 }

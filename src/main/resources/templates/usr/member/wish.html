@@ -24,7 +24,10 @@
             var tagField = document.createElement("input");
             tagField.setAttribute("type", "hidden");
             tagField.setAttribute("name", "selectedTags");
-            tagField.setAttribute("value", JSON.stringify(selectedBtn));
+
+            var tagValues = selectedBtn.join(',');
+            tagField.setAttribute("value", tagValues);
+
             form.appendChild(tagField);
 
             // 아무런 태그를 입력하지 않은 경우
