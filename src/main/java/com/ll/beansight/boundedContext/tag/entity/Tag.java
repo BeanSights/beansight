@@ -22,7 +22,6 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 public class Tag {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
     private Long tagId;
     private String tagName;
 
