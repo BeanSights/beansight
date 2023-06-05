@@ -7,7 +7,7 @@
 <div class="w-screen h-screen flex flex-col items-center">
     <div class="w-3/4 text-center mt-24">
         <div class="text-3xl">[[${cafeInfo.cafeName}]]의 추천 포인트는?</div>
-        <div th:replace="fragment/tagSelect::tagSelectFragment"></div>
+        <div th:replace="fragment/tagSelect::tagSelectFragment(${tagList})"></div>
     </div>
 
     <div id="thumbContainer" class="mt-20">
@@ -49,27 +49,18 @@
 
     thumbContainer.addEventListener('click', function (e){
         if (e.target.classList.contains('tag')) {
-            const tagId = e.target.id;
-            if(!tagCountMap.has(tagId)){
-                tagCountMap.set(tagId, 0);
-            }
-            const count = tagCountMap.get(tagId);
+
             if (e.target.id === 'tagUp') {
                 // tagUp 버튼 클릭 시
                 tagUpButton.classList.add('btn-active');
                 tagDownButton.classList.remove('btn-active');
-                const tagDownCount = tagCountMap.get('tagDown');
-                tagCountMap.set('tagDown', tagDownCount - 1);
             } else if (e.target.id === 'tagDown') {
                 // tagDown 버튼 클릭 시
                 tagUpButton.classList.remove('btn-active');
                 tagDownButton.classList.add('btn-active');
-                const tagUpCount = tagCountMap.get('tagUp');
-                tagCountMap.set('tagUp', tagUpCount - 1);
             } else {
                 e.target.classList.toggle('btn-active');
             }
-            tagCountMap.set(tagId, count + 1);
         }
     });
 
@@ -93,14 +84,6 @@
             form.content.focus();
             return;
         }
-
-        // 각 태그의 카운트 값을 hidden input 요소에 설정
-        const hiddenInputs = document.querySelectorAll('input[name="tagCount"]');
-        hiddenInputs.forEach((input) => {
-            const tagId = input.dataset.tagId;
-            const count = tagCountMap.get(tagId);
-            input.value = count || 0;
-        });
 
         form.submit(); // 폼 발송
     }
