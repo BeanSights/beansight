@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -53,9 +54,16 @@ public class MemberController {
     @GetMapping("/wish") // 카페 성향 선택 페이지
     public String showWish(Model model) {
         List<Tag> tagList = tagService.getTagList();
+        List<Tag> memberTagList = rq.getMember().getMemberTagList();
+        List<Long> selectedTagIdList = new ArrayList<>();
+
+        for (Tag tag : memberTagList) {
+            selectedTagIdList.add(tag.getTagId());
+        }
 
         model.addAttribute("tagList", tagList);
-
+        model.addAttribute("selectedTagList", selectedTagIdList);
+        System.out.println(selectedTagIdList);
         return "usr/member/wish";}
 
     @AllArgsConstructor

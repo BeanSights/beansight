@@ -6,9 +6,15 @@
             th:id="${tag.tagId}"
             th:text="${tag.tagName}"></button>
   </div>
-  <script>
+  <div id="selectedTagContainer" data-selected-tags="${selectedTagList}"></div>
+  <script th:inline="javascript">
     const tagContainer = document.getElementById('tagContainer');
-    var selectedBtn = [];
+    var selectedBtn = /*[[${selectedTagList}]]*/ [];
+
+    selectedBtn.forEach(function(id) {
+      var button = document.getElementById(id);
+      button.classList.add('btn-active');
+    })
 
     tagContainer.addEventListener('click', function (e){
 
