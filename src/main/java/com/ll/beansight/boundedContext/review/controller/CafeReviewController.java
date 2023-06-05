@@ -108,11 +108,11 @@ public class CafeReviewController {
                     cafeTags.put(tagId, tagCount);
                     break;
                 case 12:
-                    tagId = "thumbUp";
+                    tagId = "tagUp";
                     cafeTags.put(tagId, tagCount);
                     break;
                 case 13:
-                    tagId = "thumbDown";
+                    tagId = "tagDown";
                     cafeTags.put(tagId, tagCount);
                     break;
                 default:
