@@ -26,7 +26,6 @@ public class CafeInfoController {
 
         model.addAttribute("cafeInfo", cafeInfoResponse);
 
-
         return "usr/cafeInfo/showInfo";
     }
 }
