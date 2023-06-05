@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -24,5 +25,6 @@ public class CafeReview extends BaseEntity {
     @OneToMany(mappedBy = "cafeReview", cascade = CascadeType.REMOVE)
     private List<Tag> tagList;
     @ManyToOne
+    @ToString.Exclude
     private CafeInfo cafeInfo;
 }

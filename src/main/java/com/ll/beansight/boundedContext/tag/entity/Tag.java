@@ -4,25 +4,28 @@ import com.ll.beansight.base.baseEntity.BaseEntity;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
 import com.ll.beansight.boundedContext.review.entity.CafeReview;
 import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import lombok.*;
+
 @Entity
 @Getter
+@Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Tag extends BaseEntity {
-    private String tagCode;
+    private String tagName;
     @ManyToOne
     private CafeReview cafeReview;
     @ManyToOne
     private CafeInfo cafeInfo;
-
     public String getTagCodeName(){
-        return switch (tagCode){
+        return switch (tagName){
             case "100" -> "대화하기 좋은";
             case "101" -> "깔끔한";
             case "102" -> "인스타 감성";
@@ -38,4 +41,5 @@ public class Tag extends BaseEntity {
             default -> "";
         };
     }
+
 }

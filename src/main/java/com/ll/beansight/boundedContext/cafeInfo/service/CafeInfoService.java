@@ -26,6 +26,7 @@ public class CafeInfoService {
 
     @Transactional
     public CafeInfo search(double x, double y) {
+        //radius 0으로 하면 x,y 좌표가 일치하더라도 검색이 되지 않는 카페들이 존재해서 1로 바꿈 (거리순 정렬로 해서 처음거를 가져오면 된다)
         List<DocumentDTO> responses = kakaoSearchService.requestCategorySearch(x,y,1).getDocumentDTOList();
         DocumentDTO response = responses.get(0);
         Optional<CafeInfo> cafeInfo = cafeInfoRepository.findByCafeId(response.getId());

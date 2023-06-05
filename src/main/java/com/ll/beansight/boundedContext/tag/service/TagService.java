@@ -15,7 +15,7 @@ public class TagService {
     public RsData<Tag> setTag(String tagCode) {
         Tag tag = Tag
                 .builder()
-                .tagCode(tagCode)
+                .tagName(tagCode)
                 .build();
 
         tagRepository.save(tag);
