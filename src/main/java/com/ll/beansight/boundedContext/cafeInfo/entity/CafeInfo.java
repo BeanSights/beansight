@@ -2,7 +2,7 @@ package com.ll.beansight.boundedContext.cafeInfo.entity;
 
 
 import com.ll.beansight.base.baseEntity.BaseEntity;
-import com.ll.beansight.boundedContext.review.entity.Review;
+import com.ll.beansight.boundedContext.review.entity.CafeReview;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,12 +34,12 @@ public class CafeInfo extends CafeInfoBase {
     @OneToMany(mappedBy = "cafeInfo", cascade = {CascadeType.ALL})
     @OrderBy("id desc")
     @Builder.Default
-    private List<Review> cafeTag = new ArrayList<>(); //태그 종류
+    private List<Tag> cafeTag = new ArrayList<>(); //태그 종류
 
     @OneToMany(mappedBy = "cafeInfo", cascade = {CascadeType.ALL})
     @OrderBy("id desc")
     @Builder.Default
-    private List<Review> cafeReview = new ArrayList<>(); //리뷰 내용
+    private List<CafeReview> cafeReview = new ArrayList<>(); //리뷰 내용
 
     public void increaseTagCount(int tagTypeCode) {
         if (tagTypeCode == 1) tagsCountByTagTypeCode1++;

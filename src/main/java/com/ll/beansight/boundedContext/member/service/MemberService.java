@@ -75,7 +75,7 @@ public class MemberService {
         List<String> memberTagList = new LinkedList<>();
 
         // 태그 이름들 확인
-        for (Tag tag : member.getTagList()) {
+        for (Tag tag : member.getMemberTagList()) {
             memberTagList.add(tag.getTagName());
         }
         System.out.println(memberTagList);
@@ -87,7 +87,7 @@ public class MemberService {
             newTag.setTagName(tagName);
 
             tagRepository.save(newTag);
-            member.getTagList().add(newTag);
+            member.getMemberTagList().add(newTag);
         }
 
         memberRepository.save(member);

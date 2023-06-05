@@ -16,13 +16,13 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Review extends BaseEntity {
+public class CafeReview extends BaseEntity {
     private Long memberId;
     @Column(length = 100)
     private String content;
     @ManyToOne
     private Cafe cafe;
-    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "cafeReview", cascade = CascadeType.REMOVE)
     private List<Tag> tagList;
     @ManyToOne
     @ToString.Exclude

@@ -7,19 +7,19 @@
 <body>
 
 <main layout:fragment="main">
-    <div class="card w-96 bg-base-100 shadow-xl image-full h-screen w-screen">
-        <figure><img class="h-screen w-screen" src="/img/mainpage.png" alt="BeanSight" /></figure>
-        <div class="card-body">
-            <h2 class="card-title">BeanSight에 오신 여러분 환영합니다 </h2>
+    <div className="card w-96 bg-base-100 shadow-xl image-full h-screen w-screen">
+        <figure><img className="h-screen w-screen" src="/img/mainpage.png" alt="BeanSight"/></figure>
+        <div className="card-body">
+            <h2 className="card-title">BeanSight에 오신 여러분 환영합니다 </h2>
             <p>우리는 이런 사이트 입니다.</p>
-            <div class="card-actions justify-end">
-                <a href="/oauth2/authorization/kakao" class="btn btn-warning gap-1">
-                    <i class="fa-solid fa-comment text-[color:#ffe812]"></i>
-                    <span class="normal-case" th:text="|카카오 로그인|"></span>
+            <div className="card-actions justify-end">
+                <a href="/oauth2/authorization/kakao" className="btn btn-warning gap-1">
+                    <i className="fa-solid fa-comment text-[color:#ffe812]"></i>
+                    <span className="normal-case" th:text="|카카오 로그인|"></span>
                 </a>
             </div>
             <div>
-                <a href="javascript:;" th:if="${@rq.login}" onclick="$(this).next().submit();" >로그아웃</a>
+                <a href="javascript:;" th:if="${@rq.login}" onClick="$(this).next().submit();">로그아웃</a>
                 <form th:if="${@rq.login}" hidden th:action="|/member/logout|" method="POST"></form>
             </div>
         </div>
@@ -29,4 +29,3 @@
 </body>
 
 </html>
-

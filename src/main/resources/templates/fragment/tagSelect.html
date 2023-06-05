@@ -1,31 +1,42 @@
 <html layout:decorate="~{usr/layout/layout.html}">
 <div id="tagContainer" class="flex justify-center flex-col items-center mt-4" th:fragment="tagSelectFragment">
   <div class="tags flex w-2/5 my-4 justify-center">
-    <button class="tag btn btn-outline btn-warning btn-sm">대화하기 좋은</button>
-    <button class="tag btn btn-outline btn-warning btn-sm mx-3">깔끔한</button>
-    <button class="tag btn btn-outline btn-warning btn-sm">인스타 감성</button>
+    <button id="tag100" class="tag btn btn-outline btn-warning btn-sm">대화하기 좋은</button>
+    <button id="tag101" class="tag btn btn-outline btn-warning btn-sm mx-3">깔끔한</button>
+    <button id="tag102" class="tag btn btn-outline btn-warning btn-sm">인스타 감성</button>
+    <button id="tag103" class="tag btn btn-outline btn-warning btn-sm ml-3">스터디</button>
   </div>
   <div class="tags flex w-2/5 my-4 justify-center">
-    <button class="tag btn btn-outline btn-warning btn-sm">주차공간</button>
-    <button class="tag btn btn-outline btn-warning btn-sm mx-3">깨끗한 화장실</button>
-    <button class="tag btn btn-outline btn-warning btn-sm">넓은 매장</button>
+    <button id="tag200" class="tag btn btn-outline btn-warning btn-sm">주차공간</button>
+    <button id="tag203" class="tag btn btn-outline btn-warning btn-sm mx-3">깨끗한 화장실</button>
+    <button id="tag202" class="tag btn btn-outline btn-warning btn-sm">넓은 매장</button>
   </div>
   <div class="tags flex w-2/5 my-4 justify-center">
-    <button class="tag btn btn-outline btn-warning btn-sm">착한 가격</button>
-    <button class="tag btn btn-outline btn-warning btn-sm mx-3">콘센트</button>
-    <button class="tag btn btn-outline btn-warning btn-sm">디저트</button>
+    <button id="tag300" class="tag btn btn-outline btn-warning btn-sm">착한 가격</button>
+    <button id="tag201" class="tag btn btn-outline btn-warning btn-sm mx-3">콘센트</button>
+    <button id="tag301" class="tag btn btn-outline btn-warning btn-sm">디저트</button>
   </div>
   <div class="tags flex w-2/5 my-4 justify-center">
-    <button class="tag btn btn-outline btn-warning btn-sm mr-3">쿠폰적립</button>
-    <button class="tag btn btn-outline btn-warning btn-sm">친절한 매장</button>
+    <button id="tag400" class="tag btn btn-outline btn-warning btn-sm mr-3">쿠폰적립</button>
+    <button id="tag401" class="tag btn btn-outline btn-warning btn-sm">친절한 매장</button>
   </div>
   <script>
     const tagContainer = document.getElementById('tagContainer');
+<<<<<<< HEAD
+    var selectedBtnCount = 0;
+    const tagCountMap = new Map();  // 태그ID와 카운트를 저장할 Map 객체
+=======
     var selectedBtn = [];
 
+>>>>>>> main
     tagContainer.addEventListener('click', function (e){
 
       if (e.target.classList.contains('tag')){
+        const tagId = e.target.id;
+        if (!tagCountMap.has(tagId)){
+          tagCountMap.set(tagId, 0);
+        }
+        const count = tagCountMap.get(tagId);
         // 버튼 활성화 상태에 따라 count 증감
         if (!e.target.classList.contains('btn-active')) {
           // 이미 5개 선택한 경우
@@ -34,6 +45,15 @@
             return;
           }
           e.target.classList.add('btn-active');
+<<<<<<< HEAD
+          selectedBtnCount++;
+          tagCountMap.set(tagId, count + 1);
+        }
+        else {
+          e.target.classList.remove('btn-active');
+          selectedBtnCount--;
+          tagCountMap.set(tagId, count - 1);
+=======
           selectedBtn.push(e.target.innerHTML);
         }
         else {
@@ -44,9 +64,11 @@
               i--;
             }
           }
+>>>>>>> main
         }
       }
     });
+
   </script>
 </div>
 </html>
