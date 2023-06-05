@@ -4,6 +4,8 @@ import com.ll.beansight.base.rq.Rq;
 import com.ll.beansight.base.rsData.RsData;
 import com.ll.beansight.boundedContext.member.entity.Member;
 import com.ll.beansight.boundedContext.member.service.MemberService;
+import com.ll.beansight.boundedContext.tag.entity.Tag;
+import com.ll.beansight.boundedContext.tag.service.TagService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -12,6 +14,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+    private final TagService tagService;
     private final Rq rq;
 
 
@@ -47,7 +51,12 @@ public class MemberController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/wish") // 카페 성향 선택 페이지
-    public String showWish() { return "usr/member/wish";}
+    public String showWish(Model model) {
+        List<Tag> tagList = tagService.getTagList();
+
+        model.addAttribute("tagList", tagList);
+
+        return "usr/member/wish";}
 
     @AllArgsConstructor
     @Getter
@@ -58,8 +67,8 @@ public class MemberController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/wish") // 카페 성향 선택 후 설정
     public String wish(@Valid WishForm wishForm) {
+        // Tag들의 ID를 배열로 저장
         List<String> selectedTags = List.of(wishForm.getSelectedTags().split(","));
-        System.out.println(selectedTags);
         memberService.updateMemberTagList(rq.getMember(), selectedTags);
         return rq.redirectWithMsg("/", "hi");
     }
