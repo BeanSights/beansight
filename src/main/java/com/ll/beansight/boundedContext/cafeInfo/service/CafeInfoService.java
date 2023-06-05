@@ -4,6 +4,7 @@ import com.ll.beansight.base.api.dto.DocumentDTO;
 import com.ll.beansight.base.api.service.KakaoSearchService;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
 import com.ll.beansight.boundedContext.cafeInfo.repository.CafeInfoRepository;
+import com.ll.beansight.boundedContext.review.entity.CafeReview;
 import com.ll.beansight.boundedContext.search.entity.Cafe;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,4 +48,17 @@ public class CafeInfoService {
                 .build();
         return cafeInfoRepository.save(cafeInfo);
     }
+
+    @Transactional
+    public void whenAfterWriteReview(CafeReview review) {
+        Optional<CafeInfo> cafeInfo = cafeInfoRepository.findByCafeId(review.getCafe().getId());
+
+    }
+
+    public void whenAfterCancelReview(CafeReview review) {
+    }
+
+    public void whenAfterModifyTagType(CafeReview review, int oldTagTypeCode) {
+    }
 }
+

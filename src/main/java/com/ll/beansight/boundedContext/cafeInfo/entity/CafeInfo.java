@@ -32,7 +32,6 @@ public class CafeInfo extends CafeInfoBase {
 
 
     @OneToMany(mappedBy = "cafeInfo", cascade = {CascadeType.ALL})
-    @OrderBy("id desc")
     @Builder.Default
     private List<Tag> cafeTag = new ArrayList<>(); //태그 종류
 
