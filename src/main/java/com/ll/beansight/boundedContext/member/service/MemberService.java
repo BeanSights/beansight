@@ -3,12 +3,16 @@ package com.ll.beansight.boundedContext.member.service;
 import com.ll.beansight.base.rsData.RsData;
 import com.ll.beansight.boundedContext.member.entity.Member;
 import com.ll.beansight.boundedContext.member.repository.MemberRepository;
+import com.ll.beansight.boundedContext.tag.entity.Tag;
+import com.ll.beansight.boundedContext.tag.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +22,8 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     private final MemberRepository memberRepository;
+
+    private final TagRepository tagRepository;
 
     public Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
@@ -61,5 +67,31 @@ public class MemberService {
 
         // 소셜 로그인를 통한 가입시 비번은 없다.
         return join(providerTypeCode, username, ""); // 최초 로그인 시 딱 한번 실행
+    }
+
+    @Transactional
+    public RsData<String> updateMemberTagList(Member member, List<String> tagList) {
+
+        List<String> memberTagList = new LinkedList<>();
+
+        // 태그 이름들 확인
+        for (Tag tag : member.getTagList()) {
+            memberTagList.add(tag.getTagName());
+        }
+        System.out.println(memberTagList);
+
+        for (String tagName : tagList) {
+            if (memberTagList.contains(tagName)) continue;
+
+            Tag newTag = new Tag();
+            newTag.setTagName(tagName);
+
+            tagRepository.save(newTag);
+            member.getTagList().add(newTag);
+        }
+
+        memberRepository.save(member);
+
+        return RsData.of("S-1", "성공");
     }
 }
