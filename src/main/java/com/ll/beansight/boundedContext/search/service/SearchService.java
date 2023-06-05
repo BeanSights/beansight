@@ -57,7 +57,7 @@ public class SearchService {
         Stream<CafeInfo> cafeInfos = cafeInfoRepository.findAll().stream();
 
         for(int tag : filterRequest.getTags()){
-            cafeInfos = cafeInfos.filter(cafeInfo -> cafeInfo.getCafeTag().equals(tag)); // 임시로
+//            cafeInfos = cafeInfos.filter(cafeInfo -> cafeInfo.getCafeTag().equals(tag)); // 임시로
         }
         return cafeInfos.toList();
     }

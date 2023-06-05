@@ -12,10 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class TagService {
     private final TagRepository tagRepository;
-    public RsData<Tag> setTag(String tagCode) {
+    public RsData<Tag> setTag(Long tagId, String tagName) {
         Tag tag = Tag
                 .builder()
-                .tagName(tagCode)
+                .tagId(tagId)
+                .tagName(tagName)
                 .build();
 
         tagRepository.save(tag);
