@@ -48,7 +48,8 @@
                                 <span class="card-title flex"><img class="w-10 h-10"
                                                                    src="https://cdn-icons-png.flaticon.com/128/2065/2065224.png"
                                                                    alt="text">이 카페에 대한 태그와 리뷰를 달아주세요.
-                                    <a class="ml-auto btn btn-warning" th:href="@{/cafeInfo/review(cafeId=${cafeInfo.cafeId})}">리뷰 남기기</a>
+                                    <a class="ml-auto btn btn-warning"
+                                       th:href="@{/cafeInfo/review(cafeId=${cafeInfo.cafeId})}">리뷰 남기기</a>
                                     <label for="modal" class="p-1 btn btn-warning">찜하기 <i
                                             class="text-pink-500 fa-regular fa-heart"></i></label>
                                 </span>
@@ -60,29 +61,36 @@
                     <div class="mt-4 flex-col gap-4">
                         <div class="card bg-base-100 shadow-xl">
                             <div class="card-body">
-                                <div>전체 (여기에 리뷰 갯수)</div>
+                                <div th:text="|전체 (${cafeInfo.cafeReview.size()})|"></div>
                                 <div class="mt-4">
                                     <span class="badge badge-accent badge-lg"><i class="fa-solid fa-thumbs-up"></i> 깨끗해요</span>
                                     <span class="badge badge-accent badge-lg"><i
                                             class="fa-solid fa-thumbs-up"></i>스터디</span>
                                 </div>
+
                                 <div class="divider"></div>
+
                                 <!--여기 반복문으로   -->
-                                <div>닉네임 createDate</div>
-                                <div>
-                                    <i class="p-2 fa-solid fa-thumbs-up"></i>
-                                    <span class="badge badge-accent badge-outline">깨끗해요</span>
-                                    <span class="badge badge-accent badge-outline">스터디</span>
+                                <div th:if="${!cafeInfo.cafeReview.isEmpty()}">
+                                    <div th:each="review : ${cafeInfo.cafeReview}">
+                                        <div th:text="${review.}">닉네임 createDate</div>
+                                        <div>
+                                            <i class="p-2 fa-solid fa-thumbs-up"></i>
+                                            <span class="badge badge-accent badge-outline">깨끗해요</span>
+                                            <span class="badge badge-accent badge-outline">스터디</span>
+                                        </div>
+                                        <div>리뷰 내용</div>
+                                        <div class="divider"></div>
+
+                                        <div>닉네임 createDate</div>
+                                        <div>
+                                            <i class="p-2 fa-solid fa-thumbs-up"></i>
+                                            <span class="badge badge-accent badge-outline">깨끗해요</span>
+                                            <span class="badge badge-accent badge-outline">스터디</span>
+                                        </div>
+                                        <div>리뷰 내용</div>
+                                    </div>
                                 </div>
-                                <div>리뷰 내용</div>
-                                <div class="divider"></div>
-                                <div>닉네임 createDate</div>
-                                <div>
-                                    <i class="p-2 fa-solid fa-thumbs-up"></i>
-                                    <span class="badge badge-accent badge-outline">깨끗해요</span>
-                                    <span class="badge badge-accent badge-outline">스터디</span>
-                                </div>
-                                <div>리뷰 내용</div>
 
                             </div>
                         </div>
@@ -101,15 +109,15 @@
                 <div class="form-control">
                     <label class="cursor-pointer label">
                         <span class="label-text">스터디하기 좋은 곳</span>
-                        <input type="checkbox"  class="checkbox checkbox-warning" />
+                        <input type="checkbox" class="checkbox checkbox-warning"/>
                     </label>
                     <label class="cursor-pointer label">
                         <span class="label-text">디저트가 맛있는 곳</span>
-                        <input type="checkbox"  class="checkbox checkbox-warning" />
+                        <input type="checkbox" class="checkbox checkbox-warning"/>
                     </label>
                     <label class="cursor-pointer label">
                         <span class="label-text">우리집에서 가까운 곳</span>
-                        <input type="checkbox"  class="checkbox checkbox-warning" />
+                        <input type="checkbox" class="checkbox checkbox-warning"/>
                     </label>
                 </div>
                 <button class="btn btn-wide btn-warning">추가하기</button>
