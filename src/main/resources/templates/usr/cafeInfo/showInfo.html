@@ -73,7 +73,10 @@
                                 <!--여기 반복문으로   -->
                                 <div th:if="${!cafeInfo.cafeReview.isEmpty()}">
                                     <div th:each="review : ${cafeInfo.cafeReview}">
-                                        <div th:text="${review.}">닉네임 createDate</div>
+                                        <div>
+                                            <span th:text="|${review.member.username} |"></span>
+                                            <span class="text-warning" th:text="${review.member.createDate}"></span>
+                                        </div>
                                         <div>
                                             <i class="p-2 fa-solid fa-thumbs-up"></i>
                                             <span class="badge badge-accent badge-outline">깨끗해요</span>
