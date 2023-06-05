@@ -22,20 +22,18 @@ public class NotProd {
             @Override
             @Transactional
             public void run(String... args) throws Exception {
-//                tagService.setTag("100");
-//                tagService.setTag("101");
-//                tagService.setTag("102");
-//                tagService.setTag("103");
-//                tagService.setTag("200");
-//                tagService.setTag("201");
-//                tagService.setTag("202");
-//                tagService.setTag("203");
-//                tagService.setTag("300");
-//                tagService.setTag("301");
-//                tagService.setTag("400");
-//                tagService.setTag("401");
-//                tagService.setTag("tagUp");
-//                tagService.setTag("tagDown");
+                tagService.setTag(100L, "대화하기 좋은");
+                tagService.setTag(101L, "깔끔한");
+                tagService.setTag(102L, "인스타감성");
+                tagService.setTag(103L, "스터디");
+                tagService.setTag(200L, "주차장");
+                tagService.setTag(201L, "콘센트");
+                tagService.setTag(202L, "넓은 매장");
+                tagService.setTag(203L, "깨끗한 화장실");
+                tagService.setTag(300L, "착한 가격");
+                tagService.setTag(301L, "디저트");
+                tagService.setTag(400L, "쿠폰적립");
+                tagService.setTag(401L, "친절한 매장");
             }
         };
     }
