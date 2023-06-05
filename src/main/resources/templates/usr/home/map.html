@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!--    AJAX을 사용하기 위한-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <style>
         html, body {
             width: 100%;
@@ -641,19 +642,27 @@
     // 카페 다중 필터링 검색.
     $(document).ready(function() {
         $("input[type='checkbox']").change(function() {
+
+
+
             keywordClicked = false;
             var selectedcafeType = [];
-
+            // 중앙 좌표
+            let latlng = map.getCenter();
             $("input[name='cafeType']:checked").each(function() {
                 selectedcafeType.push($(this).val());
             });
 
             $.ajax({
-                url: '/search/filter/?x=' + latlng.getLng() + '&y=' + latlng.getLat(),
+                url: '/search/filter',
                 type: 'POST',
-                data: {
+                data: JSON.stringify({
+                    'x': latlng.getLng(),
+                    'y': latlng.getLat(),
                     'cafeType': selectedcafeType
-                },
+                }),
+
+                contentType: 'application/json; charset=utf-8',
                 success: function(data) {
                     console.log("Data sent to the server.");
                 },

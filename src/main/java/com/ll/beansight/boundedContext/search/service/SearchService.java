@@ -53,12 +53,4 @@ public class SearchService {
     }
 
     // 필터링
-    public List<CafeInfo> filterByTags(SearchController.FilterRequest filterRequest) {
-        Stream<CafeInfo> cafeInfos = cafeInfoRepository.findAll().stream();
-
-        for(int tag : filterRequest.getTags()){
-//            cafeInfos = cafeInfos.filter(cafeInfo -> cafeInfo.getCafeTag().equals(tag)); // 임시로
-        }
-        return cafeInfos.toList();
-    }
 }
