@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -22,5 +24,9 @@ public class TagService {
         tagRepository.save(tag);
 
         return RsData.of("S-1", "태그가 생성되었습니다.", tag);
+    }
+
+    public List<Tag> getTagList() {
+        return tagRepository.findAll();
     }
 }

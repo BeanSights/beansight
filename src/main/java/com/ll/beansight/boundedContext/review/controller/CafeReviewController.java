@@ -4,8 +4,9 @@ import com.ll.beansight.base.rq.Rq;
 import com.ll.beansight.base.rsData.RsData;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
 import com.ll.beansight.boundedContext.cafeInfo.service.CafeInfoService;
-import com.ll.beansight.boundedContext.member.entity.Member;
 import com.ll.beansight.boundedContext.review.service.CafeReviewService;
+import com.ll.beansight.boundedContext.tag.entity.Tag;
+import com.ll.beansight.boundedContext.tag.service.TagService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -26,15 +27,20 @@ import java.util.*;
 public class CafeReviewController {
     private final CafeReviewService cafeReviewService;
     private final CafeInfoService cafeInfoService;
+    private final TagService tagService;
     private final Rq rq;
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/review") // 리뷰 작성 페이지
     public String cafeReview(@RequestParam("cafeId") Long cafeId, Model model) {
         Optional<CafeInfo> cafeInfo = cafeInfoService.findByCafeId(cafeId);
+        List<Tag> tagList = tagService.getTagList();
+
         if (cafeInfo.isPresent()){
             CafeInfo info = cafeInfo.get();
             model.addAttribute("cafeInfo", info);
+            model.addAttribute("tagList", tagList);
         }
+
         return "usr/cafeInfo/review";
     }
 
@@ -55,72 +61,7 @@ public class CafeReviewController {
             ) { // 매개변수 카페정보 추가해서 write 메서드에 넘겨줘야함
         List<String> tagCounts = Arrays.asList(req.getParameterValues("tagCount"));
         Map<String, String> cafeTags = new HashMap<>();
-        for (int i = 0; i < tagCounts.size(); i++) {
-            String tagCount = tagCounts.get(i);
-            String tagId = ""; // 태그 ID를 저장할 변수 선언
-            switch (i) {
-                case 0:
-                    tagId = "100";
-                    cafeTags.put(tagId, tagCount);
-                    break;
-                case 1:
-                    tagId = "101";
-                    cafeTags.put(tagId, tagCount);
-                    break;
-                case 2:
-                    tagId = "102";
-                    cafeTags.put(tagId, tagCount);
-                    break;
-                case 3:
-                    tagId = "103";
-                    cafeTags.put(tagId, tagCount);
-                    break;
-                case 4:
-                    tagId = "200";
-                    cafeTags.put(tagId, tagCount);
-                    break;
-                case 5:
-                    tagId = "203";
-                    cafeTags.put(tagId, tagCount);
-                    break;
-                case 6:
-                    tagId = "202";
-                    cafeTags.put(tagId, tagCount);
-                    break;
-                case 7:
-                    tagId = "300";
-                    cafeTags.put(tagId, tagCount);
-                    break;
-                case 8:
-                    tagId = "201";
-                    cafeTags.put(tagId, tagCount);
-                    break;
-                case 9:
-                    tagId = "301";
-                    cafeTags.put(tagId, tagCount);
-                    break;
-                case 10:
-                    tagId = "400";
-                    cafeTags.put(tagId, tagCount);
-                    break;
-                case 11:
-                    tagId = "401";
-                    cafeTags.put(tagId, tagCount);
-                    break;
-                case 12:
-                    tagId = "tagUp";
-                    cafeTags.put(tagId, tagCount);
-                    break;
-                case 13:
-                    tagId = "tagDown";
-                    cafeTags.put(tagId, tagCount);
-                    break;
-                default:
-                    tagId = "";
-                    cafeTags.put(tagId, null);
-                    break;
-            }
-        }
+
 
         RsData<CafeInfo> reviewRs = cafeReviewService.write(cafeId, reviewForm.getContent(), rq.getMember().getId());
         Optional<CafeInfo> cafeInfo = cafeInfoService.findByCafeId(cafeId);

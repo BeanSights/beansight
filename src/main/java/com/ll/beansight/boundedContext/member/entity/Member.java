@@ -1,20 +1,16 @@
 package com.ll.beansight.boundedContext.member.entity;
 
 import com.ll.beansight.base.baseEntity.BaseEntity;
+import com.ll.beansight.boundedContext.review.entity.CafeReview;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Builder // Member.builder().providerTypeCode(providerTypeCode) .. 이런식으로 쓸 수 있게 해주는
 @NoArgsConstructor // @Builder 붙이면 이거 필수
@@ -30,6 +26,8 @@ public class Member extends BaseEntity {
     private String password;
     @OneToMany
     private List<Tag> memberTagList;
+    @OneToMany
+    private List<CafeReview> cafeReviewList;
 
     // 이 함수 자체는 만들어야 한다. 스프링 시큐리티 규격
     public List<? extends GrantedAuthority> getGrantedAuthorities() {
