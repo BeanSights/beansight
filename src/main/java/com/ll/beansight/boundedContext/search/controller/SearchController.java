@@ -55,17 +55,13 @@ public class SearchController {
     }
 
     // 필터링 기능
-    @PostMapping("filter/{keyword}")
+    @PostMapping("filter")
     public RsData<List<DocumentDTO>> filter(Model model,
                                                  @RequestParam(defaultValue = "126.97890911337976") double x, @RequestParam(defaultValue = "37.571150829509854") double y,
-                                            @RequestBody FilterRequest filterRequest){
-
-        List<CafeInfo> cafeInfos = searchService.filterByTags(filterRequest);
-        if(cafeInfos.size() == 0){
-            return RsData.of("F-1", "검색된 결과가 없습니다.");
+                                            @RequestParam("cafeType") List<String> cafeType){
+        for(String a : cafeType){
+            System.out.println(a);
         }
-
-
 
         return RsData.of("S-1", "필터링 성공");
     }

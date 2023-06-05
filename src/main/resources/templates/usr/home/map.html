@@ -649,7 +649,7 @@
             });
 
             $.ajax({
-                url: '/submit',
+                url: '/search/filter/?x=' + latlng.getLng() + '&y=' + latlng.getLat(),
                 type: 'POST',
                 data: {
                     'cafeType': selectedcafeType

@@ -22,8 +22,8 @@ public class CafeReview extends BaseEntity {
     private String content;
     @ManyToOne
     private Cafe cafe;
-    @OneToMany(mappedBy = "cafeReview", cascade = CascadeType.REMOVE)
-    private List<Tag> tagList;
+//    @OneToMany(mappedBy = "cafeReview", cascade = CascadeType.REMOVE)
+//    private List<Tag> tagList;
     @ManyToOne
     @ToString.Exclude
     private CafeInfo cafeInfo;
