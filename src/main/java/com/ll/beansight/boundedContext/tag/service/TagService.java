@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,10 @@ public class TagService {
         tagRepository.save(tag);
 
         return RsData.of("S-1", "태그가 생성되었습니다.", tag);
+    }
+
+    public Optional<Tag> getTag(Long tagId){
+        return tagRepository.findById(tagId);
     }
 
     public List<Tag> getTagList() {

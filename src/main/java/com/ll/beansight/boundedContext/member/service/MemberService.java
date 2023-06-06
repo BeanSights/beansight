@@ -93,4 +93,8 @@ public class MemberService {
 
         return RsData.of("S-1", "성공");
     }
+
+    public Optional<Member> findByMemberId(Long memberId) {
+        return memberRepository.findById(memberId);
+    }
 }

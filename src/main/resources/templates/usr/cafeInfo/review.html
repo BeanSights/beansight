@@ -20,29 +20,16 @@
             <div class="w-full h-20">
                 <textarea class="textarea textarea-warning w-full h-20" name="content" maxlength="30" placeholder="리뷰를 작성해 주세요..!"></textarea>
             </div>
+            <!-- 선택된 태그의 값을 전송할 hidden input 필드 -->
+            <input type="hidden" id="selectedTags" name="selectedTags" />
             <div>
                 <input type="submit" value="작성완료" class="btn btn-warning btn-active">
                 <input id="cancel" type="button" value="뒤로가기" class="btn btn-warning btn-active">
             </div>
-            <!-- hidden input 요소를 사용하여 각 태그의 카운트 값을 전달 -->
-            <input type="hidden" name="tagCount" data-tag-id="tag100">
-            <input type="hidden" name="tagCount" data-tag-id="tag101">
-            <input type="hidden" name="tagCount" data-tag-id="tag102">
-            <input type="hidden" name="tagCount" data-tag-id="tag103">
-            <input type="hidden" name="tagCount" data-tag-id="tag200">
-            <input type="hidden" name="tagCount" data-tag-id="tag201">
-            <input type="hidden" name="tagCount" data-tag-id="tag202">
-            <input type="hidden" name="tagCount" data-tag-id="tag203">
-            <input type="hidden" name="tagCount" data-tag-id="tag300">
-            <input type="hidden" name="tagCount" data-tag-id="tag301">
-            <input type="hidden" name="tagCount" data-tag-id="tag400">
-            <input type="hidden" name="tagCount" data-tag-id="tag401">
-            <input type="hidden" name="tagCount" data-tag-id="tagUp">
-            <input type="hidden" name="tagCount" data-tag-id="tagDown">
         </form>
     </div>
 </div>
-<script>
+<script th:inline="javascript">
     const thumbContainer = document.getElementById('thumbContainer');
     const tagUpButton = document.getElementById('tagUp');
     const tagDownButton = document.getElementById('tagDown');
@@ -69,8 +56,11 @@
     });
 
     function ReviewForm__submit(form) {
-        // content 이(가) 올바른지 체크
+        // 선택된 태그의 값을 폼 데이터에 추가
+        const selectedTagsInput = document.getElementById('selectedTags');
+        selectedTagsInput.value = JSON.stringify(selectedTags);
 
+        // content 이(가) 올바른지 체크
         form.content.value = form.content.value.trim(); // 입력란의 입력값에 있을지 모르는 좌우공백제거
 
         if (form.content.value.length === 0) {
