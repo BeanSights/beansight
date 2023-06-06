@@ -29,7 +29,7 @@ public class SearchController {
     private final SearchService searchService;
 
     // 거리순으로 카페 불러오는
-    @GetMapping("near-cafe")
+    @GetMapping("/near-cafe")
     public String nearCafe(Model model, @RequestParam(defaultValue = "126.97890911337976") double x,
                            @RequestParam(defaultValue = "37.571150829509854") double y){
         List<DocumentDTO> nearCafeResponse = searchService.nearSearch(x, y);
@@ -38,7 +38,7 @@ public class SearchController {
     }
 
     // 키워드로 카페 불러오는
-    @GetMapping("keyword/{keyword}")
+    @GetMapping("/keyword/{keyword}")
     public ResponseEntity<RsData> keywordCafe(@PathVariable String keyword, Model model,
                                               @RequestParam(defaultValue = "126.97890911337976") double x, @RequestParam(defaultValue = "37.571150829509854") double y){
         if(keyword.length()==0){
@@ -55,19 +55,27 @@ public class SearchController {
     }
 
     // 필터링 기능
-    @PostMapping("filter")
-    public RsData<List<DocumentDTO>> filter(Model model,
-                                                 @RequestParam(defaultValue = "126.97890911337976") double x, @RequestParam(defaultValue = "37.571150829509854") double y,
-                                            @RequestParam("cafeType") List<String> cafeType){
-        for(String a : cafeType){
-            System.out.println(a);
+    @PostMapping("/filter")
+    public ResponseEntity<RsData> filter(@RequestBody CafeFilterRequest request){
+        System.out.println("Received x: " + request.x);
+        System.out.println("Received y: " + request.y);
+        System.out.println("Received cafeType: " + request.cafeType);
+        // 태그 기준으로 1차 필터링
+        List<CafeInfo> cafeInfoTagFilterList = searchService.tagFilter(request.cafeType);
+        if(cafeInfoTagFilterList.size() == 0){
+            return Ut.spring.responseEntityOf(RsData.of("F-1", "필터링된 결과가 없습니다."));
         }
-
-        return RsData.of("S-1", "필터링 성공");
+        // 카페 거리순 2차 필터링
+        List<CafeInfo> cafeInfoDistanceFilterList = searchService.distanceFilter(cafeInfoTagFilterList, request.x, request.y);
+        if(cafeInfoDistanceFilterList.size() == 0){
+            return Ut.spring.responseEntityOf(RsData.of("F-1", "주변에 필터링된 카페가 없습니다."));
+        }
+        return Ut.spring.responseEntityOf(RsData.of("S-1", "키워드로 장소 검색 성공"));
     }
 
-    @Data
-    public static class FilterRequest {
-        private List<Integer> tags;
+    public static class CafeFilterRequest {
+        public double x;
+        public double y;
+        public List<String> cafeType;
     }
 }
