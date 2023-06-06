@@ -23,6 +23,6 @@ public class CafeTag extends BaseEntity {
     private Tag tagId;
 
     @ManyToOne
-    private CafeInfo cafeId;
+    private CafeInfo cafeInfo;
 
 }
