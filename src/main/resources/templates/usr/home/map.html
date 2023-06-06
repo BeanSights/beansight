@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!--    AJAX을 사용하기 위한-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <style>
         html, body {
             width: 100%;
@@ -114,6 +115,30 @@
         .radius_border {
             border: 1px solid #919191;
             border-radius: 5px;
+        }
+
+        .custom_currentcontrol {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            overflow: hidden;
+            width: 85px;
+            height: 80px;
+            margin: 0;
+            padding: 0;
+            z-index: 1;
+            font-size: 12px;
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+        }
+
+        .custom_currentcontrol span {
+            display: block;
+            width: 65px;
+            height: 30px;
+            float: left;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
         }
 
         .custom_typecontrol {
@@ -349,154 +374,6 @@
             z-index: 2;
         }
 
-        #category li {
-            float: left;
-            list-style: none;
-            width: 50px;
-            px;
-            border-right: 1px solid #acacac;
-            padding: 6px 0;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        #category li.on {
-            background: #eee;
-        }
-
-        #category li:hover {
-            background: #ffe6e6;
-            border-left: 1px solid #acacac;
-            margin-left: -1px;
-        }
-
-        #category li:last-child {
-            margin-right: 0;
-            border-right: 0;
-        }
-
-        #category li span {
-            display: block;
-            margin: 0 auto 3px;
-            width: 27px;
-            height: 28px;
-        }
-
-        #category li .category_bg {
-            background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png) no-repeat;
-        }
-
-        #category li .bank {
-            background-position: -10px 0;
-        }
-
-        #category li .mart {
-            background-position: -10px -36px;
-        }
-
-        #category li .pharmacy {
-            background-position: -10px -72px;
-        }
-
-        #category li .oil {
-            background-position: -10px -108px;
-        }
-
-        #category li .cafe {
-            background-position: -10px -144px;
-        }
-
-        #category li .store {
-            background-position: -10px -180px;
-        }
-
-        #category li.on .category_bg {
-            background-position-x: -46px;
-        }
-
-        .placeinfo_wrap {
-            position: absolute;
-            bottom: 28px;
-            left: -150px;
-            width: 300px;
-        }
-
-        .placeinfo {
-            position: relative;
-            width: 100%;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 10px;
-            background: #fff;
-        }
-
-        .placeinfo:nth-of-type(n) {
-            border: 0;
-            box-shadow: 0px 1px 2px #888;
-        }
-
-        .placeinfo_wrap .after {
-            content: '';
-            position: relative;
-            margin-left: -12px;
-            left: 50%;
-            width: 22px;
-            height: 12px;
-            background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
-        }
-
-        .placeinfo a, .placeinfo a:hover, .placeinfo a:active {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .placeinfo a, .placeinfo span {
-            display: block;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-
-        .placeinfo span {
-            margin: 5px 5px 0 5px;
-            cursor: default;
-            font-size: 13px;
-        }
-
-        .placeinfo .title {
-            font-weight: bold;
-            font-size: 14px;
-            border-radius: 6px 6px 0 0;
-            margin: -1px -1px 0 -1px;
-            padding: 10px;
-            color: #fff;
-            background: #d95050;
-            background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
-        }
-
-        .placeinfo .tel {
-            color: #0f7833;
-        }
-
-        .placeinfo .jibun {
-            color: #999;
-            font-size: 11px;
-            margin-top: 0;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.25em 0.4em;
-            font-size: 75%;
-            font-weight: 700;
-            line-height: 1;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: baseline;
-            border-radius: 0.25rem;
-            transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-        }
     </style>
 </head>
 <body>
@@ -574,8 +451,9 @@
         </label>
     </form>
 </div>
-
-
+<div class="custom_currentcontrol radius_border">
+    <span id="currentPosition" class="btn">현위치</span>
+</div>
 <div class="custom_typecontrol radius_border">
     <span id="btnSearch" class="btn">검색</span>
 </div>
@@ -596,6 +474,7 @@
 
     var btnSearch = document.getElementById('btnSearch');
     var keywordSearch = document.getElementById('search-button');
+    var currentPosition = document.getElementById('currentPosition');
     map.relayout();
 
     // 모든 마커들을 담는 배열.
@@ -603,6 +482,20 @@
     // 모든 infoewindows를 담는 배열.
     var infowindows = [];
     var keywordClicked = true;
+
+    // 사용자가 서비스를 이용하고 있는 위치로 지도를 이동하는 기능
+    currentPosition.addEventListener('click', function () {
+
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const { latitude, longitude } = position.coords;
+
+            // 지도를 이동시킬 위치를 생성합니다
+            const moveLatLon = new kakao.maps.LatLng(latitude, longitude);
+
+            // 지도 중심을 부드럽게 이동시킵니다
+            map.panTo(moveLatLon);
+        });
+    });
 
     // 키워드 검색
     keywordSearch.addEventListener('click', function () {
@@ -643,17 +536,23 @@
         $("input[type='checkbox']").change(function() {
             keywordClicked = false;
             var selectedcafeType = [];
-
+            clearMarkersAndInfoWindows()
+            // 중앙 좌표
+            let latlng = map.getCenter();
             $("input[name='cafeType']:checked").each(function() {
                 selectedcafeType.push($(this).val());
             });
 
             $.ajax({
-                url: '/search/filter/?x=' + latlng.getLng() + '&y=' + latlng.getLat(),
+                url: '/search/filter',
                 type: 'POST',
-                data: {
+                data: JSON.stringify({
+                    'x': latlng.getLng(),
+                    'y': latlng.getLat(),
                     'cafeType': selectedcafeType
-                },
+                }),
+
+                contentType: 'application/json; charset=utf-8',
                 success: function(data) {
                     console.log("Data sent to the server.");
                 },
