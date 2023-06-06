@@ -1,13 +1,18 @@
 package com.ll.beansight.boundedContext.review.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.beansight.base.rq.Rq;
 import com.ll.beansight.base.rsData.RsData;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
 import com.ll.beansight.boundedContext.cafeInfo.service.CafeInfoService;
+import com.ll.beansight.boundedContext.review.entity.CafeReview;
 import com.ll.beansight.boundedContext.review.service.CafeReviewService;
+import com.ll.beansight.boundedContext.tag.entity.ReviewTag;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
+import com.ll.beansight.boundedContext.tag.service.ReviewTagService;
 import com.ll.beansight.boundedContext.tag.service.TagService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -28,6 +33,7 @@ public class CafeReviewController {
     private final CafeReviewService cafeReviewService;
     private final CafeInfoService cafeInfoService;
     private final TagService tagService;
+    private final ReviewTagService reviewTagService;
     private final Rq rq;
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/review") // 리뷰 작성 페이지
@@ -40,8 +46,6 @@ public class CafeReviewController {
             model.addAttribute("cafeInfo", info);
             model.addAttribute("tagList", tagList);
         }
-        System.out.println(tagList);
-
         return "usr/cafeInfo/review";
     }
 
@@ -56,24 +60,48 @@ public class CafeReviewController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/review")
     public String cafeReview(
-            @Valid @ModelAttribute ReviewForm reviewForm,
             @RequestParam("cafeId") Long cafeId,
-            HttpServletRequest req
-            ) { // 매개변수 카페정보 추가해서 write 메서드에 넘겨줘야함
-        Map<String, String> cafeTags = new HashMap<>();
-
-
-        RsData<CafeInfo> reviewRs = cafeReviewService.write(cafeId, reviewForm.getContent(), rq.getMember().getId());
-        Optional<CafeInfo> cafeInfo = cafeInfoService.findByCafeId(cafeId);
-        if (cafeInfo.isEmpty()){
-            return rq.historyBack(reviewRs);
+            @Valid @ModelAttribute ReviewForm reviewForm,
+            @RequestParam("selectedTags") String selectedTagsJson
+            ) {
+        List<Map<String, String>> selectedTags = new ArrayList<>();
+        try{
+            selectedTags = new ObjectMapper().readValue(selectedTagsJson, new TypeReference<List<Map<String, String>>>() {});
+        } catch (JsonProcessingException e){
+            e.printStackTrace();;
         }
-        if (reviewRs.isFail()) {
+
+
+        List<ReviewTag> reviewTags = new ArrayList<>();
+
+        if (selectedTags != null) {
+            for (Map<String, String> selectedTag : selectedTags) {
+                Long tagId = Long.valueOf(selectedTag.get("tagId"));
+                Optional<Tag> tag = tagService.getTag(tagId);
+                if (tag.isEmpty()){
+                    return null;
+                }
+                ReviewTag reviewTag = new ReviewTag();
+                reviewTag.setTag(tag.get());
+                reviewTags.add(reviewTag);
+            }
+        }
+        RsData<CafeReview> reviewRs = cafeReviewService.write(cafeId, rq.getMember().getId(), reviewForm.getContent());
+        if (reviewRs.isSuccess()){
+            CafeReview cafeReview = reviewRs.getData();
+            for (ReviewTag reviewTag : reviewTags){
+                reviewTag.setCafeReview(cafeReview);
+            }
+            reviewTagService.add(reviewTags);
+        } else {
             // 뒤로가기 하고 거기서 메세지 보여줘
             return rq.historyBack(reviewRs);
         }
 
-        System.out.println(cafeTags);
+        Optional<CafeInfo> cafeInfo = cafeInfoService.findByCafeId(cafeId);
+        if (cafeInfo.isEmpty()){
+            return rq.historyBack(reviewRs);
+        }
 
         // 아래 링크로 리다이렉트(302, 이동) 하고 그 페이지에서 메세지 보여줘
         return rq.redirectWithMsg("/cafeInfo?x=" + cafeInfo.get().getX() + "&y=" + cafeInfo.get().getY(), reviewRs);

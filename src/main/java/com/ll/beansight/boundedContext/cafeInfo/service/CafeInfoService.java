@@ -51,7 +51,7 @@ public class CafeInfoService {
 
     @Transactional
     public void whenAfterWriteReview(CafeReview review) {
-        Optional<CafeInfo> cafeInfo = cafeInfoRepository.findByCafeId(review.getCafe().getId());
+        Optional<CafeInfo> cafeInfo = cafeInfoRepository.findByCafeId(review.getCafeInfo().getId());
 
     }
 

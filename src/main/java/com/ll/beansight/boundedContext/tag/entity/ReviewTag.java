@@ -19,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class ReviewTag extends BaseEntity {
     @ManyToOne
-    private Tag tagId;
+    private Tag tag;
 
     @ManyToOne
     private CafeReview cafeReview;
