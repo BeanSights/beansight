@@ -26,7 +26,7 @@ public class CafeInfo extends CafeInfoBase {
     private String cafeAddress;
     private String cafePhoneNumber;
 
-    @OneToMany(mappedBy = "cafeId", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "cafeInfo", cascade = {CascadeType.ALL})
     @Builder.Default
     private List<CafeTag> cafeTags = new ArrayList<>();
 
