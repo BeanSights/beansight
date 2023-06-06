@@ -58,6 +58,15 @@
     function ReviewForm__submit(form) {
         // 선택된 태그의 값을 폼 데이터에 추가
         const selectedTagsInput = document.getElementById('selectedTags');
+
+        // 수정
+        var selectedTags = [];
+
+        selectedBtn.forEach( function(id) {
+            selectedTags.push({tagId:id});
+        })
+        //
+
         selectedTagsInput.value = JSON.stringify(selectedTags);
 
         // content 이(가) 올바른지 체크
