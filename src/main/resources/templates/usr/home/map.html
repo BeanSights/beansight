@@ -483,6 +483,7 @@
     var infowindows = [];
     var keywordClicked = true;
 
+    // 사용자가 서비스를 이용하고 있는 위치로 지도를 이동하는 기능
     currentPosition.addEventListener('click', function () {
 
         navigator.geolocation.getCurrentPosition(function(position) {
