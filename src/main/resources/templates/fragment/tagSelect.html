@@ -6,78 +6,70 @@
             th:id="${tag.tagId}"
             th:text="${tag.tagName}"></button>
   </div>
+<!--  <script>-->
+<!--    const tagContainer = document.getElementById('tagContainer');-->
+<!--    var selectedBtnCount = 0;-->
+<!--    var selectedTags = []; // 선택된 태그 정보를 저장할 배열-->
 
-  <div id="selectedTagContainer" data-selected-tags="${selectedTagList}"></div>
+<!--    tagContainer.addEventListener('click', function (e){-->
+<!--      if (e.target.classList.contains('tag')){-->
+<!--        const tagId = e.target.id;-->
+<!--        const tagName = e.target.textContent.trim();-->
 
-  <script>
-    const tagContainer = document.getElementById('tagContainer');
-    var selectedBtnCount = 0;
-    var selectedTags = []; // 선택된 태그 정보를 저장할 배열
+<!--        // 버튼 활성화 상태에 따라 count 증감-->
+<!--        if (!e.target.classList.contains('btn-active')) {-->
+<!--          // 이미 5개 선택한 경우-->
+<!--          if (selectedBtnCount >= 5) {-->
+<!--            alert('이미 선호 태그를 최대로 선택하셨습니다!!');-->
+<!--            return;-->
+<!--          }-->
+<!--          e.target.classList.add('btn-active');-->
+<!--          selectedBtnCount++;-->
 
-    tagContainer.addEventListener('click', function (e){
-      if (e.target.classList.contains('tag')){
-        const tagId = e.target.id;
-        const tagName = e.target.textContent.trim();
+<!--          // 선택된 태그 정보를 배열에 추가-->
+<!--          selectedTags.push({tagId: tagId, tagName: tagName});-->
+<!--        }-->
+<!--        else {-->
+<!--          e.target.classList.remove('btn-active');-->
+<!--          selectedBtnCount&#45;&#45;;-->
 
-        // 버튼 활성화 상태에 따라 count 증감
-        if (!e.target.classList.contains('btn-active')) {
-          // 이미 5개 선택한 경우
-          if (selectedBtnCount >= 5) {
-            alert('이미 선호 태그를 최대로 선택하셨습니다!!');
-            return;
-          }
-          e.target.classList.add('btn-active');
-          selectedBtnCount++;
+<!--          // 배열에서 해당 태그 정보 제거-->
+<!--          selectedTags = selectedTags.filter(tag => tag.id !== tagId);-->
+<!--        }-->
+<!--      }-->
+<!--    });-->
 
-          // 선택된 태그 정보를 배열에 추가
-          selectedTags.push({tagId: tagId, tagName: tagName});
+<!--  </script>-->
+
+<script th:inline="javascript">
+  const tagContainer = document.getElementById('tagContainer');
+  var selectedBtn = [];
+
+  tagContainer.addEventListener('click', function (e){
+
+    if (e.target.classList.contains('tag')){
+      // 버튼 활성화 상태에 따라 count 증감
+      if (!e.target.classList.contains('btn-active')) {
+        // 이미 5개 선택한 경우
+        if (selectedBtn.length >= 5) {
+          alert('이미 선호 태그를 최대로 선택하셨습니다!!');
+          return;
         }
-        else {
-          e.target.classList.remove('btn-active');
-          selectedBtnCount--;
-
-          // 배열에서 해당 태그 정보 제거
-          selectedTags = selectedTags.filter(tag => tag.id !== tagId);
+        e.target.classList.add('btn-active');
+        selectedBtn.push(e.target.getAttribute("id"));
+      }
+      else {
+        e.target.classList.remove('btn-active');
+        for (var i = 0; i < selectedBtn.length; i++) {
+          if (selectedBtn[i] === e.target.getAttribute("id")) {
+            selectedBtn.splice(i,1);
+            i--;
+          }
         }
       }
-    });
-
-  </script>
-
-<!--<script th:inline="javascript">-->
-<!--  const tagContainer = document.getElementById('tagContainer');-->
-<!--  var selectedBtn = /*[[${selectedTagList}]]*/ [];-->
-
-<!--  selectedBtn.forEach(function(id) {-->
-<!--    var button = document.getElementById(id);-->
-<!--    button.classList.add('btn-active');-->
-<!--  })-->
-
-<!--  tagContainer.addEventListener('click', function (e){-->
-
-<!--    if (e.target.classList.contains('tag')){-->
-<!--      // 버튼 활성화 상태에 따라 count 증감-->
-<!--      if (!e.target.classList.contains('btn-active')) {-->
-<!--        // 이미 5개 선택한 경우-->
-<!--        if (selectedBtn.length >= 5) {-->
-<!--          alert('이미 선호 태그를 최대로 선택하셨습니다!!');-->
-<!--          return;-->
-<!--        }-->
-<!--        e.target.classList.add('btn-active');-->
-<!--        selectedBtn.push(e.target.getAttribute("id"));-->
-<!--      }-->
-<!--      else {-->
-<!--        e.target.classList.remove('btn-active');-->
-<!--        for (var i = 0; i < selectedBtn.length; i++) {-->
-<!--          if (selectedBtn[i] === e.target.getAttribute("id")) {-->
-<!--            selectedBtn.splice(i,1);-->
-<!--            i&#45;&#45;;-->
-<!--          }-->
-<!--        }-->
-<!--      }-->
-<!--    }-->
-<!--  });-->
-<!--</script>-->
+    }
+  });
+</script>
 
 </div>
 </html>

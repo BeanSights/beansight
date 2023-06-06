@@ -18,7 +18,14 @@
         </div>
         <!-- <div class="w-2/5 flex justify-center"> -->
     </div>
-    <script>
+    <script th:inline="javascript">
+        selectedBtn = /*[[${selectedTagList}]]*/ [];
+
+        selectedBtn.forEach(function(id) {
+            var button = document.getElementById(id);
+            button.classList.add('btn-active');
+        })
+
         function wishForm__submit(form) {
 
             var tagField = document.createElement("input");
