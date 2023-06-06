@@ -8,7 +8,7 @@
         <div class="w-3/4 text-center mt-24">
             <div class="text-3xl">당신의 카페 취향을 알려주세요!</div>
             <!-- 성향 체크 fragment -->
-            <div th:replace="fragment/tagSelect::tagSelectFragment"></div>
+            <div th:replace="fragment/tagSelect::tagSelectFragment(${tagList})"></div>
             <form th:action method="POST" class="pt-4 flex flex-col gap-4 w-full items-center" onsubmit="wishForm__submit(this); return false;">
                 <div>
                     <input type="submit" id="submit" value="설정완료" class="btn btn-primary btn-active">
