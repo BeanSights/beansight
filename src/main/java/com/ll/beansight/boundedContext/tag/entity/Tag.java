@@ -18,5 +18,4 @@ public class Tag {
     @Id
     private Long tagId;
     private String tagName;
-
 }

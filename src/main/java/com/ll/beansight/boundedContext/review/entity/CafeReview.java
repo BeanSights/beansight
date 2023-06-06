@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CafeReview extends BaseEntity {
     @ManyToOne
-    private Member memberId;
+    private Member member;
     @Column(length = 100)
     private String content;
     @ManyToOne

@@ -22,5 +22,5 @@ public class MemberTag extends BaseEntity {
     private Tag tagId;
 
     @ManyToOne
-    private Member memberId;
+    private Member member;
 }
