@@ -8,12 +8,19 @@ import com.ll.beansight.boundedContext.cafeInfo.repository.CafeInfoRepository;
 import com.ll.beansight.boundedContext.search.controller.SearchController;
 import com.ll.beansight.boundedContext.search.entity.Cafe;
 import com.ll.beansight.boundedContext.search.repository.CafeRepository;
+import com.ll.beansight.boundedContext.tag.entity.CafeTag;
+import com.ll.beansight.boundedContext.tag.repository.CafeTagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +30,9 @@ public class SearchService {
     private final KakaoSearchService kakaoSearchService;
     private final CafeRepository cafeRepository;
     private final CafeInfoRepository cafeInfoRepository;
+    private final CafeTagRepository cafeTagRepository;
+    // 10KM내에 검색
+    private static final double RADIUS_KM = 10.0;
 
     // 키워드로 카페정보를 불러오는 서비스
     public List<DocumentDTO> keywordSearch(String keyword, double x, double y) {
@@ -52,5 +62,39 @@ public class SearchService {
         }
     }
 
-    // 필터링
+    // 태그 기준으로 필터링
+    public List<CafeInfo> tagFilter(List<String> cafeType) {
+        // 태그들을 Long으로 변환
+        List<Long> tagList = cafeType.stream()
+                .map(Long::parseLong).toList();
+
+        Stream<CafeInfo> cafeInfoStream = cafeTagRepository.findAllByTagId_TagId(tagList.get(0)).stream().map(CafeTag::getCafeInfo);
+        tagList.remove(0);
+        // 필터링 작업.
+        if(tagList.size() != 0){
+            for(Long tag : tagList){
+                cafeInfoStream = cafeInfoStream.filter(e -> cafeTagRepository.existsByTagId_TagIdAndCafeInfo(tag, e));
+            }
+        }
+
+        return cafeInfoStream.toList();
+
+    }
+
+    // 거리 기준으로 필터링
+    public List<CafeInfo> distanceFilter(List<CafeInfo> cafeInfoList, double x, double y) {
+
+        return cafeInfoList.stream().filter(cafe -> calculateDistance(x, y, cafe.getX(), cafe.getY()) <= RADIUS_KM).sorted().limit(15).toList();
+    }
+
+    // 유저와 카페의 거리 계산 알고리즘
+    private double calculateDistance(double userLon, double userLat, double cafeLon, double cafeLat){
+        userLat = Math.toRadians(userLat);
+        userLon = Math.toRadians(userLon);
+        cafeLat = Math.toRadians(cafeLat);
+        cafeLon = Math.toRadians(cafeLon);
+
+        double earthRadius = 6371;
+        return earthRadius * Math.acos(Math.sin(userLat) * Math.sin(cafeLat) + Math.cos(userLat) * Math.cos(cafeLat) * Math.cos(userLon - cafeLon));
+    }
 }

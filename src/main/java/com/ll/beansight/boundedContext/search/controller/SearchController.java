@@ -60,13 +60,22 @@ public class SearchController {
         System.out.println("Received x: " + request.x);
         System.out.println("Received y: " + request.y);
         System.out.println("Received cafeType: " + request.cafeType);
-
+        // 태그 기준으로 1차 필터링
+        List<CafeInfo> cafeInfoTagFilterList = searchService.tagFilter(request.cafeType);
+        if(cafeInfoTagFilterList.size() == 0){
+            return Ut.spring.responseEntityOf(RsData.of("F-1", "필터링된 결과가 없습니다."));
+        }
+        // 카페 거리순 2차 필터링
+        List<CafeInfo> cafeInfoDistanceFilterList = searchService.distanceFilter(cafeInfoTagFilterList, request.x, request.y);
+        if(cafeInfoDistanceFilterList.size() == 0){
+            return Ut.spring.responseEntityOf(RsData.of("F-1", "주변에 필터링된 카페가 없습니다."));
+        }
         return Ut.spring.responseEntityOf(RsData.of("S-1", "키워드로 장소 검색 성공"));
     }
 
     public static class CafeFilterRequest {
-        public Double x;
-        public Double y;
+        public double x;
+        public double y;
         public List<String> cafeType;
     }
 }
