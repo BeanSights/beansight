@@ -72,22 +72,21 @@ public class MemberService {
     @Transactional
     public RsData<String> updateMemberTagList(Member member, List<String> tagList) {
 
-        List<String> memberTagList = new LinkedList<>();
+        List<Long> memberTagList = new LinkedList<>();
 
         // 태그 이름들 확인
         for (Tag tag : member.getMemberTagList()) {
-            memberTagList.add(tag.getTagName());
+            memberTagList.add(tag.getTagId());
         }
         System.out.println(memberTagList);
 
-        for (String tagName : tagList) {
-            if (memberTagList.contains(tagName)) continue;
+        for (String tagId : tagList) {
+            if (memberTagList.contains(tagId)) continue;
 
-            Tag newTag = new Tag();
-            newTag.setTagName(tagName);
+            Optional<Tag> opTag = tagRepository.findById(Long.parseLong(tagId));
 
-            tagRepository.save(newTag);
-            member.getMemberTagList().add(newTag);
+            if (!opTag.isPresent()) return RsData.of("F-1", "실패");
+            member.getMemberTagList().add(opTag.get());
         }
 
         memberRepository.save(member);
