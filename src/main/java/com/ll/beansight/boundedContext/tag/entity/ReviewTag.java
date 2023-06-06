@@ -22,5 +22,5 @@ public class ReviewTag extends BaseEntity {
     private Tag tagId;
 
     @ManyToOne
-    private CafeReview reviewId;
+    private CafeReview cafeReview;
 }
