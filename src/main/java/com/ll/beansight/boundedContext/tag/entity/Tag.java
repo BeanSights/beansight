@@ -3,7 +3,6 @@ package com.ll.beansight.boundedContext.tag.entity;
 import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
@@ -11,8 +10,7 @@ import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor

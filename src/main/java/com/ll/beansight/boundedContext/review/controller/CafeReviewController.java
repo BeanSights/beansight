@@ -40,6 +40,7 @@ public class CafeReviewController {
             model.addAttribute("cafeInfo", info);
             model.addAttribute("tagList", tagList);
         }
+        System.out.println(tagList);
 
         return "usr/cafeInfo/review";
     }
@@ -59,7 +60,6 @@ public class CafeReviewController {
             @RequestParam("cafeId") Long cafeId,
             HttpServletRequest req
             ) { // 매개변수 카페정보 추가해서 write 메서드에 넘겨줘야함
-        List<String> tagCounts = Arrays.asList(req.getParameterValues("tagCount"));
         Map<String, String> cafeTags = new HashMap<>();
 
 

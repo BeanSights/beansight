@@ -26,10 +26,17 @@
 <!--    <button class="tag btn btn-outline btn-warning btn-sm mr-3">쿠폰적립</button>-->
 <!--    <button class="tag btn btn-outline btn-warning btn-sm">친절한 매장</button>-->
 <!--  </div>-->
-</div>
+
+  <div id="selectedTagContainer" data-selected-tags="${selectedTagList}"></div>
+
 <script>
   const tagContainer = document.getElementById('tagContainer');
-  var selectedBtn = [];
+  var selectedBtn = /*[[${selectedTagList}]]*/ [];
+
+  selectedBtn.forEach(function(id) {
+    var button = document.getElementById(id);
+    button.classList.add('btn-active');
+  })
 
   tagContainer.addEventListener('click', function (e){
 
@@ -42,12 +49,12 @@
           return;
         }
         e.target.classList.add('btn-active');
-        selectedBtn.push(e.target.innerHTML);
+        selectedBtn.push(e.target.getAttribute("id"));
       }
       else {
         e.target.classList.remove('btn-active');
         for (var i = 0; i < selectedBtn.length; i++) {
-          if (selectedBtn[i] === e.target.innerHTML) {
+          if (selectedBtn[i] === e.target.getAttribute("id")) {
             selectedBtn.splice(i,1);
             i--;
           }
@@ -56,4 +63,5 @@
     }
   });
 </script>
+</div>
 </html>
