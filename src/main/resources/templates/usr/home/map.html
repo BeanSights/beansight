@@ -3,6 +3,9 @@
 <head>
     <meta charset="utf-8">
     <title>메인 지도 화면</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- 데이지 UI 불러오기 -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css"/>
     <!-- 테일윈드 불러오기 -->
@@ -112,9 +115,18 @@
             color: #5085BB;
         }
 
-        .radius_border {
-            border: 1px solid #919191;
-            border-radius: 5px;
+        .custom_pickcontrol {
+            position: absolute;
+            top: 10px;
+            right: 0px;
+            overflow: hidden;
+            width: 70px;
+            height: 200px;
+            margin: 0;
+            padding: 0;
+            z-index: 1;
+            font-size: 12px;
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
         }
 
         .custom_currentcontrol {
@@ -123,7 +135,7 @@
             right: 10px;
             overflow: hidden;
             width: 85px;
-            height: 80px;
+            height: 100px;
             margin: 0;
             padding: 0;
             z-index: 1;
@@ -144,10 +156,10 @@
         .custom_typecontrol {
             position: absolute;
             bottom: 10px;
-            right: 10px;
+            right: 15px;
             overflow: hidden;
-            width: 65px;
-            height: 30px;
+            width: 100px;
+            height: 40px;
             margin: 0;
             padding: 0;
             z-index: 1;
@@ -157,27 +169,11 @@
 
         .custom_typecontrol span {
             display: block;
-            width: 65px;
-            height: 30px;
+            width: 100px;
             float: left;
             text-align: center;
             line-height: 30px;
             cursor: pointer;
-        }
-
-        .custom_typecontrol .btn {
-            background: #fff;
-            background: linear-gradient(#fff, #e6e6e6);
-        }
-
-        .custom_typecontrol .btn:hover {
-            background: #f5f5f5;
-            background: linear-gradient(#f5f5f5, #e3e3e3);
-        }
-
-        .custom_typecontrol .btn:active {
-            background: #e6e6e6;
-            background: linear-gradient(#e6e6e6, #fff);
         }
 
         .map_wrap, .map_wrap * {
@@ -383,8 +379,8 @@
     <div class="option">
         <div class="flex">
 <!--            <textarea class="textarea textarea-warning w-full h-5" id="search-input" name="content" maxlength="15" placeholder="키워드"></textarea>-->
-            <input type="text" class="border border-yellow-500 input-warning" id="search-input" maxlength="15" placeholder="키워드">
-            <button id="search-button" class="btn btn-warning btn-sm btn-active">검색</button>
+            <input type="text" class="border border-yellow-500 input-warning" id="search-input" maxlength="15" placeholder="카페이름 검색">
+            <button id="search-button" class="btn btn-warning btn-sm btn-active"><i class="fa-solid fa-magnifying-glass"></i></button>
         </div>
     </div>
     <hr>
@@ -393,6 +389,41 @@
 </div>
 <div id="category">
     <form>
+
+<!--        <div class="w-3/4 mt-24 h-4/5">-->
+<!--        <div class="flex flex-wrap">-->
+<!--            <div class="dropdown dropdown-hover no-animation">-->
+<!--                <label tabindex="0" class="btn btn-outline btn-warning m-1">📚 공부하기좋은카페</label>-->
+<!--                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">-->
+<!--                    <li><a>Item 1</a></li>-->
+<!--                    <li><a>Item 2</a></li>-->
+<!--                    <li><a>Item 3</a></li>-->
+<!--                    <li><a>Item 4</a></li>-->
+<!--                    <li><a>Item 5</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--            <div class="dropdown dropdown-hover no-animation">-->
+<!--                <label tabindex="0" class="btn btn-outline btn-warning m-1">📸 인스타감성카페</label>-->
+<!--                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">-->
+<!--                    <li><a>Item 1</a></li>-->
+<!--                    <li><a>Item 2</a></li>-->
+<!--                    <li><a>Item 3</a></li>-->
+<!--                    <li><a>Item 4</a></li>-->
+<!--                    <li><a>Item 5</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--            <div class="dropdown dropdown-hover no-animation">-->
+<!--                <label tabindex="0" class="btn btn-outline btn-warning m-1">📸 인스타감성카페</label>-->
+<!--                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">-->
+<!--                    <li><a>Item 1</a></li>-->
+<!--                    <li><a>Item 2</a></li>-->
+<!--                    <li><a>Item 3</a></li>-->
+<!--                    <li><a>Item 4</a></li>-->
+<!--                    <li><a>Item 5</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        </div>-->
         <label>
             <input type="checkbox" value="100" name="cafeType">
             <span>대화하기 좋은</span>
@@ -452,12 +483,15 @@
         </label>
     </form>
 </div>
-<div class="custom_currentcontrol radius_border">
-    <a class="ml-auto btn btn-warning" th:href="@{/member/me(id=${memberId})}">찜</a>
-    <span id="currentPosition" class="btn">현위치</span>
+<div class="custom_pickcontrol">
+    <a class="ml-auto btn btn-warning" th:href="@{/member/me(id=${memberId})}">찜</a><br>
 </div>
-<div class="custom_typecontrol radius_border">
-    <span id="btnSearch" class="btn">검색</span>
+<div class="custom_currentcontrol">
+    <span id="currentPosition" class="btn btn-warning btn-sm"><i class="fa-solid fa-location-crosshairs fa-2xl"></i></span><br>
+<!--    <span id="btnSearch" class="btn btn-warning">검색</span>-->
+</div>
+<div class="custom_typecontrol">
+    <span id="btnSearch" class="btn btn-warning">주변 탐색</span>
 </div>
 <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6f301dbb23ca856e3a4481fbbae7adcb&libraries=services"></script>
