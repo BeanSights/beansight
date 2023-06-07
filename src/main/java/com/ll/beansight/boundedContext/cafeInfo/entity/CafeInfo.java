@@ -35,34 +35,34 @@ public class CafeInfo extends CafeInfoBase {
     @Builder.Default
     private List<CafeReview> cafeReview = new ArrayList<>(); //리뷰 내용
 
-    public void increaseTagCount(int tagTypeCode) {
-        if (tagTypeCode == 1) tagsCountByTypeCode100++;
-        if (tagTypeCode == 2) tagsCountByTypeCode101++;
-        if (tagTypeCode == 3) tagsCountByTypeCode102++;
-        if (tagTypeCode == 4) tagsCountByTypeCode103++;
-        if (tagTypeCode == 5) tagsCountByTypeCode200++;
-        if (tagTypeCode == 6) tagsCountByTypeCode201++;
-        if (tagTypeCode == 7) tagsCountByTypeCode202++;
-        if (tagTypeCode == 8) tagsCountByTypeCode203++;
-        if (tagTypeCode == 9) tagsCountByTypeCode300++;
-        if (tagTypeCode == 10) tagsCountByTypeCode301++;
-        if (tagTypeCode == 11) tagsCountByTypeCode400++;
-        if (tagTypeCode == 12) tagsCountByTypeCode401++;
+    public void increaseTagCount(Long tagTypeCode) {
+        if (tagTypeCode == 100) tagsCountByTypeCode100++;
+        if (tagTypeCode == 101) tagsCountByTypeCode101++;
+        if (tagTypeCode == 102) tagsCountByTypeCode102++;
+        if (tagTypeCode == 103) tagsCountByTypeCode103++;
+        if (tagTypeCode == 200) tagsCountByTypeCode200++;
+        if (tagTypeCode == 201) tagsCountByTypeCode201++;
+        if (tagTypeCode == 202) tagsCountByTypeCode202++;
+        if (tagTypeCode == 203) tagsCountByTypeCode203++;
+        if (tagTypeCode == 300) tagsCountByTypeCode300++;
+        if (tagTypeCode == 301) tagsCountByTypeCode301++;
+        if (tagTypeCode == 400) tagsCountByTypeCode400++;
+        if (tagTypeCode == 401) tagsCountByTypeCode401++;
     }
 
-    public void decreaseTagCount(int tagTypeCode) {
-        if (tagTypeCode == 1) tagsCountByTypeCode100--;
-        if (tagTypeCode == 2) tagsCountByTypeCode101--;
-        if (tagTypeCode == 3) tagsCountByTypeCode102--;
-        if (tagTypeCode == 4) tagsCountByTypeCode103--;
-        if (tagTypeCode == 5) tagsCountByTypeCode200--;
-        if (tagTypeCode == 6) tagsCountByTypeCode201--;
-        if (tagTypeCode == 7) tagsCountByTypeCode202--;
-        if (tagTypeCode == 8) tagsCountByTypeCode203--;
-        if (tagTypeCode == 9) tagsCountByTypeCode300--;
-        if (tagTypeCode == 10) tagsCountByTypeCode301--;
-        if (tagTypeCode == 11) tagsCountByTypeCode400--;
-        if (tagTypeCode == 12) tagsCountByTypeCode401--;
+    public void decreaseTagCount(Long tagTypeCode) {
+        if (tagTypeCode == 100) tagsCountByTypeCode100--;
+        if (tagTypeCode == 101) tagsCountByTypeCode101--;
+        if (tagTypeCode == 102) tagsCountByTypeCode102--;
+        if (tagTypeCode == 103) tagsCountByTypeCode103--;
+        if (tagTypeCode == 200) tagsCountByTypeCode200--;
+        if (tagTypeCode == 201) tagsCountByTypeCode201--;
+        if (tagTypeCode == 202) tagsCountByTypeCode202--;
+        if (tagTypeCode == 203) tagsCountByTypeCode203--;
+        if (tagTypeCode == 300) tagsCountByTypeCode300--;
+        if (tagTypeCode == 301) tagsCountByTypeCode301--;
+        if (tagTypeCode == 400) tagsCountByTypeCode400--;
+        if (tagTypeCode == 401) tagsCountByTypeCode401--;
     }
 
 }

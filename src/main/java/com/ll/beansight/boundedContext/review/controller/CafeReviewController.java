@@ -3,6 +3,7 @@ package com.ll.beansight.boundedContext.review.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ll.beansight.base.event.EventAfterWriteReview;
 import com.ll.beansight.base.rq.Rq;
 import com.ll.beansight.base.rsData.RsData;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
@@ -19,6 +20,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +35,7 @@ public class CafeReviewController {
     private final CafeReviewService cafeReviewService;
     private final CafeInfoService cafeInfoService;
     private final TagService tagService;
+    private final ApplicationEventPublisher publisher;
     private final ReviewTagService reviewTagService;
     private final Rq rq;
     @PreAuthorize("isAuthenticated()")
@@ -93,6 +96,7 @@ public class CafeReviewController {
                 reviewTag.setCafeReview(cafeReview);
             }
             reviewTagService.add(reviewTags);
+            publisher.publishEvent(new EventAfterWriteReview(reviewTags));
         } else {
             // 뒤로가기 하고 거기서 메세지 보여줘
             return rq.historyBack(reviewRs);

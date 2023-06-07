@@ -17,7 +17,7 @@ public class CafeInfoEventListener {
 
     @EventListener
     public void listen(EventAfterWriteReview event) {
-        cafeInfoService.whenAfterWriteReview(event.getReview());
+        cafeInfoService.whenAfterWriteReview(event.getReviewTags());
     }
 
     @EventListener

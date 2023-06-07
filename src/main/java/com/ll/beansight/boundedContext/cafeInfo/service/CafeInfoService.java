@@ -6,6 +6,8 @@ import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
 import com.ll.beansight.boundedContext.cafeInfo.repository.CafeInfoRepository;
 import com.ll.beansight.boundedContext.review.entity.CafeReview;
 import com.ll.beansight.boundedContext.search.entity.Cafe;
+import com.ll.beansight.boundedContext.tag.entity.CafeTag;
+import com.ll.beansight.boundedContext.tag.entity.ReviewTag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,8 +52,13 @@ public class CafeInfoService {
     }
 
     @Transactional
-    public void whenAfterWriteReview(CafeReview review) {
-        Optional<CafeInfo> cafeInfo = cafeInfoRepository.findByCafeId(review.getCafeInfo().getId());
+    public void whenAfterWriteReview(List<ReviewTag> reviewTags) {
+        for(ReviewTag reviewTag : reviewTags){
+            Optional<CafeInfo> cafeInfo = cafeInfoRepository.findByCafeId(reviewTag.getCafeReview().getCafeInfo().getCafeId());
+            if(cafeInfo.isPresent()){
+                cafeInfo.get().increaseTagCount(reviewTag.getTag().getTagId());
+            }
+        }
 
     }
 
@@ -59,6 +66,17 @@ public class CafeInfoService {
     }
 
     public void whenAfterModifyTagType(CafeReview review, int oldTagTypeCode) {
+    }
+
+    public void addCafeTags(List<CafeTag> cafeTags, CafeInfo cafeInfoResponse) {
+
+        //cafeInfoResponse에서 Count된 것들 중 0보다 큰 것을 가져오고 정렬하여 3개까지만 저장
+
+
+        CafeTag cafeTag = CafeTag.builder()
+                .cafeInfo(cafeInfoResponse)
+                .tag(null)
+                .build();
     }
 }
 
