@@ -8,7 +8,9 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @SuperBuilder
@@ -35,34 +37,50 @@ public class CafeInfo extends CafeInfoBase {
     @Builder.Default
     private List<CafeReview> cafeReview = new ArrayList<>(); //리뷰 내용
 
-    public void increaseTagCount(int tagTypeCode) {
-        if (tagTypeCode == 1) tagsCountByTypeCode100++;
-        if (tagTypeCode == 2) tagsCountByTypeCode101++;
-        if (tagTypeCode == 3) tagsCountByTypeCode102++;
-        if (tagTypeCode == 4) tagsCountByTypeCode103++;
-        if (tagTypeCode == 5) tagsCountByTypeCode200++;
-        if (tagTypeCode == 6) tagsCountByTypeCode201++;
-        if (tagTypeCode == 7) tagsCountByTypeCode202++;
-        if (tagTypeCode == 8) tagsCountByTypeCode203++;
-        if (tagTypeCode == 9) tagsCountByTypeCode300++;
-        if (tagTypeCode == 10) tagsCountByTypeCode301++;
-        if (tagTypeCode == 11) tagsCountByTypeCode400++;
-        if (tagTypeCode == 12) tagsCountByTypeCode401++;
+    public void increaseTagCount(Long tagTypeCode) {
+        if (tagTypeCode == 100) tagsCountByTypeCode100++;
+        if (tagTypeCode == 101) tagsCountByTypeCode101++;
+        if (tagTypeCode == 102) tagsCountByTypeCode102++;
+        if (tagTypeCode == 103) tagsCountByTypeCode103++;
+        if (tagTypeCode == 200) tagsCountByTypeCode200++;
+        if (tagTypeCode == 201) tagsCountByTypeCode201++;
+        if (tagTypeCode == 202) tagsCountByTypeCode202++;
+        if (tagTypeCode == 203) tagsCountByTypeCode203++;
+        if (tagTypeCode == 300) tagsCountByTypeCode300++;
+        if (tagTypeCode == 301) tagsCountByTypeCode301++;
+        if (tagTypeCode == 400) tagsCountByTypeCode400++;
+        if (tagTypeCode == 401) tagsCountByTypeCode401++;
     }
 
-    public void decreaseTagCount(int tagTypeCode) {
-        if (tagTypeCode == 1) tagsCountByTypeCode100--;
-        if (tagTypeCode == 2) tagsCountByTypeCode101--;
-        if (tagTypeCode == 3) tagsCountByTypeCode102--;
-        if (tagTypeCode == 4) tagsCountByTypeCode103--;
-        if (tagTypeCode == 5) tagsCountByTypeCode200--;
-        if (tagTypeCode == 6) tagsCountByTypeCode201--;
-        if (tagTypeCode == 7) tagsCountByTypeCode202--;
-        if (tagTypeCode == 8) tagsCountByTypeCode203--;
-        if (tagTypeCode == 9) tagsCountByTypeCode300--;
-        if (tagTypeCode == 10) tagsCountByTypeCode301--;
-        if (tagTypeCode == 11) tagsCountByTypeCode400--;
-        if (tagTypeCode == 12) tagsCountByTypeCode401--;
+    public void decreaseTagCount(Long tagTypeCode) {
+        if (tagTypeCode == 100) tagsCountByTypeCode100--;
+        if (tagTypeCode == 101) tagsCountByTypeCode101--;
+        if (tagTypeCode == 102) tagsCountByTypeCode102--;
+        if (tagTypeCode == 103) tagsCountByTypeCode103--;
+        if (tagTypeCode == 200) tagsCountByTypeCode200--;
+        if (tagTypeCode == 201) tagsCountByTypeCode201--;
+        if (tagTypeCode == 202) tagsCountByTypeCode202--;
+        if (tagTypeCode == 203) tagsCountByTypeCode203--;
+        if (tagTypeCode == 300) tagsCountByTypeCode300--;
+        if (tagTypeCode == 301) tagsCountByTypeCode301--;
+        if (tagTypeCode == 400) tagsCountByTypeCode400--;
+        if (tagTypeCode == 401) tagsCountByTypeCode401--;
     }
 
+    public Map<Long, Long> getTagsCountByTypeCode() {
+        Map<Long, Long> map = new HashMap<>();
+        if (tagsCountByTypeCode100 > 0) map.put(100L, tagsCountByTypeCode100);
+        if (tagsCountByTypeCode101 > 0) map.put(101L, tagsCountByTypeCode101);
+        if (tagsCountByTypeCode102 > 0) map.put(102L, tagsCountByTypeCode102);
+        if (tagsCountByTypeCode103 > 0) map.put(103L, tagsCountByTypeCode103);
+        if (tagsCountByTypeCode200 > 0) map.put(200L, tagsCountByTypeCode200);
+        if (tagsCountByTypeCode201 > 0) map.put(201L, tagsCountByTypeCode201);
+        if (tagsCountByTypeCode202 > 0) map.put(202L, tagsCountByTypeCode202);
+        if (tagsCountByTypeCode203 > 0) map.put(203L, tagsCountByTypeCode203);
+        if (tagsCountByTypeCode300 > 0) map.put(300L, tagsCountByTypeCode300);
+        if (tagsCountByTypeCode301 > 0) map.put(301L, tagsCountByTypeCode301);
+        if (tagsCountByTypeCode400 > 0) map.put(400L, tagsCountByTypeCode400);
+        if (tagsCountByTypeCode401 > 0) map.put(401L, tagsCountByTypeCode401);
+        return map;
+    }
 }

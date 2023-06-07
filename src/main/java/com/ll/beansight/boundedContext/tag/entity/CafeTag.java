@@ -3,7 +3,6 @@ package com.ll.beansight.boundedContext.tag.entity;
 import com.ll.beansight.base.baseEntity.BaseEntity;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 public class CafeTag extends BaseEntity {
 
     @ManyToOne
-    private Tag tagId;
+    private Tag tag;
 
     @ManyToOne
     private CafeInfo cafeInfo;

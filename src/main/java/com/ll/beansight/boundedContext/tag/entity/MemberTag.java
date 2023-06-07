@@ -19,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class MemberTag extends BaseEntity {
     @ManyToOne
-    private Tag tagId;
+    private Tag tag;
 
     @ManyToOne
     private Member member;
