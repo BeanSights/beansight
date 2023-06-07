@@ -3,7 +3,9 @@ package com.ll.beansight.boundedContext.member.controller;
 import com.ll.beansight.base.rq.Rq;
 import com.ll.beansight.base.rsData.RsData;
 import com.ll.beansight.boundedContext.member.entity.Member;
+import com.ll.beansight.boundedContext.member.entity.MemberWishList;
 import com.ll.beansight.boundedContext.member.service.MemberService;
+import com.ll.beansight.boundedContext.member.service.MemberWishListService;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
 import com.ll.beansight.boundedContext.tag.service.TagService;
 import jakarta.validation.Valid;
@@ -15,9 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +28,7 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
     private final TagService tagService;
+    private final MemberWishListService memberWishListService;
     private final Rq rq;
 
 
@@ -42,12 +43,6 @@ public class MemberController {
     @GetMapping("/review") // 리뷰 작성 페이지
     public String review() {
         return "usr/member/review";
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/me") // 리뷰 작성 페이지
-    public String me() {
-        return "usr/member/me";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -80,4 +75,27 @@ public class MemberController {
         memberService.updateMemberTagList(rq.getMember(), selectedTags);
         return rq.redirectWithMsg("/", "hi");
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/me")
+    public String me() {
+        return "usr/member/me";
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class WishListForm {
+        @NotBlank
+        @Size(min = 4, max = 30)
+        private final String content;
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/me")
+    public String me(@RequestParam("id") Long memberId, @Valid @ModelAttribute WishListForm wishListForm) {
+
+        RsData<MemberWishList> wishListRs = memberWishListService.createMemberWishList();
+        return "usr/member/me";
+    }
+
 }

@@ -28,7 +28,8 @@ public class Member extends BaseEntity {
     private List<Tag> memberTagList;
     @OneToMany
     private List<CafeReview> cafeReviewList;
-
+    @OneToMany
+    private List<MemberWishList> memberWishLists;
 
     // 이 함수 자체는 만들어야 한다. 스프링 시큐리티 규격
     public List<? extends GrantedAuthority> getGrantedAuthorities() {

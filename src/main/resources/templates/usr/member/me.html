@@ -127,7 +127,7 @@
                     <label class="modal-box relative">
                         <label for="my-modal-4" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                         <h2 class="text-lg font-bold">찜 리스트 생성</h2>
-                        <form th:action method="POST" class="pt-4 flex flex-col gap-4 w-full items-center" onsubmit="WishForm__submit(this); return false;">
+                        <form th:action method="POST" class="pt-4 flex flex-col gap-4 w-full items-center" onsubmit="WishListForm__submit(this); return false;">
                             <div class="w-full h-20">
                                 <textarea class="textarea textarea-warning w-full h-3" name="content" placeholder="입력바랍니다."></textarea>
                             </div>
@@ -148,12 +148,12 @@
 
 </div>
 <script>
-    function WishForm__submit(form) {
+    function WishListForm__submit(form) {
         // content 이(가) 올바른지 체크
 
-        form.username.value = form.username.value.trim(); // 입력란의 입력값에 있을지 모르는 좌우공백제거
+        form.content.value = form.content.value.trim(); // 입력란의 입력값에 있을지 모르는 좌우공백제거
 
-        if (form.content.value.length == 0) {
+        if (form.content.value.length === 0) {
             toastWarning('리뷰를 작성해주세요.');
             form.content.focus();
             return;
