@@ -87,10 +87,12 @@ public class CafeInfoService {
 
         listKeySet.sort((o1, o2) -> (tagsCountByTypeCode.get(o2).compareTo(tagsCountByTypeCode.get(o1))));
 
-
+        int i = 0; // 3개까지만 저장하기 위한 변수
 
         //cafeInfoResponse에서 Count된 것들 중 0보다 큰 것을 가져오고 정렬하여 3개까지만 저장
         for (Long key : listKeySet) {
+            if (i == 3)  break;
+
             Optional<Tag> tag = tagService.getTag(key);
             if (tag.isEmpty()) {
                 continue;
@@ -99,7 +101,9 @@ public class CafeInfoService {
                     .cafeInfo(cafeInfo)
                     .tag(tag.get())
                     .build());
+            i++;
         }
+
 
         cafeTagService.add(cafeTags);
 
