@@ -66,11 +66,13 @@ public class SearchController {
         if(cafeInfoTagFilterList.size() == 0){
             return Ut.spring.responseEntityOf(RsData.of("F-1", "필터링된 결과가 없습니다."));
         }
+        System.out.println(cafeInfoTagFilterList.size());
         // 카페 거리순 2차 필터링
         List<CafeInfo> cafeInfoDistanceFilterList = searchService.distanceFilter(cafeInfoTagFilterList, request.x, request.y);
         if(cafeInfoDistanceFilterList.size() == 0){
             return Ut.spring.responseEntityOf(RsData.of("F-1", "주변에 필터링된 카페가 없습니다."));
         }
+        System.out.println(cafeInfoDistanceFilterList.size());
         return Ut.spring.responseEntityOf(RsData.of("S-1", "키워드로 장소 검색 성공"));
     }
 

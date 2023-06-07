@@ -9,7 +9,6 @@ import com.ll.beansight.boundedContext.search.controller.SearchController;
 import com.ll.beansight.boundedContext.search.entity.Cafe;
 import com.ll.beansight.boundedContext.search.repository.CafeRepository;
 import com.ll.beansight.boundedContext.tag.entity.CafeTag;
-import com.ll.beansight.boundedContext.tag.entity.Tag;
 import com.ll.beansight.boundedContext.tag.repository.CafeTagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -81,25 +80,6 @@ public class SearchService {
         return cafeInfoStream.toList();
 
     }
-
-    // 태그 기준으로 필터링
-//    public List<CafeInfo> tagFilter(List<Tag> cafeType) {
-//        // 태그들을 Long으로 변환
-//        List<Long> tagList = cafeType.stream()
-//                .map(Long::parseLong).toList();
-//
-//        Stream<CafeInfo> cafeInfoStream = cafeTagRepository.findAllByTagId_TagId(tagList.get(0)).stream().map(CafeTag::getCafeInfo);
-//        tagList.remove(0);
-//        // 필터링 작업.
-//        if(tagList.size() != 0){
-//            for(Long tag : tagList){
-//                cafeInfoStream = cafeInfoStream.filter(e -> cafeTagRepository.existsByTagId_TagIdAndCafeInfo(tag, e));
-//            }
-//        }
-//
-//        return cafeInfoStream.toList();
-//
-//    }
 
     // 거리 기준으로 필터링
     public List<CafeInfo> distanceFilter(List<CafeInfo> cafeInfoList, double x, double y) {
