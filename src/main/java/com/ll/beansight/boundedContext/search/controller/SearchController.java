@@ -8,6 +8,7 @@ import com.ll.beansight.boundedContext.cafeInfo.repository.CafeInfoRepository;
 import com.ll.beansight.boundedContext.search.entity.Cafe;
 import com.ll.beansight.boundedContext.search.repository.CafeRepository;
 import com.ll.beansight.boundedContext.search.service.SearchService;
+import com.ll.beansight.boundedContext.tag.entity.Tag;
 import com.ll.beansight.standard.util.Ut;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -73,9 +74,33 @@ public class SearchController {
         return Ut.spring.responseEntityOf(RsData.of("S-1", "키워드로 장소 검색 성공"));
     }
 
+    // 필터링 기능
+//    @PostMapping("/recommend")
+//    public ResponseEntity<RsData> recommendSearch(@RequestBody recommendSearchRequest request){
+//        System.out.println("Received x: " + request.x);
+//        System.out.println("Received y: " + request.y);
+//
+//        // 태그 기준으로 1차 필터링
+//        List<CafeInfo> cafeInfoTagFilterList = searchService.tagFilter(rq.getMember().getMemberTagList());
+//        if(cafeInfoTagFilterList.size() == 0){
+//            return Ut.spring.responseEntityOf(RsData.of("F-1", "필터링된 결과가 없습니다."));
+//        }
+//        // 카페 거리순 2차 필터링
+//        List<CafeInfo> cafeInfoDistanceFilterList = searchService.distanceFilter(cafeInfoTagFilterList, request.x, request.y);
+//        if(cafeInfoDistanceFilterList.size() == 0){
+//            return Ut.spring.responseEntityOf(RsData.of("F-1", "주변에 필터링된 카페가 없습니다."));
+//        }
+//        return Ut.spring.responseEntityOf(RsData.of("S-1", "키워드로 장소 검색 성공"));
+//    }
+
     public static class CafeFilterRequest {
         public double x;
         public double y;
         public List<String> cafeType;
+    }
+
+    public static class recommendSearchRequest{
+        public double x;
+        public double y;
     }
 }
