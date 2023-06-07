@@ -1,11 +1,9 @@
 package com.ll.beansight.boundedContext.search.service;
 
 import com.ll.beansight.base.api.dto.DocumentDTO;
-import com.ll.beansight.base.api.dto.KakaoApiResponseDTO;
 import com.ll.beansight.base.api.service.KakaoSearchService;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
 import com.ll.beansight.boundedContext.cafeInfo.repository.CafeInfoRepository;
-import com.ll.beansight.boundedContext.search.controller.SearchController;
 import com.ll.beansight.boundedContext.search.entity.Cafe;
 import com.ll.beansight.boundedContext.search.repository.CafeRepository;
 import com.ll.beansight.boundedContext.tag.entity.CafeTag;
@@ -15,11 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
@@ -69,12 +63,12 @@ public class SearchService {
         List<Long> tagList = cafeType.stream()
                 .map(Long::parseLong).toList();
 
-        Stream<CafeInfo> cafeInfoStream = cafeTagRepository.findAllByTagId_TagId(tagList.get(0)).stream().map(CafeTag::getCafeInfo);
+        Stream<CafeInfo> cafeInfoStream = cafeTagRepository.findAllByTag_TagId(tagList.get(0)).stream().map(CafeTag::getCafeInfo);
         tagList.remove(0);
         // 필터링 작업.
         if(tagList.size() != 0){
             for(Long tag : tagList){
-                cafeInfoStream = cafeInfoStream.filter(e -> cafeTagRepository.existsByTagId_TagIdAndCafeInfo(tag, e));
+                cafeInfoStream = cafeInfoStream.filter(e -> cafeTagRepository.existsByTag_TagIdAndCafeInfo(tag, e));
             }
         }
 
