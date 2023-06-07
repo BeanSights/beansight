@@ -209,7 +209,7 @@
             overflow-y: auto;
             background: rgba(255, 255, 255, 0.7);
             z-index: 1;
-            font-size: 12px;
+            font-size: 13px;
             border-radius: 10px;
         }
 
@@ -234,7 +234,7 @@
         }
 
         #menu_wrap .option button {
-            margin-left: 5px;
+            margin-left: 20px;
         }
 
         #placesList li {
@@ -381,9 +381,10 @@
 
 <div id="menu_wrap" class="bg_white">
     <div class="option">
-        <div>
-            키워드 : <input type="text" id="search-input" size="15">
-            <button id="search-button">검색하기</button>
+        <div class="flex">
+<!--            <textarea class="textarea textarea-warning w-full h-5" id="search-input" name="content" maxlength="15" placeholder="키워드"></textarea>-->
+            <input type="text" class="border border-yellow-500 input-warning" id="search-input" maxlength="15" placeholder="키워드">
+            <button id="search-button" class="btn btn-warning btn-sm btn-active">검색</button>
         </div>
     </div>
     <hr>
