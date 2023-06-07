@@ -4,6 +4,7 @@ import com.ll.beansight.base.rq.Rq;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,7 +23,10 @@ public class HomeController {
     }
 
     @GetMapping("/map")
-    public String showMap() { return "usr/home/map";}
+    public String showMap(Model model) {
+        model.addAttribute("memberId", rq.getMember().getId());
+        return "usr/home/map";
+    }
 
     @GetMapping("/debugSession")
     @ResponseBody
