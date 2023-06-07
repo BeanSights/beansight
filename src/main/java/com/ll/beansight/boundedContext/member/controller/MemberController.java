@@ -8,6 +8,7 @@ import com.ll.beansight.boundedContext.member.service.MemberService;
 import com.ll.beansight.boundedContext.member.service.MemberWishListService;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
 import com.ll.beansight.boundedContext.tag.service.TagService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/member") // 액션 URL의 공통 접두어
@@ -78,7 +80,9 @@ public class MemberController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/me")
-    public String me() {
+    public String me(Model model) {
+        List<MemberWishList> memberWishLists = memberWishListService.getMemberWishLists(rq.getMember().getId());
+        model.addAttribute("memberWishLists", memberWishLists);
         return "usr/member/me";
     }
 
@@ -92,10 +96,23 @@ public class MemberController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/me")
-    public String me(@RequestParam("id") Long memberId, @Valid @ModelAttribute WishListForm wishListForm) {
+    public String me(
+            @RequestParam("id") Long memberId,
+            @Valid @ModelAttribute WishListForm wishListForm,
+            HttpServletRequest request
+            ) {
+        Optional<Member> member = memberService.findByMemberId(memberId);
+        if (member.isEmpty()){
+            return rq.redirectWithMsg("usr/member/login", "로그인 후 사용 가능합니다.");
+        }
+        RsData<MemberWishList> wishListRs = memberWishListService.createMemberWishList(member.get(), wishListForm.getContent());
+        if (wishListRs.isFail()){
+            rq.historyBack(RsData.of("F-1", "찜목록 생성에 실패했습니다."));
+        }
 
-        RsData<MemberWishList> wishListRs = memberWishListService.createMemberWishList();
-        return "usr/member/me";
+        // 페이지를 새로고침
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
 
 }

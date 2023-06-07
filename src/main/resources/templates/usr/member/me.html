@@ -26,96 +26,21 @@
             </div>
         </div>
         <div class="flex flex-wrap">
-            <div class="dropdown dropdown-hover no-animation">
-                <label tabindex="0" class="btn btn-outline btn-warning m-1">📚 공부하기좋은카페</label>
-                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a>Item 1</a></li>
-                    <li><a>Item 2</a></li>
-                    <li><a>Item 3</a></li>
-                    <li><a>Item 4</a></li>
-                    <li><a>Item 5</a></li>
-                </ul>
+            <div th:if="${!memberWishLists.isEmpty()}">
+                <div th:each="memberWishList : ${memberWishLists}">
+                    <div class="dropdown dropdown-hover no-animation">
+                        <label tabindex="0" class="btn btn-outline btn-warning m-1" th:text="${memberWishList.wishListTitle}"></label>
+                        <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
+                            <li><a>Item 1</a></li>
+                            <li><a>Item 2</a></li>
+                            <li><a>Item 3</a></li>
+                            <li><a>Item 4</a></li>
+                            <li><a>Item 5</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="dropdown dropdown-hover no-animation">
-                <label tabindex="0" class="btn btn-outline btn-warning m-1">📸 인스타감성카페</label>
-                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a>Item 1</a></li>
-                    <li><a>Item 2</a></li>
-                    <li><a>Item 3</a></li>
-                    <li><a>Item 4</a></li>
-                    <li><a>Item 5</a></li>
-                </ul>
-            </div>
-            <div class="dropdown dropdown-hover no-animation">
-                <label tabindex="0" class="btn btn-outline btn-warning m-1">📸 인스타감성카페</label>
-                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a>Item 1</a></li>
-                    <li><a>Item 2</a></li>
-                    <li><a>Item 3</a></li>
-                    <li><a>Item 4</a></li>
-                    <li><a>Item 5</a></li>
-                </ul>
-            </div>
-            <div class="dropdown dropdown-hover no-animation">
-                <label tabindex="0" class="btn btn-outline btn-warning m-1">📸 인스타감성카페</label>
-                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a>Item 1</a></li>
-                    <li><a>Item 2</a></li>
-                    <li><a>Item 3</a></li>
-                    <li><a>Item 4</a></li>
-                    <li><a>Item 5</a></li>
-                </ul>
-            </div>
-            <div class="dropdown dropdown-hover no-animation">
-                <label tabindex="0" class="btn btn-outline btn-warning m-1">📸 인스타감성카페</label>
-                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a>Item 1</a></li>
-                    <li><a>Item 2</a></li>
-                    <li><a>Item 3</a></li>
-                    <li><a>Item 4</a></li>
-                    <li><a>Item 5</a></li>
-                </ul>
-            </div>
-            <div class="dropdown dropdown-hover no-animation">
-                <label tabindex="0" class="btn btn-outline btn-warning m-1">📸 인스타감성카페</label>
-                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a>Item 1</a></li>
-                    <li><a>Item 2</a></li>
-                    <li><a>Item 3</a></li>
-                    <li><a>Item 4</a></li>
-                    <li><a>Item 5</a></li>
-                </ul>
-            </div>
-            <div class="dropdown dropdown-hover no-animation">
-                <label tabindex="0" class="btn btn-outline btn-warning m-1">📸 인스타감성카페</label>
-                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a>Item 1</a></li>
-                    <li><a>Item 2</a></li>
-                    <li><a>Item 3</a></li>
-                    <li><a>Item 4</a></li>
-                    <li><a>Item 5</a></li>
-                </ul>
-            </div>
-            <div class="dropdown dropdown-hover no-animation">
-                <label tabindex="0" class="btn btn-outline btn-warning m-1">📸 인스타감성카페</label>
-                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a>Item 1</a></li>
-                    <li><a>Item 2</a></li>
-                    <li><a>Item 3</a></li>
-                    <li><a>Item 4</a></li>
-                    <li><a>Item 5</a></li>
-                </ul>
-            </div>
-            <div class="dropdown dropdown-hover no-animation">
-                <label tabindex="0" class="btn btn-outline btn-warning m-1">📸 인스타감성카페</label>
-                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a>Item 1</a></li>
-                    <li><a>Item 2</a></li>
-                    <li><a>Item 3</a></li>
-                    <li><a>Item 4</a></li>
-                    <li><a>Item 5</a></li>
-                </ul>
-            </div>
+
 
             <div>
                 <!-- The button to open modal -->

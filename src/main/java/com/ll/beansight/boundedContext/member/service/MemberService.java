@@ -2,6 +2,7 @@ package com.ll.beansight.boundedContext.member.service;
 
 import com.ll.beansight.base.rsData.RsData;
 import com.ll.beansight.boundedContext.member.entity.Member;
+import com.ll.beansight.boundedContext.member.entity.MemberWishList;
 import com.ll.beansight.boundedContext.member.repository.MemberRepository;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
 import com.ll.beansight.boundedContext.tag.repository.TagRepository;
@@ -97,4 +98,5 @@ public class MemberService {
     public Optional<Member> findByMemberId(Long memberId) {
         return memberRepository.findById(memberId);
     }
+
 }
