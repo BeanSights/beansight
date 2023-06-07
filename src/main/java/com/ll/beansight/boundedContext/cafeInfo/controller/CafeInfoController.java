@@ -26,10 +26,6 @@ public class CafeInfoController {
                            @RequestParam(defaultValue = "37.571150829509854") double y){
         CafeInfo cafeInfoResponse = cafeInfoService.search(x, y);
 
-        List<CafeTag> cafeTags = new ArrayList<>();
-
-        cafeInfoService.addCafeTags(cafeTags, cafeInfoResponse);
-
         model.addAttribute("cafeInfo", cafeInfoResponse);
 
         return "usr/cafeInfo/showInfo";

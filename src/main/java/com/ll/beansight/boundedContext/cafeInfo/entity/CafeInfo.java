@@ -8,7 +8,9 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @SuperBuilder
@@ -65,4 +67,20 @@ public class CafeInfo extends CafeInfoBase {
         if (tagTypeCode == 401) tagsCountByTypeCode401--;
     }
 
+    public Map<Long, Long> getTagsCountByTypeCode() {
+        Map<Long, Long> map = new HashMap<>();
+        if (tagsCountByTypeCode100 > 0) map.put(100L, tagsCountByTypeCode100);
+        if (tagsCountByTypeCode101 > 0) map.put(101L, tagsCountByTypeCode101);
+        if (tagsCountByTypeCode102 > 0) map.put(102L, tagsCountByTypeCode102);
+        if (tagsCountByTypeCode103 > 0) map.put(103L, tagsCountByTypeCode103);
+        if (tagsCountByTypeCode200 > 0) map.put(200L, tagsCountByTypeCode200);
+        if (tagsCountByTypeCode201 > 0) map.put(201L, tagsCountByTypeCode201);
+        if (tagsCountByTypeCode202 > 0) map.put(202L, tagsCountByTypeCode202);
+        if (tagsCountByTypeCode203 > 0) map.put(203L, tagsCountByTypeCode203);
+        if (tagsCountByTypeCode300 > 0) map.put(300L, tagsCountByTypeCode300);
+        if (tagsCountByTypeCode301 > 0) map.put(301L, tagsCountByTypeCode301);
+        if (tagsCountByTypeCode400 > 0) map.put(400L, tagsCountByTypeCode400);
+        if (tagsCountByTypeCode401 > 0) map.put(401L, tagsCountByTypeCode401);
+        return map;
+    }
 }

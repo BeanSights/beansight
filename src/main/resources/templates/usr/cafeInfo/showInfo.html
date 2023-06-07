@@ -75,7 +75,7 @@
                                     <div th:each="review : ${cafeInfo.cafeReview}">
                                         <div>
                                             <span th:text="|${review.member.username} |"></span>
-                                            <span class="text-warning" th:text="${review.member.createDate}"></span>
+                                            <span class="text-warning" th:text="${#temporals.format(review.member.createDate, 'yy.MM.dd HH:mm')}"></span>
                                         </div>
                                         <div>
                                             <i class="p-2 fa-solid fa-thumbs-up"></i>
@@ -85,13 +85,6 @@
                                         <div>리뷰 내용</div>
                                         <div class="divider"></div>
 
-                                        <div>닉네임 createDate</div>
-                                        <div>
-                                            <i class="p-2 fa-solid fa-thumbs-up"></i>
-                                            <span class="badge badge-accent badge-outline">깨끗해요</span>
-                                            <span class="badge badge-accent badge-outline">스터디</span>
-                                        </div>
-                                        <div>리뷰 내용</div>
                                     </div>
                                 </div>
 
