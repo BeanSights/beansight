@@ -4,22 +4,14 @@ import com.ll.beansight.base.api.dto.DocumentDTO;
 import com.ll.beansight.base.rq.Rq;
 import com.ll.beansight.base.rsData.RsData;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
-import com.ll.beansight.boundedContext.cafeInfo.repository.CafeInfoRepository;
-import com.ll.beansight.boundedContext.search.entity.Cafe;
-import com.ll.beansight.boundedContext.search.repository.CafeRepository;
 import com.ll.beansight.boundedContext.search.service.SearchService;
-import com.ll.beansight.boundedContext.tag.entity.Tag;
 import com.ll.beansight.standard.util.Ut;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/search")
