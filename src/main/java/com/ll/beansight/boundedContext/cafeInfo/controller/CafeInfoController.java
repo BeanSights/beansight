@@ -6,6 +6,7 @@ import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
 import com.ll.beansight.boundedContext.cafeInfo.service.CafeInfoService;
 import com.ll.beansight.boundedContext.tag.entity.CafeTag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,17 +38,23 @@ public class CafeInfoController {
         return "usr/cafeInfo/showInfo";
     }
 
+    @AllArgsConstructor
+    @Getter
+    public static class WishForm {
+        @NotNull
+        private final List<String> cafeList;
+    }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("")
-    public String showInfo(@RequestParam(defaultValue = "126.97890911337976") double x,
-                           @RequestParam(defaultValue = "37.571150829509854") double y, @RequestParam("cafeList") List<String> cafeList, HttpServletRequest request){
+    public String showInfo(@Valid WishForm wishForm ,@RequestParam(defaultValue = "126.97890911337976") double x,
+                           @RequestParam(defaultValue = "37.571150829509854") double y){
         CafeInfo cafeInfoResponse = cafeInfoService.search(x, y);
-        String a = cafeList.get(1);
+        String a = wishForm.cafeList.get(1);
 
 
 
-        String referer = request.getHeader("Referer");
+
         return rq.redirectWithMsg("/cafeInfo?x="+x+"&y="+y, "good");
     }
 }
