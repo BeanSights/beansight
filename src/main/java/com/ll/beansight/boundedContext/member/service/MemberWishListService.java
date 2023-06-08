@@ -25,6 +25,6 @@ public class MemberWishListService {
     }
 
     public List<MemberWishList> getMemberWishLists(Long memberId) {
-        return memberWishListRepository.findAllById(memberId);
+        return memberWishListRepository.findAllByMemberId(memberId);
     }
 }

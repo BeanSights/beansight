@@ -6,11 +6,13 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @Entity
 @SuperBuilder
 @Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberWishList extends BaseEntity {
