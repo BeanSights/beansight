@@ -606,12 +606,52 @@
     // 주변 탐색.
     if (keywordClicked) {
         clearMarkersAndInfoWindows()
-        ps.categorySearch('CE7', cafeSearchCB, {useMapBounds: true});
+        // 중앙 좌표
+        var latlng = map.getCenter();
+
+        // 주변탐색 데이터를 불러오는 작업.
+        fetch('/search/near-cafe' + '?x=' + latlng.getLng() + '&y=' + latlng.getLat())
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        console.log(err.msg);
+                        throw new Error(err.msg);
+                    });
+                }
+                return response.json();
+            })
+            .then(json => {
+                const data = json.data;
+                displayPlaces(data);
+            })
+            .catch(error => {
+                alert(error.message);
+            });
 
         // 검색 버튼 눌렀을 시 검색
         btnSearch.addEventListener('click', function () {
             clearMarkersAndInfoWindows()
-            ps.categorySearch('CE7', cafeSearchCB, {useMapBounds: true});
+            // 중앙 좌표
+            var latlng = map.getCenter();
+
+            // 주변탐색 데이터를 불러오는 작업.
+            fetch('/search/near-cafe' + '?x=' + latlng.getLng() + '&y=' + latlng.getLat())
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => {
+                            console.log(err.msg);
+                            throw new Error(err.msg);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    const data = json.data;
+                    displayPlaces(data);
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
         })
     }
 

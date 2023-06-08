@@ -31,11 +31,11 @@ public class SearchController {
 
     // 거리순으로 카페 불러오는
     @GetMapping("/near-cafe")
-    public String nearCafe(Model model, @RequestParam(defaultValue = "126.97890911337976") double x,
+    public ResponseEntity<RsData> nearCafe(Model model, @RequestParam(defaultValue = "126.97890911337976") double x,
                            @RequestParam(defaultValue = "37.571150829509854") double y){
         List<DocumentDTO> nearCafeResponse = searchService.nearSearch(x, y);
-        model.addAttribute("nearCafe", nearCafeResponse);
-        return "usr/home/map";
+
+        return Ut.spring.responseEntityOf(RsData.of("S-1", "키워드로 장소 검색 성공", nearCafeResponse));
     }
 
     // 키워드로 카페 불러오는
