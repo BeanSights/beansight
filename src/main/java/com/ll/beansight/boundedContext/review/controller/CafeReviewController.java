@@ -82,7 +82,7 @@ public class CafeReviewController {
                 Long tagId = Long.valueOf(selectedTag.get("tagId"));
                 Optional<Tag> tag = tagService.getTag(tagId);
                 if (tag.isEmpty()){
-                    return null;
+                    return rq.historyBack("태그가 비어있습니다.");
                 }
                 ReviewTag reviewTag = new ReviewTag();
                 reviewTag.setTag(tag.get());
