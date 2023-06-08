@@ -102,20 +102,20 @@
     <div class="modal">
         <div class="modal-box">
             <label for="modal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-            <form class="flex flex-col items-center justify-center">
+            <form th:action method="POST" class="flex flex-col items-center justify-center">
                 <h3 class="mb-2 text-lg font-bold">나의 찜 리스트</h3>
                 <div class="form-control">
                     <label class="cursor-pointer label">
                         <span class="label-text">스터디하기 좋은 곳</span>
-                        <input type="checkbox" class="checkbox checkbox-warning"/>
+                        <input type="checkbox" name="cafeList" value="asdf" class="checkbox checkbox-warning"/>
                     </label>
                     <label class="cursor-pointer label">
                         <span class="label-text">디저트가 맛있는 곳</span>
-                        <input type="checkbox" class="checkbox checkbox-warning"/>
+                        <input type="checkbox" name="cafeList" value="dfdf" class="checkbox checkbox-warning"/>
                     </label>
                     <label class="cursor-pointer label">
                         <span class="label-text">우리집에서 가까운 곳</span>
-                        <input type="checkbox" class="checkbox checkbox-warning"/>
+                        <input type="checkbox" name="cafeList" value="가나다" class="checkbox checkbox-warning"/>
                     </label>
                 </div>
                 <button class="btn btn-wide btn-warning">추가하기</button>
