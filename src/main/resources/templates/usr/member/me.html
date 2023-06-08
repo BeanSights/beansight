@@ -21,7 +21,7 @@
             <div th:if="${!memberWishLists.isEmpty()}" class="flex">
                 <div th:each="memberWishList : ${memberWishLists}">
                     <div class="dropdown dropdown-hover no-animation w-20 mr-2">
-                        <label tabindex="0" class="btn btn-outline btn-warning m-1" th:text="${memberWishList.wishListTitle}"></label>
+                        <label for="my-modal-5" class="btn btn-outline btn-warning m-1" th:text="${memberWishList.wishListTitle}" th:attr="data-id=${memberWishList.id}" onclick="openEditDeleteModal(this)"></label>
                         <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
                             <li><a>Item 1</a></li>
                             <li><a>Item 2</a></li>
@@ -46,10 +46,28 @@
                         <h2 class="text-lg font-bold">찜 리스트 생성</h2>
                         <form th:action method="POST" class="pt-4 flex flex-col gap-4 w-full items-center" onsubmit="WishListForm__submit(this); return false;">
                             <div class="w-full h-20">
-                                <textarea class="textarea textarea-warning w-full h-3" name="content" maxlength="10" placeholder="찜제목을 작성해 주세요."></textarea>
+                                <input type="text" class="input input-warning w-full h-3" name="content" maxlength="10" placeholder="찜제목을 작성해 주세요."></input>
                             </div>
                             <div>
                                 <input type="submit" value="만들기" class="btn btn-warning btn-active">
+                            </div>
+                        </form>
+                    </label>
+                </label>
+
+                <input type="checkbox" id="my-modal-5" class="modal-toggle" />
+                <label for="my-modal-5" class="modal cursor-pointer">
+                    <label class="modal-box relative">
+                        <label for="my-modal-5" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                        <h2 class="text-lg font-bold">찜 제목 수정/삭제</h2>
+                        <form th:action method="POST" class="pt-4 flex flex-col gap-4 w-full items-center" onsubmit="WishListEditForm__submit(this); return false;">
+                            <div class="w-full h-20">
+                                <input type="text" class="input input-warning w-full h-3" name="content" maxlength="10" placeholder="찜제목을 작성해 주세요."/>
+                            </div>
+                            <div>
+                                <input type="hidden" id="edit-delete-id" name="id" />
+                                <input type="submit" value="수정" class="btn btn-warning btn-active" />
+                                <input type="button" value="삭제" class="btn btn-warning btn-active" onclick="deleteWishList()" />
                             </div>
                         </form>
                     </label>
@@ -65,7 +83,7 @@
     </div>
 
 </div>
-<script>
+<script th:inline="javascript">
     function WishListForm__submit(form) {
         // content 이(가) 올바른지 체크
 
@@ -85,6 +103,14 @@
 
         form.submit(); // 폼 발송
     }
+
+    function openEditDeleteModal(element) {
+        const id = element.getAttribute('data-id');
+        document.getElementById('edit-delete-id').value = id;
+        // document.getElementById('my-modal-5').checked = true;
+        console.log(id);
+    }
+
     function WishListEditForm__submit(form) {
         // content 이(가) 올바른지 체크
 
