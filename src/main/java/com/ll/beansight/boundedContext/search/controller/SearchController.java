@@ -4,22 +4,15 @@ import com.ll.beansight.base.api.dto.DocumentDTO;
 import com.ll.beansight.base.rq.Rq;
 import com.ll.beansight.base.rsData.RsData;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
-import com.ll.beansight.boundedContext.cafeInfo.repository.CafeInfoRepository;
-import com.ll.beansight.boundedContext.search.entity.Cafe;
-import com.ll.beansight.boundedContext.search.repository.CafeRepository;
 import com.ll.beansight.boundedContext.search.service.SearchService;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
 import com.ll.beansight.standard.util.Ut;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/search")
@@ -31,11 +24,11 @@ public class SearchController {
 
     // 거리순으로 카페 불러오는
     @GetMapping("/near-cafe")
-    public String nearCafe(Model model, @RequestParam(defaultValue = "126.97890911337976") double x,
+    public ResponseEntity<RsData> nearCafe(Model model, @RequestParam(defaultValue = "126.97890911337976") double x,
                            @RequestParam(defaultValue = "37.571150829509854") double y){
         List<DocumentDTO> nearCafeResponse = searchService.nearSearch(x, y);
-        model.addAttribute("nearCafe", nearCafeResponse);
-        return "usr/home/map";
+
+        return Ut.spring.responseEntityOf(RsData.of("S-1", "키워드로 장소 검색 성공", nearCafeResponse));
     }
 
     // 키워드로 카페 불러오는
@@ -81,33 +74,30 @@ public class SearchController {
         return Ut.spring.responseEntityOf(RsData.of("S-1", "필터링 장소 검색 성공", filterResponse));
     }
 
-    // 필터링 기능
-//    @PostMapping("/recommend")
-//    public ResponseEntity<RsData> recommendSearch(@RequestBody recommendSearchRequest request){
-//        System.out.println("Received x: " + request.x);
-//        System.out.println("Received y: " + request.y);
-//
-//        // 태그 기준으로 1차 필터링
-//        List<CafeInfo> cafeInfoTagFilterList = searchService.tagFilter(rq.getMember().getMemberTagList());
-//        if(cafeInfoTagFilterList.size() == 0){
-//            return Ut.spring.responseEntityOf(RsData.of("F-1", "필터링된 결과가 없습니다."));
-//        }
-//        // 카페 거리순 2차 필터링
-//        List<CafeInfo> cafeInfoDistanceFilterList = searchService.distanceFilter(cafeInfoTagFilterList, request.x, request.y);
-//        if(cafeInfoDistanceFilterList.size() == 0){
-//            return Ut.spring.responseEntityOf(RsData.of("F-1", "주변에 필터링된 카페가 없습니다."));
-//        }
-//        return Ut.spring.responseEntityOf(RsData.of("S-1", "키워드로 장소 검색 성공"));
-//    }
+    // 추천 필터링 기능
+    @GetMapping("/recommend")
+    public ResponseEntity<RsData> recommendSearch(@RequestParam(defaultValue = "126.97890911337976") double x, @RequestParam(defaultValue = "37.571150829509854") double y){
+        System.out.println("Received x: " + x);
+        System.out.println("Received y: " + y);
+
+        // 태그 기준으로 1차 필터링
+        List<CafeInfo> cafeInfoTagFilterList = searchService.recommendTagFilter(rq.getMember().getTagList());
+        if(cafeInfoTagFilterList.size() == 0){
+            return Ut.spring.responseEntityOf(RsData.of("F-1", "필터링된 결과가 없습니다."));
+        }
+        // 카페 거리순 2차 필터링
+        List<CafeInfo> cafeInfoDistanceFilterList = searchService.distanceFilter(cafeInfoTagFilterList, x, y);
+        if(cafeInfoDistanceFilterList.size() == 0){
+            return Ut.spring.responseEntityOf(RsData.of("F-1", "주변에 필터링된 카페가 없습니다."));
+        }
+        List<DocumentDTO> filterResponse = searchService.filterResponse(cafeInfoDistanceFilterList);
+
+        return Ut.spring.responseEntityOf(RsData.of("S-1", "추천 장소 검색 성공", filterResponse));
+    }
 
     public static class CafeFilterRequest {
         public double x;
         public double y;
         public List<String> cafeType;
-    }
-
-    public static class recommendSearchRequest{
-        public double x;
-        public double y;
     }
 }

@@ -81,8 +81,8 @@ public class MemberController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/me")
     public String me(Model model) {
-        List<MemberWishList> memberWishLists = memberWishListService.getMemberWishLists(rq.getMember().getId());
-        model.addAttribute("memberWishLists", memberWishLists);
+
+        model.addAttribute("member", rq.getMember());
         return "usr/member/me";
     }
 

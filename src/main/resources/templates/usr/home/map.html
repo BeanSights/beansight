@@ -131,7 +131,7 @@
 
         .custom_currentcontrol {
             position: absolute;
-            bottom: 10px;
+            bottom: 90px;
             right: 10px;
             overflow: hidden;
             width: 85px;
@@ -147,6 +147,29 @@
             display: block;
             width: 65px;
             height: 30px;
+            float: left;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+        }
+
+        .custom_recommendcontrol {
+            position: absolute;
+            bottom: 80px;
+            right: 15px;
+            overflow: hidden;
+            width: 100px;
+            height: 40px;
+            margin: 0;
+            padding: 0;
+            z-index: 1;
+            font-size: 12px;
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+        }
+
+        .custom_recommendcontrol span {
+            display: block;
+            width: 100px;
             float: left;
             text-align: center;
             line-height: 30px;
@@ -490,6 +513,9 @@
     <span id="currentPosition" class="btn btn-warning btn-sm"><i class="fa-solid fa-location-crosshairs fa-2xl"></i></span><br>
 <!--    <span id="btnSearch" class="btn btn-warning">검색</span>-->
 </div>
+<div class="custom_recommendcontrol">
+    <span id="btnrecommend" class="btn btn-warning">추천 탐색</span>
+</div>
 <div class="custom_typecontrol">
     <span id="btnSearch" class="btn btn-warning">주변 탐색</span>
 </div>
@@ -511,6 +537,7 @@
     var btnSearch = document.getElementById('btnSearch');
     var keywordSearch = document.getElementById('search-button');
     var currentPosition = document.getElementById('currentPosition');
+    var recommend = document.getElementById('btnrecommend');
     map.relayout();
 
     // 모든 마커들을 담는 배열.
@@ -567,6 +594,34 @@
 
     });
 
+    // 추천 검색
+    recommend.addEventListener('click', function () {
+        keywordClicked = false;
+        clearMarkersAndInfoWindows()
+        // 중앙 좌표
+        var latlng = map.getCenter();
+
+        // 키워드로 검색해 데이터를 불러오는 작업.
+        fetch('/search/recommend?x=' + latlng.getLng() + '&y=' + latlng.getLat())
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        console.log(err.msg);
+                        throw new Error(err.msg);
+                    });
+                }
+                return response.json();
+            })
+            .then(json => {
+                const data = json.data;
+                displayPlaces(data);
+            })
+            .catch(error => {
+                alert("검색된 결과가 없습니다.");
+            });
+
+    });
+
     // 카페 다중 필터링 검색.
     $(document).ready(function() {
         $("input[type='checkbox']").change(function() {
@@ -606,12 +661,52 @@
     // 주변 탐색.
     if (keywordClicked) {
         clearMarkersAndInfoWindows()
-        ps.categorySearch('CE7', cafeSearchCB, {useMapBounds: true});
+        // 중앙 좌표
+        var latlng = map.getCenter();
+
+        // 주변탐색 데이터를 불러오는 작업.
+        fetch('/search/near-cafe' + '?x=' + latlng.getLng() + '&y=' + latlng.getLat())
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        console.log(err.msg);
+                        throw new Error(err.msg);
+                    });
+                }
+                return response.json();
+            })
+            .then(json => {
+                const data = json.data;
+                displayPlaces(data);
+            })
+            .catch(error => {
+                alert(error.message);
+            });
 
         // 검색 버튼 눌렀을 시 검색
         btnSearch.addEventListener('click', function () {
             clearMarkersAndInfoWindows()
-            ps.categorySearch('CE7', cafeSearchCB, {useMapBounds: true});
+            // 중앙 좌표
+            var latlng = map.getCenter();
+
+            // 주변탐색 데이터를 불러오는 작업.
+            fetch('/search/near-cafe' + '?x=' + latlng.getLng() + '&y=' + latlng.getLat())
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => {
+                            console.log(err.msg);
+                            throw new Error(err.msg);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    const data = json.data;
+                    displayPlaces(data);
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
         })
     }
 
