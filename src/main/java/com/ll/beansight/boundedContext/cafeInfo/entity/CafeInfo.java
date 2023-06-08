@@ -1,6 +1,7 @@
 package com.ll.beansight.boundedContext.cafeInfo.entity;
 
 
+import com.ll.beansight.boundedContext.member.entity.MemberWishList;
 import com.ll.beansight.boundedContext.review.entity.CafeReview;
 import com.ll.beansight.boundedContext.tag.entity.CafeTag;
 import jakarta.persistence.*;
@@ -36,6 +37,9 @@ public class CafeInfo extends CafeInfoBase {
     @OrderBy("id desc")
     @Builder.Default
     private List<CafeReview> cafeReview = new ArrayList<>(); //리뷰 내용
+
+    @ManyToOne
+    private MemberWishList memberWishList;
 
     public void increaseTagCount(Long tagTypeCode) {
         if (tagTypeCode == 100) tagsCountByTypeCode100++;

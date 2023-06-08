@@ -2,6 +2,7 @@ package com.ll.beansight.boundedContext.member.entity;
 
 import com.ll.beansight.base.baseEntity.BaseEntity;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -23,6 +24,6 @@ public class MemberWishList extends BaseEntity {
     private String wishListTitle;
     @ManyToOne
     private Member member;
-    @OneToMany
+    @OneToMany(mappedBy = "memberWishList", cascade = {CascadeType.REMOVE})
     private List<CafeInfo> cafeList;
 }

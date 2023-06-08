@@ -18,8 +18,8 @@
             </div>
         </div>
         <div class="flex flex-wrap">
-            <div th:if="${!memberWishLists.isEmpty()}" class="flex">
-                <div th:each="memberWishList : ${memberWishLists}">
+            <div th:if="${!member.wishLists.isEmpty()}" class="flex">
+                <div th:each="memberWishList : ${member.wishLists}">
                     <div class="dropdown dropdown-hover no-animation w-20 mr-2">
                         <label tabindex="0" class="btn btn-outline btn-warning m-1" th:text="${memberWishList.wishListTitle}"></label>
                         <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">

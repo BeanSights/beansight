@@ -34,8 +34,7 @@ public class CafeInfoController {
     public String showInfo(Model model, @RequestParam(defaultValue = "126.97890911337976") double x,
                            @RequestParam(defaultValue = "37.571150829509854") double y) {
         CafeInfo cafeInfoResponse = cafeInfoService.search(x, y);
-        List<MemberWishList> memberWishLists = memberWishListService.getMemberWishLists(rq.getMember().getId());
-        model.addAttribute("wishList", memberWishLists);
+        model.addAttribute("member", rq.getMember());
         model.addAttribute("cafeInfo", cafeInfoResponse);
 
         return "usr/cafeInfo/showInfo";
@@ -63,6 +62,6 @@ public class CafeInfoController {
         }
 
 
-        return rq.redirectWithMsg("/cafeInfo?x=" + x + "&y=" + y, "good");
+        return rq.redirectWithMsg("/cafeInfo?x=" + x + "&y=" + y, "위시리스트에 추가되었습니다.");
     }
 }

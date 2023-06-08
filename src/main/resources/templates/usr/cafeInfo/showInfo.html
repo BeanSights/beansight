@@ -107,7 +107,7 @@
                   onsubmit="WishForm__submit(this); return false;">
                 <h3 class="mb-2 text-lg font-bold">나의 찜 리스트</h3>
                 <div class="form-control">
-                    <div th:each="wish : ${wishList}">
+                    <div th:each="wish : ${member.wishLists}">
                         <label class="cursor-pointer label">
                             <span class="label-text p-2" th:text="${wish.wishListTitle}"></span>
                             <input type="checkbox" name="wishList" th:value="${wish.wishListTitle}" class="checkbox checkbox-warning"/>
