@@ -4,6 +4,7 @@ import com.ll.beansight.base.api.dto.DocumentDTO;
 import com.ll.beansight.base.api.service.KakaoSearchService;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
 import com.ll.beansight.boundedContext.tag.entity.CafeTag;
+import com.ll.beansight.boundedContext.tag.entity.Tag;
 import com.ll.beansight.boundedContext.tag.repository.CafeTagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,20 @@ public class SearchService {
         List<Long> tagList = cafeType.stream()
                 .map(Long::parseLong).toList();
         System.out.println(tagList.size());
+        Stream<CafeInfo> cafeInfoStream = cafeTagRepository.findAllByTag_TagId(tagList.get(0)).stream().map(CafeTag::getCafeInfo);
+
+        // 필터링 작업.
+        for(Long tag : tagList){
+            cafeInfoStream = cafeInfoStream.filter(e -> cafeTagRepository.existsByTag_TagIdAndCafeInfo(tag, e));
+        }
+        return cafeInfoStream.toList();
+    }
+
+    // 태그기준 필터링(추천검색)
+    public List<CafeInfo> tagFilter(List<Tag> tags, double x, double y) {
+
+        List<Long> tagList = tags.stream()
+                .map(Tag::getTagId).toList();
         Stream<CafeInfo> cafeInfoStream = cafeTagRepository.findAllByTag_TagId(tagList.get(0)).stream().map(CafeTag::getCafeInfo);
 
         // 필터링 작업.
