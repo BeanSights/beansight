@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -61,24 +62,21 @@ public class SearchService {
         // 태그들을 Long으로 변환
         List<Long> tagList = cafeType.stream()
                 .map(Long::parseLong).toList();
-
+        System.out.println(tagList.size());
         Stream<CafeInfo> cafeInfoStream = cafeTagRepository.findAllByTag_TagId(tagList.get(0)).stream().map(CafeTag::getCafeInfo);
-        tagList.remove(0);
+
         // 필터링 작업.
-        if(tagList.size() != 0){
-            for(Long tag : tagList){
-                cafeInfoStream = cafeInfoStream.filter(e -> cafeTagRepository.existsByTag_TagIdAndCafeInfo(tag, e));
-            }
+        for(Long tag : tagList){
+            cafeInfoStream = cafeInfoStream.filter(e -> cafeTagRepository.existsByTag_TagIdAndCafeInfo(tag, e));
         }
-
+        System.out.println("태그 필터링 끝");
         return cafeInfoStream.toList();
-
     }
 
     // 거리 기준으로 필터링
     public List<CafeInfo> distanceFilter(List<CafeInfo> cafeInfoList, double x, double y) {
-
-        return cafeInfoList.stream().filter(cafe -> calculateDistance(x, y, cafe.getX(), cafe.getY()) <= RADIUS_KM).sorted().limit(15).toList();
+        System.out.println("거리 필터링 끝");
+        return cafeInfoList.stream().filter(cafe -> calculateDistance(x, y, cafe.getX(), cafe.getY()) <= RADIUS_KM).sorted((v1, v2) -> (int) (calculateDistance(x, y, v1.getX(), v1.getY()) - calculateDistance(x, y, v2.getX(), v2.getY()))).limit(15).toList();
     }
 
     // 유저와 카페의 거리 계산 알고리즘
@@ -90,5 +88,21 @@ public class SearchService {
 
         double earthRadius = 6371;
         return earthRadius * Math.acos(Math.sin(userLat) * Math.sin(cafeLat) + Math.cos(userLat) * Math.cos(cafeLat) * Math.cos(userLon - cafeLon));
+    }
+
+    public List<DocumentDTO> filterResponse(List<CafeInfo> cafeInfoDistanceFilterList) {
+        List<DocumentDTO> list = new ArrayList<>();
+        for(CafeInfo cafe : cafeInfoDistanceFilterList){
+            DocumentDTO dto = DocumentDTO.builder()
+                    .id(cafe.getCafeId())
+                    .longitude(cafe.getX())
+                    .latitude(cafe.getY())
+                    .placeName(cafe.getCafeName())
+                    .addressName(cafe.getCafeAddress())
+                    .phone(cafe.getCafePhoneNumber())
+                    .build();
+            list.add(dto);
+        }
+        return list;
     }
 }
