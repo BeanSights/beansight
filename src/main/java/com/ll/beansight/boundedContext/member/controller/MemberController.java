@@ -90,7 +90,7 @@ public class MemberController {
     @Getter
     public static class WishListForm {
         @NotBlank
-        @Size(min = 4, max = 30)
+        @Size(min = 4, max = 10)
         private final String content;
     }
 
