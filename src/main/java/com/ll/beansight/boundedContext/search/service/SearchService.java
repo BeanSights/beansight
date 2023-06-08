@@ -69,13 +69,11 @@ public class SearchService {
         for(Long tag : tagList){
             cafeInfoStream = cafeInfoStream.filter(e -> cafeTagRepository.existsByTag_TagIdAndCafeInfo(tag, e));
         }
-        System.out.println("태그 필터링 끝");
         return cafeInfoStream.toList();
     }
 
     // 거리 기준으로 필터링
     public List<CafeInfo> distanceFilter(List<CafeInfo> cafeInfoList, double x, double y) {
-        System.out.println("거리 필터링 끝");
         return cafeInfoList.stream().filter(cafe -> calculateDistance(x, y, cafe.getX(), cafe.getY()) <= RADIUS_KM).sorted((v1, v2) -> (int) (calculateDistance(x, y, v1.getX(), v1.getY()) - calculateDistance(x, y, v2.getX(), v2.getY()))).limit(15).toList();
     }
 

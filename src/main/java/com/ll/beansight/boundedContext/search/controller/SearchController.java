@@ -73,12 +73,11 @@ public class SearchController {
             return Ut.spring.responseEntityOf(RsData.of("F-1", "주변에 필터링된 카페가 없습니다."));
         }
         List<DocumentDTO> filterResponse = searchService.filterResponse(cafeInfoDistanceFilterList);
-        System.out.println("진짜 끝");
+
         for(DocumentDTO cafe : filterResponse){
             System.out.println(cafe.getAddressName());
             System.out.println(cafe.getLongitude());
         }
-        System.out.println("진짜진짜 끝");
         return Ut.spring.responseEntityOf(RsData.of("S-1", "필터링 장소 검색 성공", filterResponse));
     }
 
