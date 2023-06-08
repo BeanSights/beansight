@@ -24,7 +24,7 @@
                         <label for="my-modal-5" class="btn btn-outline btn-warning m-1" th:text="${memberWishList.wishListTitle}" th:attr="data-id=${memberWishList.id}" onclick="openEditDeleteModal(this)"></label>
                         <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
                             <li th:each="cafeList :${memberWishList.cafeInfoWishLists}">
-                                <div th:text="${cafeList.cafeInfo.cafeName}"></div>
+                                <a th:href="@{|/cafeInfo?x=${cafeList.cafeInfo.x}&y=${cafeList.cafeInfo.y}|}" th:text="${cafeList.cafeInfo.cafeName}"></a>
                             </li>
                         </ul>
                     </div>
