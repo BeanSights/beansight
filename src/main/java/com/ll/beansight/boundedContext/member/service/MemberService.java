@@ -2,7 +2,6 @@ package com.ll.beansight.boundedContext.member.service;
 
 import com.ll.beansight.base.rsData.RsData;
 import com.ll.beansight.boundedContext.member.entity.Member;
-import com.ll.beansight.boundedContext.member.entity.MemberWishList;
 import com.ll.beansight.boundedContext.member.repository.MemberRepository;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
 import com.ll.beansight.boundedContext.tag.repository.TagRepository;
@@ -76,7 +75,7 @@ public class MemberService {
         List<Long> memberTagList = new LinkedList<>();
 
         // 태그 이름들 확인
-        for (Tag tag : member.getMemberTagList()) {
+        for (Tag tag : member.getTagList()) {
             memberTagList.add(tag.getTagId());
         }
         System.out.println(memberTagList);
@@ -87,7 +86,7 @@ public class MemberService {
             Optional<Tag> opTag = tagRepository.findById(Long.parseLong(tagId));
 
             if (!opTag.isPresent()) return RsData.of("F-1", "실패");
-            member.getMemberTagList().add(opTag.get());
+            member.getTagList().add(opTag.get());
         }
 
         memberRepository.save(member);

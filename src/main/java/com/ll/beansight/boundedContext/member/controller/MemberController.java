@@ -51,7 +51,7 @@ public class MemberController {
     @GetMapping("/wish") // 카페 성향 선택 페이지
     public String showWish(Model model) {
         List<Tag> tagList = tagService.getTagList();
-        List<Tag> memberTagList = rq.getMember().getMemberTagList();
+        List<Tag> memberTagList = rq.getMember().getTagList();
         List<Long> selectedTagIdList = new ArrayList<>();
 
         for (Tag tag : memberTagList) {
