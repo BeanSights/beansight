@@ -53,7 +53,7 @@ public class SearchService {
     }
 
     // 태그기준 필터링(추천검색)
-    public List<CafeInfo> tagFilter(List<Tag> tags, double x, double y) {
+    public List<CafeInfo> recommendTagFilter(List<Tag> tags) {
 
         List<Long> tagList = tags.stream()
                 .map(Tag::getTagId).toList();

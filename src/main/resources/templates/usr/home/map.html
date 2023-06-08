@@ -602,7 +602,7 @@
         var latlng = map.getCenter();
 
         // 키워드로 검색해 데이터를 불러오는 작업.
-        fetch('/search/recommend/' + '?x=' + latlng.getLng() + '&y=' + latlng.getLat())
+        fetch('/search/recommend?x=' + latlng.getLng() + '&y=' + latlng.getLat())
             .then(response => {
                 if (!response.ok) {
                     return response.json().then(err => {
