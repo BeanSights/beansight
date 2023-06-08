@@ -92,10 +92,6 @@ public class SearchController {
         }
         List<DocumentDTO> filterResponse = searchService.filterResponse(cafeInfoDistanceFilterList);
 
-        for(DocumentDTO cafe : filterResponse){
-            System.out.println(cafe.getAddressName());
-            System.out.println(cafe.getLongitude());
-        }
         return Ut.spring.responseEntityOf(RsData.of("S-1", "추천 장소 검색 성공", filterResponse));
     }
 
@@ -103,10 +99,5 @@ public class SearchController {
         public double x;
         public double y;
         public List<String> cafeType;
-    }
-
-    public static class recommendSearchRequest{
-        public double x;
-        public double y;
     }
 }
