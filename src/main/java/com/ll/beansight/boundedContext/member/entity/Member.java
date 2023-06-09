@@ -48,5 +48,7 @@ public class Member extends BaseEntity {
         return grantedAuthorities;
     }
 
-
+    public boolean hasTagList(){
+        return tagList.size() != 0;
+    }
 }
