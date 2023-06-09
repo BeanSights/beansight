@@ -2,8 +2,14 @@ package com.ll.beansight.boundedContext.cafeInfo.service;
 
 import com.ll.beansight.base.api.dto.DocumentDTO;
 import com.ll.beansight.base.api.service.KakaoSearchService;
+import com.ll.beansight.base.rsData.RsData;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
+import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfoWishList;
 import com.ll.beansight.boundedContext.cafeInfo.repository.CafeInfoRepository;
+import com.ll.beansight.boundedContext.cafeInfo.repository.CafeInfoWishListRepository;
+import com.ll.beansight.boundedContext.member.entity.Member;
+import com.ll.beansight.boundedContext.member.entity.MemberWishList;
+import com.ll.beansight.boundedContext.member.service.MemberWishListService;
 import com.ll.beansight.boundedContext.review.entity.CafeReview;
 import com.ll.beansight.boundedContext.tag.entity.CafeTag;
 import com.ll.beansight.boundedContext.tag.entity.ReviewTag;
@@ -21,9 +27,11 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class CafeInfoService {
     private final CafeInfoRepository cafeInfoRepository;
+    private final CafeInfoWishListRepository cafeInfoWishListRepository;
     private final KakaoSearchService kakaoSearchService;
     private final TagService tagService;
     private final CafeTagService cafeTagService;
+    private final MemberWishListService memberWishListService;
 
     public Optional<CafeInfo> findByCafeId(Long cafeId) {
         return cafeInfoRepository.findByCafeId(cafeId);
@@ -73,6 +81,7 @@ public class CafeInfoService {
     public void whenAfterModifyTagType(CafeReview review, int oldTagTypeCode) {
     }
 
+    @Transactional
     public void addCafeTags(CafeInfo cafeInfo) {
         // 각각 tagsCountByTypeCode100부터 400까지를 Map 형태로 저장
         List<CafeTag> cafeTags = new ArrayList<>();
@@ -107,6 +116,24 @@ public class CafeInfoService {
 
         cafeTagService.add(cafeTags);
 
+    }
+
+    @Transactional
+    public RsData<CafeInfoWishList> addWishList(Member member, CafeInfo cafeInfo, String wishListTitle) {
+        Long memberId = member.getId();
+        Optional<MemberWishList> memberWishList = memberWishListService.findByMemberIdAndWishListTitle(memberId, wishListTitle);
+        if (memberWishList.isEmpty()) {
+            return RsData.of("F-1", "위시리스트가 존재하지 않습니다.");
+        }
+
+        CafeInfoWishList cafeInfoWishList = CafeInfoWishList.builder()
+                .cafeInfo(cafeInfo)
+                .memberWishList(memberWishList.get())
+                .build();
+
+        cafeInfoWishListRepository.save(cafeInfoWishList);
+
+        return RsData.of("S-3", "위시리스트에 추가되었습니다.", cafeInfoWishList);
     }
 }
 

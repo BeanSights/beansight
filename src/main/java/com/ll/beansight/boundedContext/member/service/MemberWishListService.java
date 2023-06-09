@@ -33,14 +33,8 @@ public class MemberWishListService {
         return memberWishListRepository.findAllByMemberId(memberId);
     }
 
-    public RsData<MemberWishList> addWishList(Member member, CafeInfo cafeInfo, String wish) {
-        Long memberId = member.getId();
-        Optional<MemberWishList> memberWishList = memberWishListRepository.findByMemberIdAndWishListTitle(memberId, wish);
-        if (memberWishList.isEmpty()) {
-            return RsData.of("F-1", "찜목록이 존재하지 않습니다.");
-        }
-        memberWishList.get().getCafeList().add(cafeInfo);
-        return RsData.of("S-2", "찜목록에 카페가 추가되었습니다.", memberWishList.get());
+    public Optional<MemberWishList> findByMemberIdAndWishListTitle(Long memberId, String wishListTitle) {
+        return memberWishListRepository.findByMemberIdAndWishListTitle(memberId, wishListTitle);
     }
 
 //    @PersistenceContext

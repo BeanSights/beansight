@@ -3,6 +3,7 @@ package com.ll.beansight.boundedContext.cafeInfo.controller;
 import com.ll.beansight.base.rq.Rq;
 import com.ll.beansight.base.rsData.RsData;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
+import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfoWishList;
 import com.ll.beansight.boundedContext.cafeInfo.service.CafeInfoService;
 import com.ll.beansight.boundedContext.member.entity.MemberWishList;
 import com.ll.beansight.boundedContext.member.service.MemberWishListService;
@@ -55,9 +56,9 @@ public class CafeInfoController {
 
         //cafeInfo를 wishList에 추가
         for (String wish : wishForm.getWishList()) {
-            RsData<MemberWishList> memberWishListRsData =memberWishListService.addWishList(rq.getMember(), cafeInfo, wish);
-            if (memberWishListRsData.isFail()) {
-                return rq.redirectWithMsg("/cafeInfo?x=" + x + "&y=" + y, memberWishListRsData.getMsg());
+            RsData<CafeInfoWishList> cafeInfoWishListRsData =cafeInfoService.addWishList(rq.getMember(), cafeInfo, wish);
+            if (cafeInfoWishListRsData.isFail()) {
+                return rq.redirectWithMsg("/cafeInfo?x=" + x + "&y=" + y, cafeInfoWishListRsData.getMsg());
             }
         }
 
