@@ -412,41 +412,6 @@
 </div>
 <div id="category">
     <form>
-
-<!--        <div class="w-3/4 mt-24 h-4/5">-->
-<!--        <div class="flex flex-wrap">-->
-<!--            <div class="dropdown dropdown-hover no-animation">-->
-<!--                <label tabindex="0" class="btn btn-outline btn-warning m-1">📚 공부하기좋은카페</label>-->
-<!--                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">-->
-<!--                    <li><a>Item 1</a></li>-->
-<!--                    <li><a>Item 2</a></li>-->
-<!--                    <li><a>Item 3</a></li>-->
-<!--                    <li><a>Item 4</a></li>-->
-<!--                    <li><a>Item 5</a></li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--            <div class="dropdown dropdown-hover no-animation">-->
-<!--                <label tabindex="0" class="btn btn-outline btn-warning m-1">📸 인스타감성카페</label>-->
-<!--                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">-->
-<!--                    <li><a>Item 1</a></li>-->
-<!--                    <li><a>Item 2</a></li>-->
-<!--                    <li><a>Item 3</a></li>-->
-<!--                    <li><a>Item 4</a></li>-->
-<!--                    <li><a>Item 5</a></li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--            <div class="dropdown dropdown-hover no-animation">-->
-<!--                <label tabindex="0" class="btn btn-outline btn-warning m-1">📸 인스타감성카페</label>-->
-<!--                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">-->
-<!--                    <li><a>Item 1</a></li>-->
-<!--                    <li><a>Item 2</a></li>-->
-<!--                    <li><a>Item 3</a></li>-->
-<!--                    <li><a>Item 4</a></li>-->
-<!--                    <li><a>Item 5</a></li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        </div>-->
         <label>
             <input type="checkbox" value="100" name="cafeType">
             <span>대화하기 좋은</span>
@@ -517,6 +482,11 @@
 <div class="custom_recommendcontrol">
     <span id="btnrecommend" class="btn btn-warning">추천 탐색</span>
 </div>
+</th:block>
+<th:block th:if="${!@rq.getMember().hasTagList()}">
+    <div class="custom_recommendcontrol hidden">
+        <span id="btnrecommend" class="btn btn-warning">추천 탐색</span>
+    </div>
 </th:block>
 <div class="custom_typecontrol">
     <span id="btnSearch" class="btn btn-warning">주변 탐색</span>
@@ -716,18 +686,6 @@
     // 지도 이동 시 중앙 지점 좌표 리로드
     kakao.maps.event.addListener(map, 'center_changed', function () {
     });
-
-    function cafeSearchCB(data, status, pagination) {
-        if (status === kakao.maps.services.Status.OK) {
-            displayPlaces(data);
-        } else if (status === kakao.maps.service.Status.ERROR) {
-            alert('주변에 카페가 존재하지 않습니다.');
-            return;
-        } else {
-            alert('검색 결과 중 오류가 발생하였습니다.');
-            return;
-        }
-    }
 
     // 검색 결과 목록과 마커를 표출하는 함수입니다
     function displayPlaces(places) {
