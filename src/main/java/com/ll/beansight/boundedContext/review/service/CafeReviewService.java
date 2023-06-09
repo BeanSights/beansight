@@ -4,6 +4,7 @@ import com.ll.beansight.base.rsData.RsData;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
 import com.ll.beansight.boundedContext.cafeInfo.service.CafeInfoService;
 import com.ll.beansight.boundedContext.member.entity.Member;
+import com.ll.beansight.boundedContext.member.entity.MemberWishList;
 import com.ll.beansight.boundedContext.member.service.MemberService;
 import com.ll.beansight.boundedContext.review.entity.CafeReview;
 import com.ll.beansight.boundedContext.review.repository.CafeReviewRepository;
@@ -42,5 +43,20 @@ public class CafeReviewService {
         cafeReviewRepository.save(cafeReview);
 
         return RsData.of("S-1", "리뷰가 작성되었습니다.", cafeReview);
+    }
+
+    @Transactional
+    public RsData<CafeReview> updateReview(Member member, Long reviewId, String content) {
+        CafeReview cafeReview= cafeReviewRepository.findByMemberIdAndId(member.getId(), reviewId);
+        cafeReview.setContent(content);
+        cafeReviewRepository.save(cafeReview);
+        return RsData.of("S-2", "리뷰가 수정되었습니다.", cafeReview);
+    }
+
+    @Transactional
+    public RsData<CafeReview> deleteReview(Member member, Long reviewId) {
+        CafeReview cafeReview = cafeReviewRepository.findByMemberIdAndId(member.getId(), reviewId);
+        cafeReviewRepository.delete(cafeReview);
+        return RsData.of("S-3", "리뷰가 삭제되었습니다.", cafeReview);
     }
 }
