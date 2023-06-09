@@ -20,7 +20,7 @@
         <div class="flex flex-wrap">
             <div th:if="${!member.wishLists.isEmpty()}" class="flex">
                 <div th:each="memberWishList : ${member.wishLists}">
-                    <div class="dropdown dropdown-hover no-animation w-20 mr-2">
+                    <div class="dropdown dropdown-hover no-animation mr-2">
                         <label for="my-modal-5" class="btn btn-outline btn-warning m-1" th:text="${memberWishList.wishListTitle}" th:attr="data-id=${memberWishList.id}" onclick="openEditDeleteModal(this)"></label>
                         <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
                             <li th:each="cafeList :${memberWishList.cafeInfoWishLists}">
@@ -55,7 +55,7 @@
 
                 <input type="checkbox" id="my-modal-5" class="modal-toggle" />
                 <label for="my-modal-5" class="modal cursor-pointer">
-                    <label class="modal-box relative">
+                    <label class="modal-box relative text-center">
                         <label for="my-modal-5" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                         <h2 class="text-lg font-bold">찜 제목 수정/삭제</h2>
                         <form th:action="@{/member/me/update(id=${member.id})}" method="POST" class="pt-4 flex flex-col gap-4 w-full items-center" onsubmit="WishListForm__submit(this); return false;">
@@ -65,9 +65,9 @@
                             <div>
                                 <input type="hidden" id="edit-delete-id" name="wishListId" />
                                 <input type="submit" value="수정" class="btn btn-warning btn-active" />
-                                <input type="button" value="삭제" class="btn btn-warning btn-active" />
                             </div>
                         </form>
+                        <button onclick="deleteWishList()" class="btn btn-active btn-warning m-1">삭제</button>
                     </label>
                 </label>
 
@@ -104,6 +104,34 @@
 
     function openEditDeleteModal(element) {
         document.getElementById('edit-delete-id').value = element.getAttribute('data-id');
+    }
+
+    function deleteWishList() {
+        const memberId = /*[[${member.id}]]*/ null;
+        const wishListId = document.getElementById('edit-delete-id').value;
+        const confirmation = confirm('정말로 삭제하시겠습니까?');
+        if (confirmation) {
+            fetch('/member/me/delete?id=' + encodeURIComponent(memberId) + '&wishListId=' + encodeURIComponent(wishListId), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // 삭제 성공 후 페이지 새로고침
+                        location.reload();
+                    } else {
+                        // 응답이 실패했을 경우 처리할 로직 작성
+                        // response 객체를 활용하여 실패 정보 추출
+                    }
+                })
+                .catch(error => {
+                    // 에러 처리
+                    // ...
+                });
+        }
+
     }
 
 </script>

@@ -50,4 +50,14 @@ public class MemberWishListService {
         memberWishListRepository.save(memberWishList.get());
      return RsData.of("S-3", "찜제목이 수정 되었습니다.", memberWishList.get());
     }
+
+    @Transactional
+    public RsData<MemberWishList> deleteMemberWishList(Member member, Long wishListId) {
+        Optional<MemberWishList> memberWishList = memberWishListRepository.findByMemberIdAndId(member.getId(), wishListId);
+        if (memberWishList.isEmpty()) {
+            return RsData.of("F-1", "해당 찜목록이 존재하지 않습니다.");
+        }
+        memberWishListRepository.delete(memberWishList.get());
+        return RsData.of("S-3", "찜제목이 삭제 되었습니다.", memberWishList.get());
+    }
 }
