@@ -1,5 +1,6 @@
 package com.ll.beansight.boundedContext.member.repository;
 
+import com.ll.beansight.boundedContext.member.entity.Member;
 import com.ll.beansight.boundedContext.member.entity.MemberWishList;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,4 +13,5 @@ public interface MemberWishListRepository extends JpaRepository<MemberWishList, 
     Optional<MemberWishList> findByMemberIdAndWishListTitle(Long memberId, String wish);
 
     Optional<MemberWishList> findByMemberIdAndId(Long id, Long wishListId);
+
 }

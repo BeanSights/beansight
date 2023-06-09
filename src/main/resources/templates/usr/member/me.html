@@ -23,11 +23,9 @@
                     <div class="dropdown dropdown-hover no-animation w-20 mr-2">
                         <label for="my-modal-5" class="btn btn-outline btn-warning m-1" th:text="${memberWishList.wishListTitle}" th:attr="data-id=${memberWishList.id}" onclick="openEditDeleteModal(this)"></label>
                         <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
-                            <li><a>Item 1</a></li>
-                            <li><a>Item 2</a></li>
-                            <li><a>Item 3</a></li>
-                            <li><a>Item 4</a></li>
-                            <li><a>Item 5</a></li>
+                            <li th:each="cafeList :${memberWishList.cafeInfoWishLists}">
+                                <a th:href="@{|/cafeInfo?x=${cafeList.cafeInfo.x}&y=${cafeList.cafeInfo.y}|}" th:text="${cafeList.cafeInfo.cafeName}"></a>
+                            </li>
                         </ul>
                     </div>
                 </div>

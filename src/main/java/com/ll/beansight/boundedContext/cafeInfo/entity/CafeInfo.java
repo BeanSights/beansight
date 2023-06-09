@@ -38,9 +38,6 @@ public class CafeInfo extends CafeInfoBase {
     @Builder.Default
     private List<CafeReview> cafeReview = new ArrayList<>(); //리뷰 내용
 
-    @ManyToOne
-    private MemberWishList memberWishList;
-
     public void increaseTagCount(Long tagTypeCode) {
         if (tagTypeCode == 100) tagsCountByTypeCode100++;
         if (tagTypeCode == 101) tagsCountByTypeCode101++;
