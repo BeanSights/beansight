@@ -155,11 +155,9 @@
 
         .custom_recommendcontrol {
             position: absolute;
-            bottom: 80px;
+            bottom: 20px;
             right: 15px;
             overflow: hidden;
-            width: 100px;
-            height: 40px;
             margin: 0;
             padding: 0;
             z-index: 1;
@@ -176,19 +174,6 @@
             cursor: pointer;
         }
 
-        .custom_typecontrol {
-            position: absolute;
-            bottom: 10px;
-            right: 15px;
-            overflow: hidden;
-            width: 100px;
-            height: 40px;
-            margin: 0;
-            padding: 0;
-            z-index: 1;
-            font-size: 12px;
-            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
-        }
 
         .custom_typecontrol span {
             display: block;
@@ -401,9 +386,11 @@
 <div id="menu_wrap" class="bg_white">
     <div class="option">
         <div class="flex">
-<!--            <textarea class="textarea textarea-warning w-full h-5" id="search-input" name="content" maxlength="15" placeholder="키워드"></textarea>-->
-            <input type="text" class="border border-yellow-500 input-warning" id="search-input" maxlength="15" placeholder="카페이름 검색">
-            <button id="search-button" class="btn btn-warning btn-sm btn-active"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <!--            <textarea class="textarea textarea-warning w-full h-5" id="search-input" name="content" maxlength="15" placeholder="키워드"></textarea>-->
+            <input type="text" class="border border-yellow-500 input-warning" id="search-input" maxlength="15"
+                   placeholder="카페이름 검색">
+            <button id="search-button" class="btn btn-warning btn-sm btn-active"><i
+                    class="fa-solid fa-magnifying-glass"></i></button>
         </div>
     </div>
     <hr>
@@ -474,22 +461,33 @@
 <div class="custom_pickcontrol">
     <a class="ml-auto btn btn-warning" th:href="@{/member/me(id=${memberId})}">찜</a><br>
 </div>
-<div class="custom_currentcontrol">
-    <span id="currentPosition" class="btn btn-warning btn-sm"><i class="fa-solid fa-location-crosshairs fa-2xl"></i></span><br>
-<!--    <span id="btnSearch" class="btn btn-warning">검색</span>-->
-</div>
-<th:block th:if="${@rq.getMember().hasTagList()}">
-<div class="custom_recommendcontrol">
-    <span id="btnrecommend" class="btn btn-warning">추천 탐색</span>
-</div>
-</th:block>
-<th:block th:if="${!@rq.getMember().hasTagList()}">
-    <div class="custom_recommendcontrol hidden">
-        <span id="btnrecommend" class="btn btn-warning">추천 탐색</span>
+<div class="join join-vertical custom_recommendcontrol">
+    <div class="join-item">
+    <span id="currentPosition" class="btn btn-warning btn-sm mb-2"><i
+            class="fa-solid fa-location-crosshairs fa-2xl"></i></span><br>
+        <!--    <span id="btnSearch" class="btn btn-warning">검색</span>-->
     </div>
-</th:block>
-<div class="custom_typecontrol">
-    <span id="btnSearch" class="btn btn-warning">주변 탐색</span>
+    <div class="join-item">
+        <th:block th:if="${@rq.getMember().hasTagList()}">
+            <div class="">
+                <span id="btnrecommend" class="btn btn-warning btn-sm mb-2">추천 탐색</span>
+            </div>
+        </th:block>
+        <th:block th:if="${!@rq.getMember().hasTagList()}">
+            <div class=" hidden">
+                <span id="btnrecommend" class="btn btn-warning btn-sm">추천 탐색</span>
+            </div>
+        </th:block>
+    </div>
+    <div class="join-item">
+        <span id="btnSearch" class="btn btn-warning btn-sm mb-2">주변 탐색</span>
+    </div>
+    <div class="join-item">
+        <span class="btn btn-warning btn-sm">
+            <a href="javascript:;" th:if="${@rq.login}" onClick="$(this).next().submit();">로그아웃</a>
+            <form th:if="${@rq.login}" hidden th:action="|/member/logout|" method="POST"></form>
+        </span>
+    </div>
 </div>
 <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6f301dbb23ca856e3a4481fbbae7adcb&libraries=services"></script>
@@ -522,8 +520,8 @@
     // 사용자가 서비스를 이용하고 있는 위치로 지도를 이동하는 기능
     currentPosition.addEventListener('click', function () {
 
-        navigator.geolocation.getCurrentPosition(function(position) {
-            const { latitude, longitude } = position.coords;
+        navigator.geolocation.getCurrentPosition(function (position) {
+            const {latitude, longitude} = position.coords;
 
             // 지도를 이동시킬 위치를 생성합니다
             const moveLatLon = new kakao.maps.LatLng(latitude, longitude);
@@ -596,14 +594,14 @@
     });
 
     // 카페 다중 필터링 검색.
-    $(document).ready(function() {
-        $("input[type='checkbox']").change(function() {
+    $(document).ready(function () {
+        $("input[type='checkbox']").change(function () {
             keywordClicked = false;
             var selectedcafeType = [];
             clearMarkersAndInfoWindows()
             // 중앙 좌표
             let latlng = map.getCenter();
-            $("input[name='cafeType']:checked").each(function() {
+            $("input[name='cafeType']:checked").each(function () {
                 selectedcafeType.push($(this).val());
             });
 
@@ -617,12 +615,12 @@
                 }),
 
                 contentType: 'application/json; charset=utf-8',
-                success: function(data) {
+                success: function (data) {
                     // console.log(data.data);
                     displayPlaces(data.data);
                     // console.log("Data sent to the server.");
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
+                error: function (jqXHR, textStatus, errorThrown) {
                     alert("검색된 결과가 없습니다.");
                     // console.log(textStatus, errorThrown);
                 }
@@ -699,7 +697,7 @@
         removeAllChildNods(listEl);
 
         // 기존에 생성된 오버레이들을 모두 지웁니다
-        overlays.forEach(function(overlay) {
+        overlays.forEach(function (overlay) {
             overlay.setMap(null);
         });
         overlays = [];  // 오버레이 배열을 초기화합니다

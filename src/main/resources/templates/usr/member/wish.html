@@ -5,7 +5,18 @@
 <body>
 <main layout:fragment="main">
     <div class="w-screen h-screen flex flex-col items-center">
+        <div class="alert alert-warning shadow-lg max-w-xl">
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none"
+                     viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span class="p-1"> 카페 취향 설정은 한번만 가능합니다. (앱의 이용에 있어 중요하지 않습니다)</span>
+            </div>
+        </div>
         <div class="w-3/4 text-center mt-24">
+
             <div class="text-3xl">당신의 카페 취향을 알려주세요!</div>
             <!-- 성향 체크 fragment -->
             <div th:replace="fragment/tagSelect::tagSelectFragment(${tagList})"></div>

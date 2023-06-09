@@ -42,6 +42,9 @@ public class MemberController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/wish") // 카페 성향 선택 페이지
     public String showWish(Model model) {
+        if (!rq.getMember().getTagList().isEmpty()) {
+            return rq.redirectWithMsg("/map", "이미 카페 성향을 선택하셨습니다.");
+        }
         List<Tag> tagList = tagService.getTagList();
         List<Tag> memberTagList = rq.getMember().getTagList();
         List<Long> selectedTagIdList = new ArrayList<>();
@@ -67,7 +70,7 @@ public class MemberController {
         // Tag들의 ID를 배열로 저장
         List<String> selectedTags = List.of(wishForm.getSelectedTags().split(","));
         memberService.updateMemberTagList(rq.getMember(), selectedTags);
-        return rq.redirectWithMsg("/", "hi");
+        return rq.redirectWithMsg("/map", "hi");
     }
 
     @PreAuthorize("isAuthenticated()")
