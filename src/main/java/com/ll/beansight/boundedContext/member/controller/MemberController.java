@@ -123,4 +123,22 @@ public class MemberController {
         return rq.redirectWithMsg("/member/me", wishListUpdateRs);
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/me/delete")
+    public String deleteMemberWishList(
+            @RequestParam("id") Long memberId,
+            @RequestParam("wishListId") Long wishListId
+    ) {
+        Optional<Member> member = memberService.findByMemberId(memberId);
+        if (member.isEmpty()){
+            return rq.redirectWithMsg("usr/member/login", "로그인 후 사용 가능합니다.");
+        }
+        RsData<MemberWishList> wishListDeleteRs = memberWishListService.deleteMemberWishList(member.get(), wishListId);
+        if (wishListDeleteRs.isFail()){
+            rq.historyBack(RsData.of("F-1", "찜목록 삭제에 실패했습니다."));
+        }
+
+        return rq.redirectWithMsg("/member/me", wishListDeleteRs);
+    }
+
 }
