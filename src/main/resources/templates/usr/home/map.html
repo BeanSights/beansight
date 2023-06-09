@@ -412,41 +412,6 @@
 </div>
 <div id="category">
     <form>
-
-<!--        <div class="w-3/4 mt-24 h-4/5">-->
-<!--        <div class="flex flex-wrap">-->
-<!--            <div class="dropdown dropdown-hover no-animation">-->
-<!--                <label tabindex="0" class="btn btn-outline btn-warning m-1">📚 공부하기좋은카페</label>-->
-<!--                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">-->
-<!--                    <li><a>Item 1</a></li>-->
-<!--                    <li><a>Item 2</a></li>-->
-<!--                    <li><a>Item 3</a></li>-->
-<!--                    <li><a>Item 4</a></li>-->
-<!--                    <li><a>Item 5</a></li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--            <div class="dropdown dropdown-hover no-animation">-->
-<!--                <label tabindex="0" class="btn btn-outline btn-warning m-1">📸 인스타감성카페</label>-->
-<!--                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">-->
-<!--                    <li><a>Item 1</a></li>-->
-<!--                    <li><a>Item 2</a></li>-->
-<!--                    <li><a>Item 3</a></li>-->
-<!--                    <li><a>Item 4</a></li>-->
-<!--                    <li><a>Item 5</a></li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--            <div class="dropdown dropdown-hover no-animation">-->
-<!--                <label tabindex="0" class="btn btn-outline btn-warning m-1">📸 인스타감성카페</label>-->
-<!--                <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">-->
-<!--                    <li><a>Item 1</a></li>-->
-<!--                    <li><a>Item 2</a></li>-->
-<!--                    <li><a>Item 3</a></li>-->
-<!--                    <li><a>Item 4</a></li>-->
-<!--                    <li><a>Item 5</a></li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        </div>-->
         <label>
             <input type="checkbox" value="100" name="cafeType">
             <span>대화하기 좋은</span>
@@ -513,9 +478,16 @@
     <span id="currentPosition" class="btn btn-warning btn-sm"><i class="fa-solid fa-location-crosshairs fa-2xl"></i></span><br>
 <!--    <span id="btnSearch" class="btn btn-warning">검색</span>-->
 </div>
+<th:block th:if="${@rq.getMember().hasTagList()}">
 <div class="custom_recommendcontrol">
     <span id="btnrecommend" class="btn btn-warning">추천 탐색</span>
 </div>
+</th:block>
+<th:block th:if="${!@rq.getMember().hasTagList()}">
+    <div class="custom_recommendcontrol hidden">
+        <span id="btnrecommend" class="btn btn-warning">추천 탐색</span>
+    </div>
+</th:block>
 <div class="custom_typecontrol">
     <span id="btnSearch" class="btn btn-warning">주변 탐색</span>
 </div>
@@ -544,6 +516,7 @@
     var markers = [];
     // 모든 infoewindows를 담는 배열.
     var infowindows = [];
+    let overlays = [];  // 오버레이들을 저장하는 배열
     var keywordClicked = true;
 
     // 사용자가 서비스를 이용하고 있는 위치로 지도를 이동하는 기능
@@ -714,18 +687,6 @@
     kakao.maps.event.addListener(map, 'center_changed', function () {
     });
 
-    function cafeSearchCB(data, status, pagination) {
-        if (status === kakao.maps.services.Status.OK) {
-            displayPlaces(data);
-        } else if (status === kakao.maps.service.Status.ERROR) {
-            alert('주변에 카페가 존재하지 않습니다.');
-            return;
-        } else {
-            alert('검색 결과 중 오류가 발생하였습니다.');
-            return;
-        }
-    }
-
     // 검색 결과 목록과 마커를 표출하는 함수입니다
     function displayPlaces(places) {
 
@@ -736,6 +697,12 @@
 
         // 검색 결과 목록에 추가된 항목들을 제거합니다
         removeAllChildNods(listEl);
+
+        // 기존에 생성된 오버레이들을 모두 지웁니다
+        overlays.forEach(function(overlay) {
+            overlay.setMap(null);
+        });
+        overlays = [];  // 오버레이 배열을 초기화합니다
 
         for (var i = 0; i < places.length; i++) {
             let imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
@@ -765,7 +732,7 @@
             infowindows.push(infowindow);
             infowindow.open(map, marker);
 
-            createOverlay(marker, places[i])
+            createOverlay(marker, places[i]);
 
             var itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
 
@@ -788,6 +755,8 @@
             })(createOverlay(marker, places[i]));
 
             fragment.appendChild(itemEl);
+            // createOverlayContent(places[i]).querySelector('.close').createOverlay(marker, places[i]).setMap(null);
+
         }
 
         // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
@@ -815,6 +784,9 @@
         kakao.maps.event.addListener(marker, 'click', function () {
             overlay.setMap(map);
         });
+
+        // 오버레이 배열에 추가
+        overlays.push(overlay);
 
         return overlay;
     }
