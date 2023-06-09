@@ -67,7 +67,7 @@ public class MemberController {
         // Tag들의 ID를 배열로 저장
         List<String> selectedTags = List.of(wishForm.getSelectedTags().split(","));
         memberService.updateMemberTagList(rq.getMember(), selectedTags);
-        return rq.redirectWithMsg("/", "hi");
+        return rq.redirectWithMsg("/map", "hi");
     }
 
     @PreAuthorize("isAuthenticated()")
