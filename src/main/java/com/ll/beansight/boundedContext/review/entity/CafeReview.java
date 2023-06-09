@@ -7,10 +7,7 @@ import com.ll.beansight.boundedContext.search.entity.Cafe;
 import com.ll.beansight.boundedContext.tag.entity.ReviewTag;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
@@ -18,6 +15,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
