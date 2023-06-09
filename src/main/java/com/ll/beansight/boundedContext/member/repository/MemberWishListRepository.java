@@ -10,4 +10,6 @@ public interface MemberWishListRepository extends JpaRepository<MemberWishList, 
     List<MemberWishList> findAllByMemberId(Long memberId);
 
     Optional<MemberWishList> findByMemberIdAndWishListTitle(Long memberId, String wish);
+
+    Optional<MemberWishList> findByMemberIdAndId(Long id, Long wishListId);
 }

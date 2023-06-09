@@ -44,7 +44,7 @@
                     <label class="modal-box relative">
                         <label for="my-modal-4" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                         <h2 class="text-lg font-bold">찜 리스트 생성</h2>
-                        <form th:action method="POST" class="pt-4 flex flex-col gap-4 w-full items-center" onsubmit="WishListForm__submit(this); return false;">
+                        <form th:action="@{/member/me/create(id=${member.id})}" method="POST" class="pt-4 flex flex-col gap-4 w-full items-center" onsubmit="WishListForm__submit(this); return false;">
                             <div class="w-full h-20">
                                 <input type="text" class="input input-warning w-full h-3" name="content" maxlength="10" placeholder="찜제목을 작성해 주세요."></input>
                             </div>
@@ -60,14 +60,14 @@
                     <label class="modal-box relative">
                         <label for="my-modal-5" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                         <h2 class="text-lg font-bold">찜 제목 수정/삭제</h2>
-                        <form th:action method="POST" class="pt-4 flex flex-col gap-4 w-full items-center" onsubmit="WishListEditForm__submit(this); return false;">
+                        <form th:action="@{/member/me/update(id=${member.id})}" method="POST" class="pt-4 flex flex-col gap-4 w-full items-center" onsubmit="WishListForm__submit(this); return false;">
                             <div class="w-full h-20">
                                 <input type="text" class="input input-warning w-full h-3" name="content" maxlength="10" placeholder="찜제목을 작성해 주세요."/>
                             </div>
                             <div>
-                                <input type="hidden" id="edit-delete-id" name="id" />
+                                <input type="hidden" id="edit-delete-id" name="wishListId" />
                                 <input type="submit" value="수정" class="btn btn-warning btn-active" />
-                                <input type="button" value="삭제" class="btn btn-warning btn-active" onclick="deleteWishList()" />
+                                <input type="button" value="삭제" class="btn btn-warning btn-active" />
                             </div>
                         </form>
                     </label>
@@ -105,31 +105,9 @@
     }
 
     function openEditDeleteModal(element) {
-        const id = element.getAttribute('data-id');
-        document.getElementById('edit-delete-id').value = id;
-        // document.getElementById('my-modal-5').checked = true;
-        console.log(id);
+        document.getElementById('edit-delete-id').value = element.getAttribute('data-id');
     }
 
-    function WishListEditForm__submit(form) {
-        // content 이(가) 올바른지 체크
-
-        form.content.value = form.content.value.trim(); // 입력란의 입력값에 있을지 모르는 좌우공백제거
-
-        if (form.content.value.length === 0) {
-            toastWarning('찜 제목을 작성해주세요.');
-            form.content.focus();
-            return;
-        }
-
-        if (form.content.value.length < 3) {
-            toastWarning('찜 제목을 3글자 이상 입력해주세요.');
-            form.content.focus();
-            return;
-        }
-
-        form.submit(); // 폼 발송
-    }
 </script>
 </main>
 </body>

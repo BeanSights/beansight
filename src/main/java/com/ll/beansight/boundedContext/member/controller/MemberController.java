@@ -33,18 +33,10 @@ public class MemberController {
     private final MemberWishListService memberWishListService;
     private final Rq rq;
 
-
-
     @PreAuthorize("isAnonymous()")
     @GetMapping("/login") // 로그인 폼, 로그인 폼 처리는 스프링 시큐리티가 구현, 폼 처리시에 CustomUserDetailsService 가 사용됨
     public String showLogin() {
         return "usr/member/login";
-    }
-
-    @PreAuthorize("isAnonymous()")
-    @GetMapping("/review") // 리뷰 작성 페이지
-    public String review() {
-        return "usr/member/review";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -95,11 +87,10 @@ public class MemberController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/me")
-    public String me(
+    @PostMapping("/me/create")
+    public String createMemberWishList(
             @RequestParam("id") Long memberId,
-            @Valid @ModelAttribute WishListForm wishListForm,
-            HttpServletRequest request
+            @Valid @ModelAttribute WishListForm wishListForm
             ) {
         Optional<Member> member = memberService.findByMemberId(memberId);
         if (member.isEmpty()){
@@ -110,9 +101,26 @@ public class MemberController {
             rq.historyBack(RsData.of("F-1", "찜목록 생성에 실패했습니다."));
         }
 
-        // 페이지를 새로고침
-        String referer = request.getHeader("Referer");
-        return "redirect:" + referer;
+        return rq.redirectWithMsg("/member/me", wishListRs);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/me/update")
+    public String updateMemberWishList(
+            @RequestParam("id") Long memberId,
+            @RequestParam("wishListId") Long wishListId,
+            @Valid @ModelAttribute WishListForm wishListForm
+    ) {
+        Optional<Member> member = memberService.findByMemberId(memberId);
+        if (member.isEmpty()){
+            return rq.redirectWithMsg("usr/member/login", "로그인 후 사용 가능합니다.");
+        }
+        RsData<MemberWishList> wishListUpdateRs = memberWishListService.updateMemberWishList(member.get(), wishListId, wishListForm.getContent());
+        if (wishListUpdateRs.isFail()){
+            rq.historyBack(RsData.of("F-1", "찜목록 수정에 실패했습니다."));
+        }
+
+        return rq.redirectWithMsg("/member/me", wishListUpdateRs);
     }
 
 }
