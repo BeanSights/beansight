@@ -29,6 +29,10 @@
             height: 100%;
         }
 
+        .focused-info-window {
+            background-color: gray !important;
+        }
+
         .wrap {
             position: absolute;
             left: 0;
@@ -758,8 +762,31 @@
     kakao.maps.event.addListener(map, 'center_changed', function () {
     });
 
+    let onInfoWindowClicked = null;
+
+    function onInfoWindowEntered(el) {
+        $(el).parent().parent().addClass('focused-info-window');
+    }
+
+    function onInfoWindowLeaved(el) {
+        $(el).parent().parent().removeClass('focused-info-window');
+    }
+
     // 검색 결과 목록과 마커를 표출하는 함수입니다
     function displayPlaces(places) {
+
+        onInfoWindowClicked = function (el) {
+            const index = parseInt($(el).attr('data-index'));
+            const marker = markers[index];
+            const a = createOverlay(marker, places[index]);
+
+            // 이동할 위도 경도 위치를 생성합니다
+            var moveLatLon = marker.getPosition();
+
+            // 지도 중심을 이동 시킵니다
+            map.setCenter(moveLatLon);
+            a.setMap(map);
+        }
 
         var listEl = document.getElementById('placesList'),
             menuEl = document.getElementById('menu_wrap'),
@@ -792,18 +819,7 @@
 
             // 마커를 배열에 추가합니다.
             markers.push(marker);
-
-            let iwContent = places[i].place_name,
-                iwPosition = new kakao.maps.LatLng(places[i].y, places[i].x);
-
-            let infowindow = new kakao.maps.InfoWindow({
-                position: iwPosition,
-                content: iwContent
-            });
-            infowindows.push(infowindow);
-            infowindow.open(map, marker);
-
-            createOverlay(marker, places[i]);
+            const index = markers.length - 1;
 
             var itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
 
@@ -826,6 +842,17 @@
             })(createOverlay(marker, places[i]));
 
             fragment.appendChild(itemEl);
+
+            let iwContent = places[i].place_name,
+                iwPosition = new kakao.maps.LatLng(places[i].y, places[i].x);
+
+            let infowindow = new kakao.maps.InfoWindow({
+                position: iwPosition,
+                content: `<div onmouseenter="onInfoWindowEntered(this);" onmouseleave="onInfoWindowLeaved(this);" data-index="${index}" onclick="onInfoWindowClicked(this);">${iwContent}</div>`
+            });
+
+            infowindows.push(infowindow);
+            infowindow.open(map, marker);
             // createOverlayContent(places[i]).querySelector('.close').createOverlay(marker, places[i]).setMap(null);
 
         }
@@ -939,7 +966,7 @@
     function getListItem(index, places) {
 
         var el = document.createElement('li'),
-            itemStr = '<a href="cafeInfo?x=' + places.x + '&y=' + places.y + '" target="_blank">' + '<span class="markerbg marker_' + (index + 1) + '"></span>' +
+            itemStr = '<a class="text-gray-700 hover:text-blue-500" href="cafeInfo?x=' + places.x + '&y=' + places.y + '" target="_blank">' + '<span class="markerbg marker_' + (index + 1) + '"></span>' +
                 '<div class="info">' +
                 '   <h5>' + places.place_name + '</h5>';
 
