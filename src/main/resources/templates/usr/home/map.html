@@ -659,6 +659,8 @@
     $(document).ready(function () {
         $("input[type='checkbox']").change(function () {
             keywordClicked = false;
+            var listEl = document.getElementById('placesList');
+            removeAllChildNods(listEl);
             var selectedcafeType = [];
             clearMarkersAndInfoWindows()
             // 중앙 좌표

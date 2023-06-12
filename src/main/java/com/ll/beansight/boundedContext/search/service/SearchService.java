@@ -47,7 +47,7 @@ public class SearchService {
 
         // 필터링 작업.
         for(Long tag : tagList){
-            cafeInfoStream = cafeInfoStream.filter(e -> cafeTagRepository.existsByTag_TagIdAndCafeInfo(tag, e));
+            cafeInfoStream = cafeInfoStream.filter(e -> cafeTagRepository.existsByTag_TagIdAndCafeInfo(tag, e)).distinct();
         }
         return cafeInfoStream.toList();
     }
@@ -61,7 +61,7 @@ public class SearchService {
 
         // 필터링 작업.
         for(Long tag : tagList){
-            cafeInfoStream = cafeInfoStream.filter(e -> cafeTagRepository.existsByTag_TagIdAndCafeInfo(tag, e));
+            cafeInfoStream = cafeInfoStream.filter(e -> cafeTagRepository.existsByTag_TagIdAndCafeInfo(tag, e)).distinct();
         }
         return cafeInfoStream.toList();
     }
