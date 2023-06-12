@@ -613,6 +613,7 @@
             })
             .then(json => {
                 const data = json.data;
+                toastNotice("\"" + keyword + "\"에 대한 카페가 탐색되었습니다.");
                 displayPlaces(data);
             })
             .catch(error => {
@@ -629,7 +630,7 @@
         // 중앙 좌표
         var latlng = map.getCenter();
 
-        // 키워드로 검색해 데이터를 불러오는 작업.
+        // 추천 검색
         fetch('/search/recommend?x=' + latlng.getLng() + '&y=' + latlng.getLat())
             .then(response => {
                 if (!response.ok) {
@@ -641,6 +642,7 @@
                 return response.json();
             })
             .then(json => {
+                toastNotice("추천 탐색이 되었습니다.");
                 const data = json.data;
                 displayPlaces(data);
             })
@@ -679,6 +681,7 @@
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
                     // console.log(data.data);
+                    toastNotice("필터링 탐색이 되었습니다.");
                     displayPlaces(data.data);
                     // console.log("Data sent to the server.");
                 },
@@ -737,6 +740,7 @@
                 })
                 .then(json => {
                     const data = json.data;
+                    toastNotice("주변의 카페들이 탐색되었습니다.");
                     displayPlaces(data);
                 })
                 .catch(error => {
