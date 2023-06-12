@@ -8,10 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 @SuperBuilder
@@ -83,5 +80,18 @@ public class CafeInfo extends CafeInfoBase {
         if (tagsCountByTypeCode400 > 0) map.put(400L, tagsCountByTypeCode400);
         if (tagsCountByTypeCode401 > 0) map.put(401L, tagsCountByTypeCode401);
         return map;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CafeInfo cafeInfo = (CafeInfo) o;
+        return cafeId.equals(cafeInfo.cafeId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cafeId);
     }
 }
