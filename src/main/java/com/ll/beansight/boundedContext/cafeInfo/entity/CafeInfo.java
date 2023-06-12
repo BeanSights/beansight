@@ -31,6 +31,7 @@ public class CafeInfo extends CafeInfoBase {
 
     @OneToMany(mappedBy = "cafeInfo", cascade = {CascadeType.ALL})
     @Builder.Default
+    @Setter
     private List<CafeTag> cafeTags = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafeInfo", cascade = {CascadeType.ALL})

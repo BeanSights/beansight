@@ -98,6 +98,9 @@ public class CafeInfoService {
 
         int i = 0; // 3개까지만 저장하기 위한 변수
 
+        //초기화
+
+
         //cafeInfo에서 Count된 것들 중 0보다 큰 것을 가져오고 정렬하여 3개까지만 저장
         for (Long key : listKeySet) {
             if (i == 3)  break;
@@ -112,8 +115,8 @@ public class CafeInfoService {
                     .build());
             i++;
         }
-
-
+        //넣기 전 다시 초기화
+        cafeTagService.delete(cafeInfo);
         cafeTagService.add(cafeTags);
 
     }
