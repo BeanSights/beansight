@@ -147,9 +147,9 @@ public class CafeInfoService {
         return RsData.of("S-3", "위시리스트에 추가되었습니다.", cafeInfoWishList);
     }
 
-    public Map<String, Long> getCafeInfoTag(CafeInfo cafeInfoResponse) {
+    public Map<String, Long> getCafeInfoTag(CafeInfo cafeInfo) {
         Map<String, Long> cafeInfoTag = new LinkedHashMap<>();
-        Map<Long, Long> tagsCountByTypeCode = cafeInfoResponse.getTagsCountByTypeCode();
+        Map<Long, Long> tagsCountByTypeCode = cafeInfo.getTagsCountByTypeCode();
         if (tagsCountByTypeCode == null) {
             return cafeInfoTag;
         }
