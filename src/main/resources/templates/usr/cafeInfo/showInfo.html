@@ -63,9 +63,11 @@
                             <div class="card-body">
                                 <div th:text="|전체 (${cafeInfo.cafeReview.size()})|"></div>
                                 <div class="mt-4">
-                                    <span class="badge badge-accent badge-lg" th:each="tag : ${cafeInfo.cafeTags}"><i
+                                    <span class="badge badge-accent badge-lg" th:if="${!cafeInfoTag.isEmpty()}"
+                                          th:each="entry : ${cafeInfoTag}"><i
                                             class="fas fa-thumbs-up"></i>
-                                        <span th:text="${tag.tag.tagName}"></span>
+                                        <span th:text="${entry.key}"></span>
+                                        <span th:text="${entry.value}"></span>
                                     </span>
                                 </div>
 
@@ -88,8 +90,11 @@
                                         <div>
                                             <div th:text="${review.content}"></div>
                                             <div th:if="${review.member.id == member.id}" class="float-right">
-                                                <label for="my-modal-5" th:attr="data-id=${review.id}" onclick="openEditModal(this)"><i class="fa-solid fa-pen fa-lg"></i></label>
-                                                <button onclick="deleteReview();"><i class="fa-solid fa-trash fa-lg"></i></button>
+                                                <label for="my-modal-5" th:attr="data-id=${review.id}"
+                                                       onclick="openEditModal(this)"><i
+                                                        class="fa-solid fa-pen fa-lg"></i></label>
+                                                <button onclick="deleteReview();"><i
+                                                        class="fa-solid fa-trash fa-lg"></i></button>
                                                 <input type="hidden" id="delete-id" th:value="${review.id}">
                                             </div>
                                         </div>
@@ -117,7 +122,8 @@
                     <div th:each="wish : ${member.wishLists}">
                         <label class="cursor-pointer label">
                             <span class="label-text p-2" th:text="${wish.wishListTitle}"></span>
-                            <input type="checkbox" name="wishList" th:value="${wish.wishListTitle}" class="checkbox checkbox-warning"/>
+                            <input type="checkbox" name="wishList" th:value="${wish.wishListTitle}"
+                                   class="checkbox checkbox-warning"/>
                         </label>
                     </div>
                 </div>
@@ -126,18 +132,21 @@
         </div>
     </div>
 
-    <input type="checkbox" id="my-modal-5" class="modal-toggle" />
+    <input type="checkbox" id="my-modal-5" class="modal-toggle"/>
     <label for="my-modal-5" class="modal cursor-pointer">
         <label class="modal-box relative text-center">
             <label for="my-modal-5" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
             <h2 class="text-lg font-bold">리뷰 수정</h2>
-            <form th:action="@{/cafeInfo/review/update(id=${member.id}, x=${cafeInfo.x}, y=${cafeInfo.y})}" method="POST" class="pt-4 flex flex-col gap-4 w-full items-center" onsubmit="ReviewForm__submit(this); return false;">
+            <form th:action="@{/cafeInfo/review/update(id=${member.id}, x=${cafeInfo.x}, y=${cafeInfo.y})}"
+                  method="POST" class="pt-4 flex flex-col gap-4 w-full items-center"
+                  onsubmit="ReviewForm__submit(this); return false;">
                 <div class="w-full h-20">
-                    <textarea class="textarea textarea-warning w-full h-20" name="content" maxlength="30" placeholder="리뷰를 작성해 주세요..!"></textarea>
+                    <textarea class="textarea textarea-warning w-full h-20" name="content" maxlength="30"
+                              placeholder="리뷰를 작성해 주세요..!"></textarea>
                 </div>
                 <div>
-                    <input type="hidden" id="edit-id" name="reviewId" />
-                    <input type="submit" value="수정" class="btn btn-warning btn-active" />
+                    <input type="hidden" id="edit-id" name="reviewId"/>
+                    <input type="submit" value="수정" class="btn btn-warning btn-active"/>
                 </div>
             </form>
         </label>
@@ -182,13 +191,14 @@
         function openEditModal(element) {
             document.getElementById('edit-id').value = element.getAttribute('data-id');
         }
+
         function deleteReview() {
             const x = /*[[${cafeInfo.x}]]*/ null;
             const y = /*[[${cafeInfo.y}]]*/ null;
             const reviewId = document.getElementById('delete-id').value;
             const confirmation = confirm('정말로 삭제하시겠습니까?');
             if (confirmation) {
-                fetch('/cafeInfo/review/delete?x=' + encodeURIComponent(x) +'&y=' + encodeURIComponent(y) + '&reviewId=' + encodeURIComponent(reviewId), {
+                fetch('/cafeInfo/review/delete?x=' + encodeURIComponent(x) + '&y=' + encodeURIComponent(y) + '&reviewId=' + encodeURIComponent(reviewId), {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -208,7 +218,7 @@
                         // ...
                     });
             }
-            }
+        }
     </script>
 </main>
 </body>

@@ -76,6 +76,14 @@ public class CafeInfoService {
     }
 
     public void whenAfterCancelReview(CafeReview review) {
+        Optional<CafeInfo> cafeInfo = cafeInfoRepository.findByCafeId(review.getCafeInfo().getCafeId());
+        if (cafeInfo.isEmpty()) {
+            return;
+        }
+        for (ReviewTag reviewTag : review.getReviewTags()) {
+            cafeInfo.get().decreaseTagCount(reviewTag.getTag().getTagId());
+        }
+        addCafeTags(cafeInfo.get());
     }
 
     public void whenAfterModifyTagType(CafeReview review, int oldTagTypeCode) {
@@ -98,9 +106,12 @@ public class CafeInfoService {
 
         int i = 0; // 3개까지만 저장하기 위한 변수
 
+        //초기화
+
+
         //cafeInfo에서 Count된 것들 중 0보다 큰 것을 가져오고 정렬하여 3개까지만 저장
         for (Long key : listKeySet) {
-            if (i == 3)  break;
+            if (i == 3) break;
 
             Optional<Tag> tag = tagService.getTag(key);
             if (tag.isEmpty()) {
@@ -112,8 +123,8 @@ public class CafeInfoService {
                     .build());
             i++;
         }
-
-
+        //넣기 전 다시 초기화
+        cafeTagService.delete(cafeInfo);
         cafeTagService.add(cafeTags);
 
     }
@@ -134,6 +145,29 @@ public class CafeInfoService {
         cafeInfoWishListRepository.save(cafeInfoWishList);
 
         return RsData.of("S-3", "위시리스트에 추가되었습니다.", cafeInfoWishList);
+    }
+
+    public Map<String, Long> getCafeInfoTag(CafeInfo cafeInfo) {
+        Map<String, Long> cafeInfoTag = new LinkedHashMap<>();
+        Map<Long, Long> tagsCountByTypeCode = cafeInfo.getTagsCountByTypeCode();
+        if (tagsCountByTypeCode == null) {
+            return cafeInfoTag;
+        }
+        //key들만 저장
+        List<Long> listKeySet = new ArrayList<>(tagsCountByTypeCode.keySet());
+        //key들을 value값을 기준으로 내림차순 정렬
+        listKeySet.sort((o1, o2) -> (tagsCountByTypeCode.get(o2).compareTo(tagsCountByTypeCode.get(o1))));
+
+        for (Long key : listKeySet) {
+            Optional<Tag> tag = tagService.getTag(key);
+
+            if (tag.isEmpty()) {
+                continue;
+            }
+
+            cafeInfoTag.put(tag.get().getTagName(), tagsCountByTypeCode.get(key));
+        }
+        return cafeInfoTag;
     }
 }
 

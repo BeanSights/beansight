@@ -1,5 +1,6 @@
 package com.ll.beansight.boundedContext.review.service;
 
+import com.ll.beansight.base.event.EventAfterCancelReview;
 import com.ll.beansight.base.rsData.RsData;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
 import com.ll.beansight.boundedContext.cafeInfo.service.CafeInfoService;
@@ -10,6 +11,7 @@ import com.ll.beansight.boundedContext.review.entity.CafeReview;
 import com.ll.beansight.boundedContext.review.repository.CafeReviewRepository;
 import com.ll.beansight.boundedContext.tag.entity.ReviewTag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,7 @@ public class CafeReviewService {
     private final CafeReviewRepository cafeReviewRepository;
     private final CafeInfoService cafeInfoService;
     private final MemberService memberService;
+    private final ApplicationEventPublisher publisher;
 
     public RsData<CafeReview> write(Long cafeId, Long memberId, String content) {
         Optional<CafeInfo> cafeInfo = cafeInfoService.findByCafeId(cafeId);
@@ -57,6 +60,7 @@ public class CafeReviewService {
     public RsData<CafeReview> deleteReview(Member member, Long reviewId) {
         CafeReview cafeReview = cafeReviewRepository.findByMemberIdAndId(member.getId(), reviewId);
         cafeReviewRepository.delete(cafeReview);
+        publisher.publishEvent(new EventAfterCancelReview(cafeReview));
         return RsData.of("S-3", "리뷰가 삭제되었습니다.", cafeReview);
     }
 }
