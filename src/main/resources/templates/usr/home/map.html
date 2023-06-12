@@ -386,6 +386,15 @@
             z-index: 2;
         }
 
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #4B5563;
+            background-color: #4B5563;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #9CA3AF;
+        }
+
     </style>
 </head>
 <body>
@@ -409,29 +418,29 @@
     <form>
         <div class="dropdown dropdown-hover no-animation">
             <label tabindex="0" class="btn btn-outline btn-warning m-1">분위기</label>
-            <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
+            <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-40">
                 <label class="flex items-center">
-                    <input type="checkbox" value="100" name="cafeType">
+                    <input type="checkbox" value="100" name="cafeType" class="checkbox checkbox-warning">
                     <span class="flex items-center">대화하기 좋은<img class="w-4 h-4"
                                                    src="https://cdn-icons-png.flaticon.com/128/3050/3050525.png"
                                                    alt="text"></span>
                 </label>
                 <label class="flex items-center">
-                    <input type="checkbox" value="101" name="cafeType">
+                    <input type="checkbox" value="101" name="cafeType" class="checkbox checkbox-warning">
                     <span class="flex items-center">깔끔한<img class="w-4 h-4"
                                   src="https://cdn-icons-png.flaticon.com/128/685/685156.png"
                                   alt="text"></span>
                 </label>
 
                 <label class="flex items-center">
-                    <input type="checkbox" value="102" name="cafeType">
+                    <input type="checkbox" value="102" name="cafeType" class="checkbox checkbox-warning">
                     <span class="flex items-center">인스타 감성<img class="w-4 h-4"
                                      src="https://cdn-icons-png.flaticon.com/128/2111/2111463.png"
                                      alt="text"></span>
                 </label>
 
                 <label class="flex items-center">
-                    <input type="checkbox" value="103" name="cafeType">
+                    <input type="checkbox" value="103" name="cafeType" class="checkbox checkbox-warning">
                     <span class="flex items-center">스터디<img class="w-4 h-4"
                                   src="https://cdn-icons-png.flaticon.com/128/1081/1081040.png"
                                   alt="text"></span>
@@ -440,30 +449,30 @@
         </div>
         <div class="dropdown dropdown-hover no-animation">
             <label tabindex="0" class="btn btn-outline btn-warning m-1">편의시설</label>
-            <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
+            <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-40">
                 <label class="flex items-center">
-                    <input type="checkbox" value="200" name="cafeType">
+                    <input type="checkbox" value="200" name="cafeType" class="checkbox checkbox-warning">
                     <span class="flex items-center">주차장<img class="w-4 h-4"
                                   src="https://cdn-icons-png.flaticon.com/128/1788/1788637.png"
                                   alt="text"></span>
                 </label>
 
                 <label class="flex items-center">
-                    <input type="checkbox" value="201" name="cafeType">
+                    <input type="checkbox" value="201" name="cafeType" class="checkbox checkbox-warning">
                     <span class="flex items-center">콘센트<img class="w-4 h-4"
                                   src="https://cdn-icons-png.flaticon.com/128/675/675806.png"
                                   alt="text"></span>
                 </label>
 
                 <label class="flex items-center">
-                    <input type="checkbox" value="202" name="cafeType">
+                    <input type="checkbox" value="202" name="cafeType" class="checkbox checkbox-warning">
                     <span class="flex items-center">넓은 매장<img class="w-4 h-4"
                                     src="https://cdn-icons-png.flaticon.com/128/2605/2605103.png"
                                     alt="text"></span>
                 </label>
 
                 <label class="flex items-center">
-                    <input type="checkbox" value="203" name="cafeType">
+                    <input type="checkbox" value="203" name="cafeType" class="checkbox checkbox-warning">
                     <span class="flex items-center">깨끗한 화장실<img class="w-4 h-4"
                                       src="https://cdn-icons-png.flaticon.com/128/577/577986.png"
                                       alt="text"></span>
@@ -472,30 +481,30 @@
         </div>
         <div class="dropdown dropdown-hover no-animation">
             <label tabindex="0" class="btn btn-outline btn-warning m-1">기타</label>
-            <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-52">
+            <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-40">
                 <label class="flex items-center">
-                    <input type="checkbox" value="300" name="cafeType">
+                    <input type="checkbox" value="300" name="cafeType" class="checkbox checkbox-warning">
                     <span class="flex items-center">착한 가격<img class="w-4 h-4"
                                     src="https://cdn-icons-png.flaticon.com/128/3501/3501938.png"
                                     alt="text"></span>
                 </label>
 
                 <label class="flex items-center">
-                    <input type="checkbox" value="301" name="cafeType">
+                    <input type="checkbox" value="301" name="cafeType" class="checkbox checkbox-warning">
                     <span class="flex items-center">디저트<img class="w-4 h-4"
                                   src="https://cdn-icons-png.flaticon.com/128/992/992754.png"
                                   alt="text"></span>
                 </label>
 
                 <label class="flex items-center">
-                    <input type="checkbox" value="400" name="cafeType">
+                    <input type="checkbox" value="400" name="cafeType" class="checkbox checkbox-warning">
                     <span class="flex items-center">쿠폰 적립<img class="w-4 h-4"
                                     src="https://cdn-icons-png.flaticon.com/128/1603/1603859.png"
                                     alt="text"></span>
                 </label>
 
                 <label class="flex items-center">
-                    <input type="checkbox" value="401" name="cafeType">
+                    <input type="checkbox" value="401" name="cafeType" class="checkbox checkbox-warning">
                     <span class="flex items-center">친절한 매장<img class="w-4 h-4"
                                      src="https://cdn-icons-png.flaticon.com/128/2871/2871691.png"
                                      alt="text"></span>
