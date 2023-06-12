@@ -1,12 +1,14 @@
 package com.ll.beansight.boundedContext.cafeInfo.entity;
 
 import com.ll.beansight.base.baseEntity.BaseEntity;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @Getter
+@MappedSuperclass
 @NoArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
