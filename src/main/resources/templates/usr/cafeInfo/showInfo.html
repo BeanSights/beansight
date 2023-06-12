@@ -75,7 +75,7 @@
 
                                 <!--여기 반복문으로   -->
                                 <div th:if="${!cafeInfo.cafeReview.isEmpty()}">
-                                    <div th:each="review : ${cafeInfo.cafeReview}">
+                                    <div th:id="'item__' + ${review.id}" th:each="review : ${cafeInfo.cafeReview}">
                                         <div>
                                             <span th:text="|${review.member.username} |"></span>
                                             <span class="text-warning"
@@ -207,6 +207,8 @@
                     .then(response => {
                         if (response.ok) {
                             // 삭제 성공 후 페이지 새로고침
+                            const reviewDiv = document.getElementById('item__' + reviewId);
+                            reviewDiv.remove();
                             toastNotice("리뷰를 삭제하였습니다.");
                         } else {
                             // 응답이 실패했을 경우 처리할 로직 작성
