@@ -616,6 +616,10 @@
                 selectedcafeType.push($(this).val());
             });
 
+            if(selectedcafeType.length == 0){
+                return ;
+            }
+
             $.ajax({
                 url: '/search/filter',
                 type: 'POST',
