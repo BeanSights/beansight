@@ -25,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -41,8 +42,10 @@ public class CafeInfoController {
     public String showInfo(Model model, @RequestParam(defaultValue = "126.97890911337976") double x,
                            @RequestParam(defaultValue = "37.571150829509854") double y) {
         CafeInfo cafeInfoResponse = cafeInfoService.search(x, y);
+        Map<String, Long> cafeInfoTag = cafeInfoService.getCafeInfoTag(cafeInfoResponse);
         model.addAttribute("member", rq.getMember());
         model.addAttribute("cafeInfo", cafeInfoResponse);
+        model.addAttribute("cafeInfoTag", cafeInfoTag);
 
         return "usr/cafeInfo/showInfo";
     }
