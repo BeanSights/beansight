@@ -412,7 +412,7 @@
     </div>
     <hr>
     <ul id="placesList"></ul>
-    <div id="pagination"></div>
+
 </div>
 <div id="category">
     <form>
@@ -514,7 +514,9 @@
     </form>
 </div>
 <div class="custom_pickcontrol">
-    <a class="ml-auto btn btn-warning" th:href="@{/member/me(id=${memberId})}">찜</a><br>
+    <a class="ml-auto btn btn-warning" th:href="@{/member/me(id=${memberId})}"><img class="w-6 h-6"
+                                                                                    src="https://cdn-icons-png.flaticon.com/128/3523/3523887.png"
+                                                                                    alt="text"></a><br>
 </div>
 <div class="join join-vertical custom_recommendcontrol">
     <div class="join-item">
@@ -935,7 +937,7 @@
     function getListItem(index, places) {
 
         var el = document.createElement('li'),
-            itemStr = '<span class="markerbg marker_' + (index + 1) + '"></span>' +
+            itemStr = '<a href="cafeInfo?x=' + places.x + '&y=' + places.y + '" target="_blank">' + '<span class="markerbg marker_' + (index + 1) + '"></span>' +
                 '<div class="info">' +
                 '   <h5>' + places.place_name + '</h5>';
 
@@ -947,7 +949,7 @@
         }
 
         itemStr += '  <span class="tel">' + places.phone + '</span>' +
-            '</div>';
+            '</div>' + '</a>';
 
         el.innerHTML = itemStr;
         el.className = 'item';
