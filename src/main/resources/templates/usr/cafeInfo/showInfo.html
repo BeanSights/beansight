@@ -93,9 +93,11 @@
                                                 <label for="my-modal-5" th:attr="data-id=${review.id}"
                                                        onclick="openEditModal(this)"><i
                                                         class="fa-solid fa-pen fa-lg"></i></label>
-                                                <button onclick="deleteReview();"><i
-                                                        class="fa-solid fa-trash fa-lg"></i></button>
-                                                <input type="hidden" id="delete-id" th:value="${review.id}">
+                                                <button onclick="if ( confirm('정말로 취소하시겠습니까?') ) $(this).next().submit();">
+                                                    <i class="fa-solid fa-trash fa-lg"></i></button>
+                                                <form th:action="@{/cafeInfo/review/delete(x=${cafeInfo.x}, y=${cafeInfo.y})}" method="post">
+                                                    <input type="hidden" id="delete-id" name="reviewId" th:value="${review.id}">
+                                                </form>
                                             </div>
                                         </div>
                                         <div class="divider mt-2"></div>
@@ -190,37 +192,7 @@
 
         function openEditModal(element) {
             document.getElementById('edit-id').value = element.getAttribute('data-id');
-        }
-
-        function deleteReview() {
-            const x = /*[[${cafeInfo.x}]]*/ null;
-            const y = /*[[${cafeInfo.y}]]*/ null;
-            const reviewId = document.getElementById('delete-id').value;
-            const confirmation = confirm('정말로 삭제하시겠습니까?');
-            if (confirmation) {
-                fetch('/cafeInfo/review/delete?x=' + encodeURIComponent(x) + '&y=' + encodeURIComponent(y) + '&reviewId=' + encodeURIComponent(reviewId), {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            // 삭제 성공 후 페이지 새로고침
-                            const reviewDiv = document.getElementById('item__' + reviewId);
-                            reviewDiv.remove();
-
-                            toastNotice("리뷰를 삭제하였습니다.");
-                        } else {
-                            // 응답이 실패했을 경우 처리할 로직 작성
-                            // response 객체를 활용하여 실패 정보 추출
-                        }
-                    })
-                    .catch(error => {
-                        // 에러 처리
-                        // ...
-                    });
-            }
+            document.getElementById('delete-id').value = element.getAttribute('data-id');
         }
     </script>
 </main>
