@@ -4,6 +4,7 @@ import com.ll.beansight.base.api.dto.DocumentDTO;
 import com.ll.beansight.base.api.service.KakaoSearchService;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
 import com.ll.beansight.boundedContext.tag.entity.CafeTag;
+import com.ll.beansight.boundedContext.tag.entity.MemberTag;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
 import com.ll.beansight.boundedContext.tag.repository.CafeTagRepository;
 import lombok.RequiredArgsConstructor;
@@ -53,10 +54,10 @@ public class SearchService {
     }
 
     // 태그기준 필터링(추천검색)
-    public List<CafeInfo> recommendTagFilter(List<Tag> tags) {
+    public List<CafeInfo> recommendTagFilter(List<MemberTag> tags) {
 
         List<Long> tagList = tags.stream()
-                .map(Tag::getTagId).toList();
+                .map(MemberTag::getTag).map(Tag::getTagId).toList();
         Stream<CafeInfo> cafeInfoStream = cafeTagRepository.findAllByTag_TagId(tagList.get(0)).stream().map(CafeTag::getCafeInfo);
 
         // 필터링 작업.

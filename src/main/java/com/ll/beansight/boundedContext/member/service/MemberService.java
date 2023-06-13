@@ -3,14 +3,18 @@ package com.ll.beansight.boundedContext.member.service;
 import com.ll.beansight.base.rsData.RsData;
 import com.ll.beansight.boundedContext.member.entity.Member;
 import com.ll.beansight.boundedContext.member.repository.MemberRepository;
+import com.ll.beansight.boundedContext.tag.entity.MemberTag;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
 import com.ll.beansight.boundedContext.tag.repository.TagRepository;
+import com.ll.beansight.boundedContext.tag.service.MemberTagService;
+import com.ll.beansight.boundedContext.tag.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -22,8 +26,8 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     private final MemberRepository memberRepository;
-
-    private final TagRepository tagRepository;
+    private final TagService tagService;
+    private final MemberTagService memberTagService;
 
     public Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
@@ -72,25 +76,18 @@ public class MemberService {
 
     @Transactional
     public RsData<String> updateMemberTagList(Member member, List<String> tagList) {
-
-        List<Long> memberTagList = new LinkedList<>();
-
-        // 태그 이름들 확인
-        for (Tag tag : member.getTagList()) {
-            memberTagList.add(tag.getTagId());
-        }
-        System.out.println(memberTagList);
-
+        List<MemberTag> memberTags = new ArrayList<>();
         for (String tagId : tagList) {
-            if (memberTagList.contains(tagId)) continue;
 
-            Optional<Tag> opTag = tagRepository.findById(Long.parseLong(tagId));
-
+            Optional<Tag> opTag = tagService.getTag(Long.parseLong(tagId));
             if (!opTag.isPresent()) return RsData.of("F-1", "실패");
-            member.getTagList().add(opTag.get());
+            memberTags.add(MemberTag.builder()
+                    .member(member)
+                    .tag(opTag.get())
+                    .build());
         }
 
-        memberRepository.save(member);
+        memberTagService.add(memberTags);
 
         return RsData.of("S-1", "성공");
     }
