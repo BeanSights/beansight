@@ -136,6 +136,9 @@ public class CafeInfoService {
         if (memberWishList.isEmpty()) {
             return RsData.of("F-1", "위시리스트가 존재하지 않습니다.");
         }
+        if (cafeInfoWishListRepository.existsByCafeInfoAndMemberWishList(cafeInfo, memberWishList.get())) {
+            return RsData.of("F-2", "이미 위시리스트에 추가된 카페입니다.");
+        }
 
         CafeInfoWishList cafeInfoWishList = CafeInfoWishList.builder()
                 .cafeInfo(cafeInfo)
