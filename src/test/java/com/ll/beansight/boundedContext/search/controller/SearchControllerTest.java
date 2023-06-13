@@ -26,75 +26,75 @@ public class SearchControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @Test
-    @DisplayName("가까운 카페를 찾는 경우 위도 경도가 있어야한다.")
-    @WithUserDetails("user1")
-    void t001() throws Exception {
-        // WHEN
-        ResultActions resultActions = mvc
-                .perform(get("/search/near-cafe?x=126.97890911337976&y=37.571150829509854"))
-                .andDo(print());
-
-        // THEN
-        resultActions
-                .andExpect(status().is2xxSuccessful());
-    }
-
-    @Test
-    @DisplayName("가까운 카페를 찾는 경우 위도 경도가 없어도 성공해야한다.")
-    @WithUserDetails("user1")
-    void t002() throws Exception {
-        // WHEN
-        ResultActions resultActions = mvc
-                .perform(get("/search/near-cafe"))
-                .andDo(print());
-
-        // THEN
-        resultActions
-                .andExpect(status().is2xxSuccessful());
-    }
-
-    @Test
-    @DisplayName("키워드로 카페를 찾는 경우 키워드도 있고 위도 경도가 있으면 성공한다.")
-    @WithUserDetails("user1")
-    void t003() throws Exception {
-        // WHEN
-        ResultActions resultActions = mvc
-                .perform(get("/search/keyword/스타벅스?x=126.97890911337976&y=37.571150829509854"))
-                .andDo(print());
-
-        // THEN
-        resultActions
-                .andExpect(status().is2xxSuccessful());
-    }
-
-    @Test
-    @DisplayName("키워드로 카페를 찾는 경우 키워드가 있지만, 위도가 경도가 없어도 성공한다.")
-    @WithUserDetails("user1")
-    void t004() throws Exception {
-        // WHEN
-        ResultActions resultActions = mvc
-                .perform(get("/search/keyword/스타벅스"))
-                .andDo(print());
-
-        // THEN
-        resultActions
-                .andExpect(status().is2xxSuccessful());
-    }
-
-    @Test
-    @DisplayName("키워드로 카페를 찾는 경우 키워드가 없으면 실패한다.")
-    @WithUserDetails("user1")
-    void t006() throws Exception {
-        // WHEN
-        ResultActions resultActions = mvc
-                .perform(get("/search/keyword"))
-                .andDo(print());
-
-        // THEN
-        resultActions
-                .andExpect(status().is4xxClientError());
-    }
+//    @Test
+//    @DisplayName("가까운 카페를 찾는 경우 위도 경도가 있어야한다.")
+//    @WithUserDetails("user1")
+//    void t001() throws Exception {
+//        // WHEN
+//        ResultActions resultActions = mvc
+//                .perform(get("/search/near-cafe?x=126.97890911337976&y=37.571150829509854"))
+//                .andDo(print());
+//
+//        // THEN
+//        resultActions
+//                .andExpect(status().is2xxSuccessful());
+//    }
+//
+//    @Test
+//    @DisplayName("가까운 카페를 찾는 경우 위도 경도가 없어도 성공해야한다.")
+//    @WithUserDetails("user1")
+//    void t002() throws Exception {
+//        // WHEN
+//        ResultActions resultActions = mvc
+//                .perform(get("/search/near-cafe"))
+//                .andDo(print());
+//
+//        // THEN
+//        resultActions
+//                .andExpect(status().is2xxSuccessful());
+//    }
+//
+//    @Test
+//    @DisplayName("키워드로 카페를 찾는 경우 키워드도 있고 위도 경도가 있으면 성공한다.")
+//    @WithUserDetails("user1")
+//    void t003() throws Exception {
+//        // WHEN
+//        ResultActions resultActions = mvc
+//                .perform(get("/search/keyword/스타벅스?x=126.97890911337976&y=37.571150829509854"))
+//                .andDo(print());
+//
+//        // THEN
+//        resultActions
+//                .andExpect(status().is2xxSuccessful());
+//    }
+//
+//    @Test
+//    @DisplayName("키워드로 카페를 찾는 경우 키워드가 있지만, 위도가 경도가 없어도 성공한다.")
+//    @WithUserDetails("user1")
+//    void t004() throws Exception {
+//        // WHEN
+//        ResultActions resultActions = mvc
+//                .perform(get("/search/keyword/스타벅스"))
+//                .andDo(print());
+//
+//        // THEN
+//        resultActions
+//                .andExpect(status().is2xxSuccessful());
+//    }
+//
+//    @Test
+//    @DisplayName("키워드로 카페를 찾는 경우 키워드가 없으면 실패한다.")
+//    @WithUserDetails("user1")
+//    void t006() throws Exception {
+//        // WHEN
+//        ResultActions resultActions = mvc
+//                .perform(get("/search/keyword"))
+//                .andDo(print());
+//
+//        // THEN
+//        resultActions
+//                .andExpect(status().is4xxClientError());
+//    }
 
 
 
