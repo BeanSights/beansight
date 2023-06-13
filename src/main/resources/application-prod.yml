@@ -8,8 +8,6 @@ spring:
     oauth2:
       client:
         registration:
-          naver:
-            redirect-uri: 'https://www.beansight.shop//{action}/oauth2/code/{registrationId}'
           kakao:
             redirect-uri: 'https://www.beansight.shop//{action}/oauth2/code/{registrationId}'
   jpa:
