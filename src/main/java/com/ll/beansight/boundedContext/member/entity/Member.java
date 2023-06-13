@@ -2,6 +2,7 @@ package com.ll.beansight.boundedContext.member.entity;
 
 import com.ll.beansight.base.baseEntity.BaseEntity;
 import com.ll.beansight.boundedContext.review.entity.CafeReview;
+import com.ll.beansight.boundedContext.tag.entity.MemberTag;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,7 +28,7 @@ public class Member extends BaseEntity {
     private String password;
     //TODO: 나중에 mappedby 넣고, controller에서 wish 부분 고치기, Tag -> MemberTag
     @OneToMany
-    private List<Tag> tagList;
+    private List<MemberTag> tagList;
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<CafeReview> cafeReviewList;
     @OneToMany(mappedBy = "member", cascade = {CascadeType.REMOVE})
