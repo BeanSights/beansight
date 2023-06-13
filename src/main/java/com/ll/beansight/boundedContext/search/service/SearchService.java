@@ -110,15 +110,31 @@ public class SearchService {
 
     // 카페 태그들을 가져오는
     public List<CafeInfoResponse> getCafeTags(List<DocumentDTO> nearCafes) {
+        List<CafeInfoResponse> response = new ArrayList<>();
         for(DocumentDTO nearCafe : nearCafes){
             CafeInfo cafeInfo = cafeInfoRepository.findByCafeId(nearCafe.getId()).orElse(null);
-            Map<Long, Long> tagsCountByTypeCode = cafeInfo.getTagsCountByTypeCode();
             List<String> tagList = new ArrayList<>();
-            if(cafeInfo != null || tagsCountByTypeCode != null){
-                tagList = cafeInfoService.getCafeInfoTag(cafeInfo).keySet().stream()
-                        .limit(2).toList();
+            // 카페 또는 태그가 있는 경우에만.
+            if(cafeInfo != null){
+                if(cafeInfo.getTagsCountByTypeCode() != null){
+                    tagList = cafeInfoService.getCafeInfoTag(cafeInfo).keySet().stream()
+                            .limit(3).toList();
+                }
             }
-
+            CafeInfoResponse cafeInfoResponse = CafeInfoResponse.builder()
+                    .id(nearCafe.getId())
+                    .placeName(nearCafe.getPlaceName())
+                    .phone(nearCafe.getPhone())
+                    .addressName(nearCafe.getAddressName())
+                    .roadAddressName(nearCafe.getRoadAddressName())
+                    .longitude(nearCafe.getLongitude())
+                    .latitude(nearCafe.getLatitude())
+                    .placeUrl(nearCafe.getPlaceUrl())
+                    .distance(nearCafe.getDistance())
+                    .cafeTag(tagList)
+                    .build();
+            response.add(cafeInfoResponse);
         }
+        return response;
     }
 }

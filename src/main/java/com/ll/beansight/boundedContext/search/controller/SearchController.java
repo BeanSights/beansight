@@ -41,14 +41,14 @@ public class SearchController {
         if(keyword.length()==0){
             return Ut.spring.responseEntityOf(RsData.of("F-1", "키워드를 입력해주세요."));
         }
-        List<DocumentDTO> keywordResponse = searchService.keywordSearch(keyword, x, y);
+        List<DocumentDTO> keywordCafe = searchService.keywordSearch(keyword, x, y);
         // 키워드로 검색했는데 결과가 없는 경우.
-        if(keywordResponse.size() == 0){
+        if(keywordCafe.size() == 0){
             return Ut.spring.responseEntityOf(RsData.of("F-1", "검색된 결과가 없습니다."));
 
         }
-
-        return Ut.spring.responseEntityOf(RsData.of("S-1", "키워드로 장소 검색 성공", keywordResponse));
+        List<CafeInfoResponse> cafeInfoResponses = searchService.getCafeTags(keywordCafe);
+        return Ut.spring.responseEntityOf(RsData.of("S-1", "키워드로 장소 검색 성공", cafeInfoResponses));
     }
 
     // 필터링 기능
@@ -68,13 +68,10 @@ public class SearchController {
         if(cafeInfoDistanceFilterList.size() == 0){
             return Ut.spring.responseEntityOf(RsData.of("F-1", "주변에 필터링된 카페가 없습니다."));
         }
-        List<DocumentDTO> filterResponse = searchService.filterResponse(cafeInfoDistanceFilterList);
+        List<DocumentDTO> filterCafe = searchService.filterResponse(cafeInfoDistanceFilterList);
 
-        for(DocumentDTO cafe : filterResponse){
-            System.out.println(cafe.getAddressName());
-            System.out.println(cafe.getLongitude());
-        }
-        return Ut.spring.responseEntityOf(RsData.of("S-1", "필터링 장소 검색 성공", filterResponse));
+        List<CafeInfoResponse> cafeInfoResponses = searchService.getCafeTags(filterCafe);
+        return Ut.spring.responseEntityOf(RsData.of("S-1", "필터링 장소 검색 성공", cafeInfoResponses));
     }
 
     // 추천 필터링 기능
@@ -93,9 +90,9 @@ public class SearchController {
         if(cafeInfoDistanceFilterList.size() == 0){
             return Ut.spring.responseEntityOf(RsData.of("F-1", "주변에 필터링된 카페가 없습니다."));
         }
-        List<DocumentDTO> filterResponse = searchService.filterResponse(cafeInfoDistanceFilterList);
-
-        return Ut.spring.responseEntityOf(RsData.of("S-1", "추천 장소 검색 성공", filterResponse));
+        List<DocumentDTO> filterCafe = searchService.filterResponse(cafeInfoDistanceFilterList);
+        List<CafeInfoResponse> cafeInfoResponses = searchService.getCafeTags(filterCafe);
+        return Ut.spring.responseEntityOf(RsData.of("S-1", "추천 장소 검색 성공", cafeInfoResponses));
     }
 
     public static class CafeFilterRequest {
