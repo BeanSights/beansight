@@ -24,6 +24,7 @@ public class Member extends BaseEntity {
     private String providerTypeCode; // 일반회원인지, 카카오로 가입한 회원인지, 구글로 가입한 회원인지
     @Column(unique = true)
     private String username;
+    private String nickname;
     private String password;
     //TODO: 나중에 mappedby 넣고, controller에서 wish 부분 고치기, Tag -> MemberTag
     @OneToMany

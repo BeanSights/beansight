@@ -62,12 +62,12 @@
                             <div class="w-full h-20">
                                 <input type="text" class="input input-warning w-full h-3" name="content" maxlength="10" placeholder="찜제목을 작성해 주세요."/>
                             </div>
-                            <div>
+                            <div class="w-full">
                                 <input type="hidden" id="edit-delete-id" name="wishListId" />
-                                <input type="submit" value="수정" class="btn btn-warning btn-active" />
+                                <input type="submit" value="수정" class="btn btn-warning btn-active w-full" />
                             </div>
                         </form>
-                        <button onclick="if ( confirm('정말로 취소하시겠습니까?') ) $(this).next().submit();" class="btn btn-active btn-warning m-1">삭제</button>
+                        <button onclick="if ( confirm('정말로 삭제하시겠습니까?') ) $(this).next().submit();" class="btn btn-active btn-warning w-full">삭제</button>
                         <form th:action="@{/member/me/delete(id=${member.id})}" method="POST" class="pt-4 flex flex-col gap-4 w-full items-center">
                             <div>
                                 <input type="hidden" id="delete-id" name="wishListId" />

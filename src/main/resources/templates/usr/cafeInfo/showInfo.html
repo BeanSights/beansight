@@ -83,7 +83,7 @@
                                 <div th:if="${!cafeInfo.cafeReview.isEmpty()}">
                                     <div th:id="'item__' + ${review.id}" th:each="review : ${cafeInfo.cafeReview}">
                                         <div>
-                                            <span th:text="|${review.member.username} |"></span>
+                                            <span th:text="|${review.member.nickname} |"></span>
                                             <span class="text-warning"
                                                   th:text="${#temporals.format(review.member.createDate, 'yy.MM.dd HH:mm')}"></span>
                                         </div>
