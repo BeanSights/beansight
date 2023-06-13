@@ -70,7 +70,7 @@ public class CafeInfoController {
         for (String wish : wishForm.getWishList()) {
             RsData<CafeInfoWishList> cafeInfoWishListRsData =cafeInfoService.addWishList(rq.getMember(), cafeInfo, wish);
             if (cafeInfoWishListRsData.isFail()) {
-                return rq.redirectWithMsg("/cafeInfo?x=" + x + "&y=" + y, cafeInfoWishListRsData.getMsg());
+                return rq.historyBack(cafeInfoWishListRsData);
             }
         }
 
