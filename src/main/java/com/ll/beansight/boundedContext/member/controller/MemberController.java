@@ -6,6 +6,7 @@ import com.ll.beansight.boundedContext.member.entity.Member;
 import com.ll.beansight.boundedContext.member.entity.MemberWishList;
 import com.ll.beansight.boundedContext.member.service.MemberService;
 import com.ll.beansight.boundedContext.member.service.MemberWishListService;
+import com.ll.beansight.boundedContext.tag.entity.MemberTag;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
 import com.ll.beansight.boundedContext.tag.service.TagService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,16 +47,17 @@ public class MemberController {
             return rq.redirectWithMsg("/map", "이미 카페 성향을 선택하셨습니다.");
         }
         List<Tag> tagList = tagService.getTagList();
-        List<Tag> memberTagList = rq.getMember().getTagList();
+
+        List<MemberTag> memberTagList = rq.getMember().getTagList();
         List<Long> selectedTagIdList = new ArrayList<>();
 
-        for (Tag tag : memberTagList) {
-            selectedTagIdList.add(tag.getTagId());
+        for (MemberTag tag : memberTagList) {
+            selectedTagIdList.add(tag.getTag().getTagId());
         }
 
         model.addAttribute("tagList", tagList);
         model.addAttribute("selectedTagList", selectedTagIdList);
-        System.out.println(selectedTagIdList);
+
         return "usr/member/wish";}
 
     @AllArgsConstructor
