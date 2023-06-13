@@ -4,9 +4,15 @@ spring:
     url: jdbc:mariadb://172.17.0.1:3306/beansight__prod?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
     username: youlike
     password: youlike
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirect-uri: 'https://www.beansight.shop//{action}/oauth2/code/{registrationId}'
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         show_sql: false
