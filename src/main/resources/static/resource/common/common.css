@@ -5,6 +5,7 @@
     font-style: normal;
 }
 
+
 html > body {
     font-family: "Pretendard-Regular";
     text-underline-position: under;
@@ -14,3 +15,4 @@ html > body {
 html > body .label-text {
     font-size: 1rem;
 }
+

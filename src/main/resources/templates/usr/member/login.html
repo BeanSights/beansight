@@ -7,23 +7,99 @@
 <body>
 
 <main layout:fragment="main">
-    <div class="card w-96 bg-base-100 shadow-xl image-full h-screen w-screen">
-        <figure><img class="h-screen w-screen" src="/img/mainpage.png" alt="BeanSight"/></figure>
-        <div class="card-body">
-            <h2 class="card-title">BeanSight에 오신 여러분 환영합니다 </h2>
-            <p>우리는 이런 사이트 입니다.</p>
-            <div class="card-actions justify-end">
-                <a href="/oauth2/authorization/kakao" class="btn btn-warning gap-1">
+    <div class="card bg-base-100 shadow-xl image-full h-full w-full">
+        <figure><img src="/img/mainpage.png" alt="BeanSight"/></figure>
+        <div class="card-body  flex flex-col justify-center items-center">
+            <h2 class="card-title">
+                <div class="box-2 typing-effect-1 text-3xl" data-text="안녕하세요 BeanSight에 오신 것을 환영합니다." data-inter="100">
+                    <div>
+                    </div>
+                </div>
+            </h2>
+            <div class="box-2 typing-effect-1 mt-3" data-text="이 사이트는 여러분의 취향에 맞는 카페를 찾아 줄 수 있습니다" data-inter="120">
+                <div>
+                </div>
+            </div>
+            <div class="carousel w-2/4 h-2/4 rounded-3xl">
+                <div id="slide1" class="carousel-item relative w-full ">
+                    <img src="/img/1.png" class="w-full " />
+                    <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                        <a href="#slide4" class="btn btn-circle">❮</a>
+                        <a href="#slide2" class="btn btn-circle">❯</a>
+                    </div>
+                </div>
+                <div id="slide2" class="carousel-item relative w-full">
+                    <img src="/img/2.png" class="w-full" />
+                    <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                        <a href="#slide1" class="btn btn-circle">❮</a>
+                        <a href="#slide3" class="btn btn-circle">❯</a>
+                    </div>
+                </div>
+                <div id="slide3" class="carousel-item relative w-full">
+                    <img src="/img/3.png" class="w-full" />
+                    <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                        <a href="#slide2" class="btn btn-circle">❮</a>
+                        <a href="#slide4" class="btn btn-circle">❯</a>
+                    </div>
+                </div>
+                <div id="slide4" class="carousel-item relative w-full">
+                    <img src="/img/4.png" class="w-full" />
+                    <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                        <a href="#slide3" class="btn btn-circle">❮</a>
+                        <a href="#slide1" class="btn btn-circle">❯</a>
+                    </div>
+                </div>
+            </div>
+
+            <p class="card-actions justify-end mt-5 ">
+                <a href="/oauth2/authorization/kakao" class="btn btn-wide  gap-1">
                     <i class="fa-solid fa-comment text-[color:#ffe812]"></i>
                     <span class="normal-case" th:text="|카카오 로그인|"></span>
                 </a>
-            </div>
+            </p>
             <div>
                 <a href="javascript:;" th:if="${@rq.login}" onClick="$(this).next().submit();">로그아웃</a>
                 <form th:if="${@rq.login}" hidden th:action="|/member/logout|" method="POST"></form>
             </div>
         </div>
+
     </div>
+    <script>
+        function TypingEffect1__init() {
+            $('.typing-effect-1').each(function (index, el) {
+                const $el = $(el);
+
+                const text = $el.attr('data-text');
+                const inter = parseInt($el.attr('data-inter'));
+                $el.find(' > div').empty();
+                const textBits = text.split('');
+
+                $el.data('typing-effect-1__index', 0);
+                $el.data('typing-effect-1__inter', inter);
+                $el.data('typing-effect-1__$div', $el.find(' > div'));
+                TypingEffect1__start($el, textBits);
+            });
+        }
+
+        function TypingEffect1__start($el, textBits) {
+            const index = $el.data('typing-effect-1__index');
+            const inter = $el.data('typing-effect-1__inter');
+            const $div = $el.data('typing-effect-1__$div');
+            setTimeout(function () {
+                $div.append(textBits[index]);
+
+                if (index + 1 == textBits.length) {
+                    return;
+                }
+
+                $el.data('typing-effect-1__index', index + 1);
+
+                TypingEffect1__start($el, textBits);
+            }, inter);
+        }
+
+        TypingEffect1__init();
+    </script>
 </main>
 
 </body>
