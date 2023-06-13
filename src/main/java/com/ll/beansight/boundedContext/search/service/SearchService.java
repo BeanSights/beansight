@@ -3,6 +3,10 @@ package com.ll.beansight.boundedContext.search.service;
 import com.ll.beansight.base.api.dto.DocumentDTO;
 import com.ll.beansight.base.api.service.KakaoSearchService;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
+import com.ll.beansight.boundedContext.cafeInfo.repository.CafeInfoRepository;
+import com.ll.beansight.boundedContext.cafeInfo.service.CafeInfoService;
+import com.ll.beansight.boundedContext.search.controller.SearchController;
+import com.ll.beansight.boundedContext.search.response.CafeInfoResponse;
 import com.ll.beansight.boundedContext.tag.entity.CafeTag;
 import com.ll.beansight.boundedContext.tag.entity.MemberTag;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
@@ -12,7 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
@@ -21,7 +28,9 @@ import java.util.stream.Stream;
 @Transactional(readOnly = true)
 public class SearchService {
 
+    private final CafeInfoRepository cafeInfoRepository;
     private final KakaoSearchService kakaoSearchService;
+    private final CafeInfoService cafeInfoService;
     private final CafeTagRepository cafeTagRepository;
     // 10KM내에 검색
     private static final double RADIUS_KM = 10.0;
@@ -97,5 +106,35 @@ public class SearchService {
             list.add(dto);
         }
         return list;
+    }
+
+    // 카페 태그들을 가져오는
+    public List<CafeInfoResponse> getCafeTags(List<DocumentDTO> nearCafes) {
+        List<CafeInfoResponse> response = new ArrayList<>();
+        for(DocumentDTO nearCafe : nearCafes){
+            CafeInfo cafeInfo = cafeInfoRepository.findByCafeId(nearCafe.getId()).orElse(null);
+            List<String> tagList = new ArrayList<>();
+            // 카페 또는 태그가 있는 경우에만.
+            if(cafeInfo != null){
+                if(cafeInfo.getTagsCountByTypeCode() != null){
+                    tagList = cafeInfoService.getCafeInfoTag(cafeInfo).keySet().stream()
+                            .limit(3).toList();
+                }
+            }
+            CafeInfoResponse cafeInfoResponse = CafeInfoResponse.builder()
+                    .id(nearCafe.getId())
+                    .placeName(nearCafe.getPlaceName())
+                    .phone(nearCafe.getPhone())
+                    .addressName(nearCafe.getAddressName())
+                    .roadAddressName(nearCafe.getRoadAddressName())
+                    .longitude(nearCafe.getLongitude())
+                    .latitude(nearCafe.getLatitude())
+                    .placeUrl(nearCafe.getPlaceUrl())
+                    .distance(nearCafe.getDistance())
+                    .cafeTag(tagList)
+                    .build();
+            response.add(cafeInfoResponse);
+        }
+        return response;
     }
 }
