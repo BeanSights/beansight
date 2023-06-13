@@ -35,7 +35,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         String username = providerTypeCode + "__%s".formatted(oauthId);
 
-        Member member = memberService.whenSocialLogin(providerTypeCode, username).getData();
+        Map<String, Object> getAccount = oAuth2User.getAttribute("kakao_account");
+        Map<String, Object> getProfile = (Map<String, Object>) getAccount.get("profile");
+        String nickname = getProfile.get("nickname").toString();
+
+        Member member = memberService.whenSocialLogin(providerTypeCode, username, nickname).getData();
 
         return new CustomOAuth2User(member.getUsername(), member.getPassword(), member.getGrantedAuthorities());
     }
