@@ -21,4 +21,5 @@ public class CafeInfoWishList extends BaseEntity {
     private CafeInfo cafeInfo;
     @ManyToOne
     private MemberWishList memberWishList;
+    private Long memberId;
 }

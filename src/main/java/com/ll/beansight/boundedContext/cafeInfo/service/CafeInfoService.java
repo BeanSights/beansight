@@ -140,6 +140,7 @@ public class CafeInfoService {
         CafeInfoWishList cafeInfoWishList = CafeInfoWishList.builder()
                 .cafeInfo(cafeInfo)
                 .memberWishList(memberWishList.get())
+                .memberId(member.getId())
                 .build();
 
         cafeInfoWishListRepository.save(cafeInfoWishList);
@@ -168,6 +169,10 @@ public class CafeInfoService {
             cafeInfoTag.put(tag.get().getTagName(), tagsCountByTypeCode.get(key));
         }
         return cafeInfoTag;
+    }
+
+    public Optional<CafeInfoWishList> getCafeInfo(Member member, Long cafeInfoId) {
+        return cafeInfoWishListRepository.findByCafeInfoIdAndMemberId(cafeInfoId, member.getId());
     }
 }
 
