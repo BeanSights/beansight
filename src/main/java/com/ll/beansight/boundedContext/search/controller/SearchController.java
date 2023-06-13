@@ -80,6 +80,7 @@ public class SearchController {
         System.out.println("Received x: " + x);
         System.out.println("Received y: " + y);
 
+
         // 태그 기준으로 1차 필터링
         List<CafeInfo> cafeInfoTagFilterList = searchService.recommendTagFilter(rq.getMember().getTagList());
         if(cafeInfoTagFilterList.size() == 0){

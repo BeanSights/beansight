@@ -51,10 +51,10 @@
                                     <a class="ml-auto btn btn-warning"
                                        th:href="@{/cafeInfo/review(cafeId=${cafeInfo.cafeId})}">리뷰 남기기</a>
                                     <label for="modal" class="p-1 btn btn-warning">찜하기&nbsp;
-                                        <div th:if="${hasMemberCafeInfo}">
+                                        <div th:if="${!hasMemberCafeInfo}">
                                             <i class="text-pink-500 fa-solid fa-heart"></i>
                                         </div>
-                                        <div th:unless="${hasMemberCafeInfo}">
+                                        <div th:unless="${!hasMemberCafeInfo}">
                                             <i class="text-pink-500 fa-regular fa-heart"></i>
                                         </div>
                                     </label>

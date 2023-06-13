@@ -529,12 +529,12 @@
         <!--    <span id="btnSearch" class="btn btn-warning">검색</span>-->
     </div>
     <div class="join-item">
-        <th:block th:if="${@rq.getMember().hasTagList()}">
+        <th:block>
             <div class="">
                 <span id="btnrecommend" class="btn btn-warning btn-sm mb-2">추천 탐색</span>
             </div>
         </th:block>
-        <th:block th:if="${!@rq.getMember().hasTagList()}">
+        <th:block>
             <div class=" hidden">
                 <span id="btnrecommend" class="btn btn-warning btn-sm">추천 탐색</span>
             </div>

@@ -171,7 +171,7 @@ public class CafeInfoService {
         return cafeInfoTag;
     }
 
-    public Optional<CafeInfoWishList> getCafeInfo(Member member, Long cafeInfoId) {
+    public List<CafeInfoWishList> getCafeInfo(Member member, Long cafeInfoId) {
         return cafeInfoWishListRepository.findByCafeInfoIdAndMemberId(cafeInfoId, member.getId());
     }
 }
