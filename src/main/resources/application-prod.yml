@@ -9,10 +9,10 @@ spring:
       client:
         registration:
           kakao:
-            redirect-uri: 'https://www.beansight.shop//{action}/oauth2/code/{registrationId}'
+            redirect-uri: 'https://www.beansight.shop/{action}/oauth2/code/{registrationId}'
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: false
