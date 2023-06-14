@@ -29,7 +29,7 @@
             height: 100%;
         }
 
-        .customoverlay {position:relative;bottom:70px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+        .customoverlay {position:relative;left:5px;bottom:70px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
         .customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
         .customoverlay span {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
         .customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
@@ -562,7 +562,7 @@
     var container = document.getElementById('map');
     var options = {
         center: new kakao.maps.LatLng(37.571150829509854, 126.97890911337976),
-        level: 3
+        level: 2
     };
 
     // 지도 생성
@@ -810,11 +810,9 @@
         overlays = [];  // 오버레이 배열을 초기화합니다
 
         for (var i = 0; i < places.length; i++) {
-            let imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+            let imageSrc = 'https://cdn-icons-png.flaticon.com/128/2812/2812028.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
                 imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
                 imgOptions = {
-                    spriteSize: new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-                    spriteOrigin: new kakao.maps.Point(0, (i * 46) + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
                     offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
                 },
                 markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
