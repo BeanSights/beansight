@@ -924,10 +924,8 @@
         desc.innerText = places.road_address_name;
 
         let instaDiv = document.createElement("div");
-        let instaAnchor = document.createElement("a");
-        instaAnchor.setAttribute("href", "#");
-        instaAnchor.setAttribute("target", "_blank");
-        instaAnchor.setAttribute("class", "link");
+        let instaAnchor = document.createElement("div");
+        instaAnchor.setAttribute("class", "invisible");
         instaAnchor.innerText = "인스타페이지";
 
         instaDiv.appendChild(instaAnchor);
@@ -941,19 +939,22 @@
 
         detailDiv.appendChild(detailAnchor);
 
-        let tag1 = document.createElement("div");
-        tag1.setAttribute("class", "desc");
-        tag1.innerText = places.cafe_tag[0];
-        let tag2 = document.createElement("div");
-        tag2.setAttribute("class", "desc");
-        tag2.innerText = places.cafe_tag[1];
-        let tag3 = document.createElement("div");
-        tag3.setAttribute("class", "desc");
-        tag3.innerText = places.cafe_tag[2];
+        let cafeTags = places.cafe_tag;
+        //places.cafeTag 들 전체를 받아와서 반복해서 넣어준다.
+        let tagDiv = document.createElement("div");
+        tagDiv.setAttribute("class", "tag");
+        cafeTags.forEach(function (tag) {
+            let tagSpan = document.createElement("div");
+            tagSpan.setAttribute("class", "badge badge-sm bg-yellow-300 border-yellow-300 text-black text-xs");
+            tagSpan.innerText = "#" + tag;
+            tagDiv.appendChild(tagSpan);
+        });
 
 
-        desc.appendChild(instaDiv);
+
         desc.appendChild(detailDiv);
+        desc.appendChild(instaDiv);
+        desc.appendChild(tagDiv);
 
         body.appendChild(img);
         body.appendChild(desc);
