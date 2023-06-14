@@ -223,7 +223,7 @@
             margin: 10px 0 30px 10px;
             padding: 5px;
             overflow-y: auto;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(250, 190, 35, 0.7);
             z-index: 1;
             font-size: 13px;
             border-radius: 10px;
@@ -382,10 +382,10 @@
             position: absolute;
             top: 1px;
             left: 270px;
-            border-radius: 5px;
-            border: 1px solid #909090;
-            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
-            background: #fff;
+            /*border-radius: 5px;*/
+            /*border: 1px solid #909090;*/
+            /*box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);*/
+            /*background: #fff;*/
 
             z-index: 2;
         }
@@ -421,7 +421,7 @@
 <div id="category">
     <form>
         <div class="dropdown dropdown-hover no-animation">
-            <label tabindex="0" class="btn btn-outline btn-warning m-1">분위기</label>
+            <label tabindex="0" class="btn btn-warning m-1">분위기</label>
             <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-40">
                 <label class="flex items-center">
                     <input type="checkbox" value="100" name="cafeType" class="checkbox checkbox-warning">
@@ -452,7 +452,7 @@
             </ul>
         </div>
         <div class="dropdown dropdown-hover no-animation">
-            <label tabindex="0" class="btn btn-outline btn-warning m-1">편의시설</label>
+            <label tabindex="0" class="btn btn-warning m-1">편의시설</label>
             <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-40">
                 <label class="flex items-center">
                     <input type="checkbox" value="200" name="cafeType" class="checkbox checkbox-warning">
@@ -484,7 +484,7 @@
             </ul>
         </div>
         <div class="dropdown dropdown-hover no-animation">
-            <label tabindex="0" class="btn btn-outline btn-warning m-1">기타</label>
+            <label tabindex="0" class="btn btn-warning m-1">기타</label>
             <ul tabindex="0" class="dropdown-content menu menu-compact text-warning p-2 shadow bg-base-100 rounded-box w-40">
                 <label class="flex items-center">
                     <input type="checkbox" value="300" name="cafeType" class="checkbox checkbox-warning">
@@ -519,7 +519,7 @@
 </div>
 <div class="custom_pickcontrol">
     <a class="ml-auto btn btn-warning" th:href="@{/member/me(id=${memberId})}"><img class="w-6 h-6"
-                                                                                    src="https://cdn-icons-png.flaticon.com/128/3523/3523887.png"
+                                                                                    src="https://cdn-icons-png.flaticon.com/128/210/210545.png"
                                                                                     alt="text"></a><br>
 </div>
 <div class="join join-vertical custom_recommendcontrol">
@@ -978,17 +978,17 @@
 
         var el = document.createElement('li'),
             itemStr = '<a class="text-gray-700 hover:text-blue-500" href="cafeInfo?x=' + places.x + '&y=' + places.y + '" target="_blank">' + '<span class="markerbg marker_' + (index + 1) + '"></span>' +
-                '<div class="info">' +
+                '<div class="info font-bold">' +
                 '   <h5>' + places.place_name + '</h5>';
 
         if (places.road_address_name) {
             itemStr += '    <span>' + places.road_address_name + '</span>' +
-                '   <span class="jibun gray">' + places.address_name + '</span>';
+                '   <span class="jibun gray font-bold font-bold">' + places.address_name + '</span>';
         } else {
             itemStr += '    <span>' + places.address_name + '</span>';
         }
 
-        itemStr += '  <span class="tel">' + places.phone + '</span>' +
+        itemStr += '  <span class="tel font-bold">' + places.phone + '</span>' +
             '</div>' + '</a>';
 
         el.innerHTML = itemStr;
