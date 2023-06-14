@@ -924,10 +924,8 @@
         desc.innerText = places.road_address_name;
 
         let instaDiv = document.createElement("div");
-        let instaAnchor = document.createElement("a");
-        instaAnchor.setAttribute("href", "#");
-        instaAnchor.setAttribute("target", "_blank");
-        instaAnchor.setAttribute("class", "link");
+        let instaAnchor = document.createElement("div");
+        instaAnchor.setAttribute("class", "invisible");
         instaAnchor.innerText = "인스타페이지";
 
         instaDiv.appendChild(instaAnchor);
@@ -954,8 +952,8 @@
 
 
 
-        desc.appendChild(instaDiv);
         desc.appendChild(detailDiv);
+        desc.appendChild(instaDiv);
         desc.appendChild(tagDiv);
 
         body.appendChild(img);
