@@ -43,8 +43,8 @@ public class CafeInfoController {
                            @RequestParam(defaultValue = "37.571150829509854") double y) {
         CafeInfo cafeInfoResponse = cafeInfoService.search(x, y);
         Map<String, Long> cafeInfoTag = cafeInfoService.getCafeInfoTag(cafeInfoResponse);
-        Optional<CafeInfoWishList> cafeInfoWishList = cafeInfoService.getCafeInfo(rq.getMember(), cafeInfoResponse.getId());
-        Boolean hasMemberCafeInfo = cafeInfoWishList.isPresent(); // Boolean 객체로 변경
+        List<CafeInfoWishList> cafeInfoWishList = cafeInfoService.getCafeInfo(rq.getMember(), cafeInfoResponse.getId());
+        Boolean hasMemberCafeInfo = cafeInfoWishList.isEmpty(); // Boolean 객체로 변경
         model.addAttribute("hasMemberCafeInfo", hasMemberCafeInfo);
         model.addAttribute("member", rq.getMember());
         model.addAttribute("cafeInfo", cafeInfoResponse);
@@ -70,7 +70,7 @@ public class CafeInfoController {
         for (String wish : wishForm.getWishList()) {
             RsData<CafeInfoWishList> cafeInfoWishListRsData =cafeInfoService.addWishList(rq.getMember(), cafeInfo, wish);
             if (cafeInfoWishListRsData.isFail()) {
-                return rq.redirectWithMsg("/cafeInfo?x=" + x + "&y=" + y, cafeInfoWishListRsData.getMsg());
+                return rq.historyBack(cafeInfoWishListRsData);
             }
         }
 

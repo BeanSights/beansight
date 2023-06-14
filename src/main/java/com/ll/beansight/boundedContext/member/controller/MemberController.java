@@ -8,8 +8,8 @@ import com.ll.beansight.boundedContext.member.service.MemberService;
 import com.ll.beansight.boundedContext.member.service.MemberWishListService;
 import com.ll.beansight.boundedContext.tag.entity.MemberTag;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
+import com.ll.beansight.boundedContext.tag.service.MemberTagService;
 import com.ll.beansight.boundedContext.tag.service.TagService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -32,6 +32,7 @@ public class MemberController {
     private final MemberService memberService;
     private final TagService tagService;
     private final MemberWishListService memberWishListService;
+    private final MemberTagService memberTagService;
     private final Rq rq;
 
     @PreAuthorize("isAnonymous()")
@@ -43,7 +44,7 @@ public class MemberController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/wish") // 카페 성향 선택 페이지
     public String showWish(Model model) {
-        if (!rq.getMember().getTagList().isEmpty()) {
+        if (!memberTagService.findByMemberId(rq.getMember().getId()).isEmpty()) {
             return rq.redirectWithMsg("/map", "이미 카페 성향을 선택하셨습니다.");
         }
         List<Tag> tagList = tagService.getTagList();

@@ -5,9 +5,12 @@ import com.ll.beansight.base.api.dto.DocumentDTO;
 import com.ll.beansight.base.rq.Rq;
 import com.ll.beansight.base.rsData.RsData;
 import com.ll.beansight.boundedContext.cafeInfo.entity.CafeInfo;
+import com.ll.beansight.boundedContext.member.service.MemberService;
 import com.ll.beansight.boundedContext.search.response.CafeInfoResponse;
 import com.ll.beansight.boundedContext.search.service.SearchService;
+import com.ll.beansight.boundedContext.tag.entity.MemberTag;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
+import com.ll.beansight.boundedContext.tag.service.MemberTagService;
 import com.ll.beansight.standard.util.Ut;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,7 @@ public class SearchController {
 
     private final Rq rq;
     private final SearchService searchService;
+    private final MemberTagService memberTagService;
 
     // 거리순으로 카페 불러오는
     @GetMapping("/near-cafe")
@@ -81,7 +85,8 @@ public class SearchController {
         System.out.println("Received y: " + y);
 
         // 태그 기준으로 1차 필터링
-        List<CafeInfo> cafeInfoTagFilterList = searchService.recommendTagFilter(rq.getMember().getTagList());
+        List<MemberTag> memberTags = memberTagService.findByMemberId(rq.getMember().getId());
+        List<CafeInfo> cafeInfoTagFilterList = searchService.recommendTagFilter(memberTags);
         if(cafeInfoTagFilterList.size() == 0){
             return Ut.spring.responseEntityOf(RsData.of("F-1", "필터링된 결과가 없습니다."));
         }

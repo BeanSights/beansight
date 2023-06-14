@@ -5,7 +5,6 @@ import com.ll.beansight.boundedContext.member.entity.Member;
 import com.ll.beansight.boundedContext.member.repository.MemberRepository;
 import com.ll.beansight.boundedContext.tag.entity.MemberTag;
 import com.ll.beansight.boundedContext.tag.entity.Tag;
-import com.ll.beansight.boundedContext.tag.repository.MemberTagRepository;
 import com.ll.beansight.boundedContext.tag.repository.TagRepository;
 import com.ll.beansight.boundedContext.tag.service.MemberTagService;
 import com.ll.beansight.boundedContext.tag.service.TagService;
@@ -28,7 +27,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final TagService tagService;
-    private final MemberTagRepository memberTagRepository;
+    private final MemberTagService memberTagService;
 
     public Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
@@ -82,15 +81,13 @@ public class MemberService {
 
             Optional<Tag> opTag = tagService.getTag(Long.parseLong(tagId));
             if (!opTag.isPresent()) return RsData.of("F-1", "실패");
-            MemberTag memberTag = MemberTag
-                    .builder()
+            memberTags.add(MemberTag.builder()
                     .member(member)
                     .tag(opTag.get())
-                    .build();
-            memberTagRepository.save(memberTag);
-            member.getTagList().add(memberTag);
+                    .build());
         }
 
+        memberTagService.add(memberTags);
 
         return RsData.of("S-1", "성공");
     }
