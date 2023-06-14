@@ -29,6 +29,12 @@
             height: 100%;
         }
 
+        .customoverlay {position:relative;bottom:70px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+        .customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+        .customoverlay span {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+        .customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+        .customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+
         .focused-info-window {
             background-color: gray !important;
         }
@@ -576,6 +582,7 @@
     // 모든 infoewindows를 담는 배열.
     var infowindows = [];
     let overlays = [];  // 오버레이들을 저장하는 배열
+    let overlays2 = []; // 오버레이들을 저장하는 배열
     var keywordClicked = true;
 
     // 사용자가 서비스를 이용하고 있는 위치로 지도를 이동하는 기능
@@ -843,16 +850,20 @@
 
             fragment.appendChild(itemEl);
 
-            let iwContent = places[i].place_name,
+            let iwContent = `<div class="customoverlay">` +
+                    `<span>` +
+                    `<span class="title">`+places[i].place_name + `</span>` +
+                    `</span>` +
+                    `</div>`,
                 iwPosition = new kakao.maps.LatLng(places[i].y, places[i].x);
 
-            let infowindow = new kakao.maps.InfoWindow({
+            let infowindow = new kakao.maps.CustomOverlay({
                 position: iwPosition,
                 content: `<div onmouseenter="onInfoWindowEntered(this);" onmouseleave="onInfoWindowLeaved(this);" data-index="${index}" onclick="onInfoWindowClicked(this);">${iwContent}</div>`
             });
 
-            infowindows.push(infowindow);
-            infowindow.open(map, marker);
+            infowindow.setMap(map);
+            overlays2.push(infowindow);
             // createOverlayContent(places[i]).querySelector('.close').createOverlay(marker, places[i]).setMap(null);
 
         }
@@ -1001,17 +1012,20 @@
     // 마커와 카페이름 표시 지우는 작업.
     function clearMarkersAndInfoWindows() {
         // 모든 infowindows 배열 비우는 작업.
-        for (var i = 0; i < infowindows.length; i++) {
-            infowindows[i].close();
+        for (var i = 0; i < overlays2.length; i++) {
+            overlays2[i].setMap(null);
         }
         // 모든 마커 배열 비우는 작업.
         for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(null);
         }
+
+
         // 마커 배열을 비웁니다.
         markers = [];
         // infowindows 배열을 비웁니다.
         infowindows = [];
+
     }
 </script>
 </body>
