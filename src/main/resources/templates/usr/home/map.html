@@ -554,7 +554,7 @@
             <a href="javascript:;" th:if="${@rq.login}" onClick="$(this).next().submit();">로그아웃</a>
             <form th:if="${@rq.login}" hidden th:action="|/member/logout|" method="POST"></form>
         </span>
-    </div>아
+    </div>
 </div>
 <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6f301dbb23ca856e3a4481fbbae7adcb&libraries=services"></script>
@@ -609,6 +609,8 @@
             // alert('키워드를 입력해주세요!');
             return false;
         }
+        var listEl = document.getElementById('placesList');
+        removeAllChildNods(listEl);
         clearMarkersAndInfoWindows()
         // 중앙 좌표
         var latlng = map.getCenter();
@@ -639,6 +641,8 @@
     // 추천 검색
     recommend.addEventListener('click', function () {
         keywordClicked = false;
+        var listEl = document.getElementById('placesList');
+        removeAllChildNods(listEl);
         clearMarkersAndInfoWindows()
         // 중앙 좌표
         var latlng = map.getCenter();
@@ -712,6 +716,8 @@
 
     // 주변 탐색.
     if (keywordClicked) {
+        var listEl = document.getElementById('placesList');
+        removeAllChildNods(listEl);
         clearMarkersAndInfoWindows()
         // 중앙 좌표
         var latlng = map.getCenter();
