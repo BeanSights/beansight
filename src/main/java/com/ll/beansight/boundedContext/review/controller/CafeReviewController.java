@@ -56,7 +56,7 @@ public class CafeReviewController {
     @Getter
     public static class ReviewForm {
         @NotBlank // 비어있지 않아야 하고, 공백으로만 이루어 지지도 않아야 한다.
-        @Size(min = 4, max = 30) // 4자 이상, 30자 이하
+        @Size(min = 3, max = 30) // 3자 이상, 30자 이하
         private final String content;
     }
 
