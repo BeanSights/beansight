@@ -66,7 +66,6 @@ public class MemberController {
     @AllArgsConstructor
     @Getter
     public static class WishForm {
-        @Max(3)
         private String selectedTags;
     }
 
@@ -76,7 +75,7 @@ public class MemberController {
         // Tag들의 ID를 배열로 저장
         List<String> selectedTags = List.of(wishForm.getSelectedTags().split(","));
         if(selectedTags.size() > 3) {
-            return rq.redirectWithMsg("/member/wish", "3개 이상의 카페 성향을 선택할 수 없습니다.");
+            return rq.redirectWithMsg("/member/wish", "4개 이상의 카페 성향을 선택할 수 없습니다.");
         }
         memberService.updateMemberTagList(rq.getMember(), selectedTags);
         return rq.redirectWithMsg("/map", "hi");

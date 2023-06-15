@@ -52,7 +52,7 @@
       if (!e.target.classList.contains('btn-active')) {
         // 이미 5개 선택한 경우
         if (selectedBtn.length >= 3) {
-          alert('이미 선호 태그를 최대로 선택하셨습니다!!');
+          toastWarning('이미 선호 태그를 최대로 선택하셨습니다!!');
           return;
         }
         e.target.classList.add('btn-active');
