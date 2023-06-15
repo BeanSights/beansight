@@ -11,6 +11,8 @@ import com.ll.beansight.boundedContext.tag.entity.Tag;
 import com.ll.beansight.boundedContext.tag.service.MemberTagService;
 import com.ll.beansight.boundedContext.tag.service.TagService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -64,6 +66,7 @@ public class MemberController {
     @AllArgsConstructor
     @Getter
     public static class WishForm {
+        @Max(3)
         private String selectedTags;
     }
 
@@ -72,6 +75,9 @@ public class MemberController {
     public String wish(@Valid WishForm wishForm) {
         // Tag들의 ID를 배열로 저장
         List<String> selectedTags = List.of(wishForm.getSelectedTags().split(","));
+        if(selectedTags.size() > 3) {
+            return rq.redirectWithMsg("/member/wish", "3개 이상의 카페 성향을 선택할 수 없습니다.");
+        }
         memberService.updateMemberTagList(rq.getMember(), selectedTags);
         return rq.redirectWithMsg("/map", "hi");
     }
