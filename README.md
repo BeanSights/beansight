@@ -46,6 +46,10 @@
 
 <br/>
 
+## 🎥 시연 영상
+
+
+
 ## 🛫 서비스 시작하기
 
 [https://www.beansight.shop](https://www.beansight.shop)
