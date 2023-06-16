@@ -47,7 +47,7 @@
 <br/>
 
 ## 🎥 시연 영상
-
+[beansight 시연 영상](https://www.youtube.com/watch?v=n4b9iwniodU)
 
 
 ## 🛫 서비스 시작하기
