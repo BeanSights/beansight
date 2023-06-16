@@ -1,3 +1,4 @@
+<a name="readme-top"></a>
 <div align="center">
   <a href="https://github.com/BeanSights/beansight">
     <img src="src/main/resources/static/img/beansight.png" alt="Logo" width="30%">
@@ -34,9 +35,16 @@
 
 <br/>
 
-## ⚙️ 기술 스택
+## ⚙️ 기술
 
 <img width="936" alt="image" src="https://github.com/BeanSights/beansight/assets/108447799/1db44f0a-fa04-4f5e-af20-544696003581">
+
+
+## 🤖 서버 구성도
+
+![image](https://github.com/BeanSights/beansight/assets/108447799/4408acba-fa0e-4b3d-ad51-f35123d7a588)
+
+<br/>
 
 ## 🛫 서비스 시작하기
 
@@ -53,6 +61,11 @@
 ## 🗺️ 카페 성향 설정 후 지도 페이지
 
 <img width="1461" alt="image" src="https://github.com/BeanSights/beansight/assets/108447799/fb5d48c8-59b3-4d76-bfd2-4c21774428a5">
+
+<br/>
+<br/>
+
+<p align="right">(<a href="#readme-top">맨 위로 이동하기</a>)</p>
 
 
 
